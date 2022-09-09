@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SPFIT</string>
+    <string name="channelName">channel_SupportFIT</string>
+    <string name="channelDescription">channel_SupportFIT</string>
+    <string name="onBoarding1">Hỗ trợ tìm kiếm vật dụng để quên</string>
+    <string name="onBoarding2">Đăng thông tin thuê vật dụng</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
