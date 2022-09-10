@@ -12,4 +12,7 @@
     <dimen name="size50dp">50dp</dimen>
     <dimen name="size16sp">16sp</dimen>
     <dimen name="size10dp">10dp</dimen>
+    <dimen name="size100dp">100dp</dimen>
+    <dimen name="size20sp">20sp</dimen>
+    <dimen name="size30sp">30sp</dimen>
 </resources>

@@ -4,11 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/bg_circle_custom.xml" value="0.2595" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/bg_register_radius.xml" value="0.2595" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/progressbar_loading.xml" value="0.2595" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_main.xml" value="0.23148148148148148" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_on_boarding.xml" value="0.264" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_on_boarding1.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_on_boarding2.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_on_boarding3.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/reset_pass_dialog.xml" value="0.264" />
       </map>
     </option>
   </component>

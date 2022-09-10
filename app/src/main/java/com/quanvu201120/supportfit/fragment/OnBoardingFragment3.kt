@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.quanvu201120.supportfit.R
+import com.quanvu201120.supportfit.activity.LoginActivity
 import com.quanvu201120.supportfit.activity.MainActivity
 
 val nameSharedPreferences = "SPFIT_Shared"
@@ -39,7 +40,7 @@ class OnBoardingFragment3 : Fragment() {
             edit.putBoolean(key_shared,true)
             edit.commit()
 
-            var intent = Intent(requireContext(),MainActivity::class.java)
+            var intent = Intent(requireContext(),LoginActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
