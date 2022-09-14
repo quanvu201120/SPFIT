@@ -8,18 +8,16 @@ class CmtModel(
     var userId : String = "",
     var postId : String = "",
     var content : String = "",
-    var dateCreate : String = ""
+    var dateCreate : ArrayList<Int> = ArrayList(),
+    var nameUser:String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
+        TODO("dateCreate"),
         parcel.readString().toString()) {
-    }
-
-    override fun toString(): String {
-        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', content='$content', dateCreate='$dateCreate')"
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -27,11 +25,15 @@ class CmtModel(
         parcel.writeString(userId)
         parcel.writeString(postId)
         parcel.writeString(content)
-        parcel.writeString(dateCreate)
+        parcel.writeString(nameUser)
     }
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', content='$content', dateCreate=$dateCreate, nameUser='$nameUser')"
     }
 
     companion object CREATOR : Parcelable.Creator<CmtModel> {

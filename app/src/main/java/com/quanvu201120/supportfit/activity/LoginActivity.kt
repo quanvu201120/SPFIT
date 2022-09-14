@@ -50,11 +50,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
 
-
-
-
-
-
         edt_email = findViewById(R.id.edt_email_login)
         edt_pass = findViewById(R.id.edt_pass_login)
         checkbox = findViewById(R.id.cb_nhomk_login)
@@ -86,70 +81,70 @@ class LoginActivity : AppCompatActivity() {
 
         btn_login.setOnClickListener {
 
-//            btn_login.visibility = View.GONE
-//            progressBar.visibility = View.VISIBLE
-//
-//            var email = edt_email.text.toString()
-//            var pass = edt_pass.text.toString()
-//
-//            if (email.isEmpty()){
-//                edt_email.setError("Vui lòng nhập email")
-//                btn_login.visibility = View.VISIBLE
-//                progressBar.visibility = View.GONE
-//            }
-//
-//            if (pass.isEmpty()){
-//                edt_pass.setError("Vui lòng nhập mật khẩu")
-//                btn_login.visibility = View.VISIBLE
-//                progressBar.visibility = View.GONE
-//            }
-//
-//            if (!pass.isEmpty() && !email.isEmpty()){
-//                var sharedPreferences2 : SharedPreferences = getSharedPreferences("ACCOUNT", Activity.MODE_PRIVATE)
-//                var editer : SharedPreferences.Editor = sharedPreferences2.edit()
-//
-//                if (checkbox.isChecked){
-//
-//                    editer.putString(STR_EMAIL,email)
-//                    editer.putString(STR_PASS,pass)
-//                    editer.commit()
-//                }
-//                else{
-//                    editer.clear().commit()
-//                }
-//
-//                auth.signInWithEmailAndPassword(email,pass)
-//                    .addOnSuccessListener {
-////                        intentLoading()
-//                        btn_login.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
-//                        Toast.makeText(this, "login success", Toast.LENGTH_SHORT).show()
-//                    }
-//                    .addOnFailureListener{
-//
-//                        var e_format = "The email address is badly formatted."
-//                        var e_pass = "The password is invalid or the user does not have a password."
-//                        var e_email = "There is no user record corresponding to this identifier. The user may have been deleted."
-//
-//                        if (it.message == e_format){
-//                            Toast.makeText(this@LoginActivity, "Email sai định dạng", Toast.LENGTH_SHORT).show()
-//                        }
-//                        else if(it.message == e_pass){
-//                            Toast.makeText(this@LoginActivity, "Mật khẩu không chính xác", Toast.LENGTH_SHORT).show()
-//                        }
-//                        else{
-//                            Toast.makeText(this@LoginActivity, "Email chưa đăng ký tài khoản", Toast.LENGTH_SHORT).show()
-//                        }
-//
-//                        btn_login.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
-//                    }
-//
-//                //activity sao luu
-//
-//            }
+            btn_login.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
 
-            SendNotificationAPI()
+            var email = edt_email.text.toString()
+            var pass = edt_pass.text.toString()
+
+            if (email.isEmpty()){
+                edt_email.setError("Vui lòng nhập email")
+                btn_login.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
+
+            if (pass.isEmpty()){
+                edt_pass.setError("Vui lòng nhập mật khẩu")
+                btn_login.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }
+
+            if (!pass.isEmpty() && !email.isEmpty()){
+                var sharedPreferences2 : SharedPreferences = getSharedPreferences("ACCOUNT", Activity.MODE_PRIVATE)
+                var editer : SharedPreferences.Editor = sharedPreferences2.edit()
+
+                if (checkbox.isChecked){
+
+                    editer.putString(STR_EMAIL,email)
+                    editer.putString(STR_PASS,pass)
+                    editer.commit()
+                }
+                else{
+                    editer.clear().commit()
+                }
+
+                auth.signInWithEmailAndPassword(email,pass)
+                    .addOnSuccessListener {
+                        intentLoading()
+                        btn_login.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(this, "login success", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener{
+
+                        var e_format = "The email address is badly formatted."
+                        var e_pass = "The password is invalid or the user does not have a password."
+                        var e_email = "There is no user record corresponding to this identifier. The user may have been deleted."
+
+                        if (it.message == e_format){
+                            Toast.makeText(this@LoginActivity, "Email sai định dạng", Toast.LENGTH_SHORT).show()
+                        }
+                        else if(it.message == e_pass){
+                            Toast.makeText(this@LoginActivity, "Mật khẩu không chính xác", Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(this@LoginActivity, "Email chưa đăng ký tài khoản", Toast.LENGTH_SHORT).show()
+                        }
+
+                        btn_login.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
+                    }
+
+                //activity sao luu
+
+            }
+
+//            SendNotificationAPI()
 
         }
 
@@ -207,14 +202,14 @@ class LoginActivity : AppCompatActivity() {
 
 
     fun intentLoading(){
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        startActivity(Intent(this@LoginActivity, LoadingActivity::class.java))
         finish()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-    }
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+//    }
 }
 
 fun convertEditable(s : String) : Editable{

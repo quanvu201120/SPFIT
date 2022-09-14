@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.Timestamp
 import com.google.firebase.messaging.FirebaseMessaging
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.model.*
@@ -13,6 +14,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,4 +67,20 @@ fun SendNotificationAPI(){
 
             }
         })
+}
+
+fun GetCurrentTimeFirebase() : ArrayList<Int>{
+    var timestamp = Timestamp.now().toDate()
+    val dateTimeStamp = Date(timestamp.time)
+    val sdf = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
+    sdf.timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+    val formattedDate = sdf.format(dateTimeStamp)
+    val result = formattedDate.split("-").map { it.toInt() }
+
+    return result as ArrayList<Int>
+}
+
+fun GenerateId() : String {
+    var id = mUser.userId + Date().time
+    return id
 }
