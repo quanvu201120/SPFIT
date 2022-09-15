@@ -52,13 +52,13 @@ class LoadingActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
         var firebaseUser = auth.currentUser
 
-
-        //                var post = PostModel(
+//
+//                        var post = PostModel(
 //                    postId = GenerateId(),
 //                    userId = mUser.userId,
 //                    dateCreate = GetCurrentTimeFirebase(),
-//                    title = "Test title",
-//                    description = "Test description"
+//                    title = "Test title 3",
+//                    description = "Test description 2"
 //                )
 //
 //                firestore.collection(C_POST).document(post.postId)
@@ -67,16 +67,16 @@ class LoadingActivity : AppCompatActivity() {
 //                        Log.e("ABC","create post success")
 //                    }
 
-        get_mUser(firebaseUser!!)
+        startActivity(Intent(this, MainActivity::class.java))
 
-        GetDataRealtime(C_POST)
+//        get_mUser(firebaseUser!!)
+
+//        GetDataRealtime(C_POST)
+
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this, LoginActivity::class.java))
-    }
+
 
 
     fun get_mNotify(){
@@ -93,7 +93,9 @@ class LoadingActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 mPost = it.toObjects(PostModel::class.java) as ArrayList<PostModel>
                 Log.e("ABC get post", mPost.toString() )
-                get_mNotify()
+//                get_mNotify()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
     }
 

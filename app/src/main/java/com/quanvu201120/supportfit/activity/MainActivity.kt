@@ -3,10 +3,15 @@ package com.quanvu201120.supportfit.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Timestamp
 import com.google.firebase.messaging.FirebaseMessaging
 import com.quanvu201120.supportfit.R
+import com.quanvu201120.supportfit.fragment.HomeFragment
+import com.quanvu201120.supportfit.fragment.MyPostFragment
 import com.quanvu201120.supportfit.model.*
 import com.quanvu201120.supportfit.service.ICallApi
 import retrofit2.Call
@@ -19,15 +24,50 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var bottomNav : BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getTokenMessage()
+        bottomNav = findViewById(R.id.bottomNavigationView)
+
+        showFragment(R.id.home_item_bottom_nav)
+        bottomNav.setOnItemSelectedListener {
+            showFragment(it.itemId)
+            true
+        }
+
+
 
     }
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+    fun showFragment(itemId : Int){
+
+        var fragment  = Fragment()
+
+        when(itemId){
+            R.id.home_item_bottom_nav -> fragment = HomeFragment()
+            R.id.myPost_item_bottom_nav -> fragment = MyPostFragment()
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayoutMain,fragment)
+            .commit()
+
+    }
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        finish()
+    }
+
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 fun getTokenMessage()  {
     FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
         if (!task.isSuccessful) {
@@ -73,14 +113,18 @@ fun GetCurrentTimeFirebase() : ArrayList<Int>{
     var timestamp = Timestamp.now().toDate()
     val dateTimeStamp = Date(timestamp.time)
     val sdf = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-    sdf.timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+    sdf.timeZone = TimeZone.getTimeZone("GMT+07:00")
     val formattedDate = sdf.format(dateTimeStamp)
     val result = formattedDate.split("-").map { it.toInt() }
-
+    Log.e("ABC time", " " + timestamp + " , " + result.toString())
     return result as ArrayList<Int>
 }
 
 fun GenerateId() : String {
     var id = mUser.userId + Date().time
     return id
+}
+
+fun sortDateCreate(){
+
 }
