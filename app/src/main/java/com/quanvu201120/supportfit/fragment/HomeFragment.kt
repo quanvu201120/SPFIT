@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.ListView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.quanvu201120.supportfit.R
+import com.quanvu201120.supportfit.activity.PostDetailActivity
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
 import com.quanvu201120.supportfit.model.CmtModel
 import com.quanvu201120.supportfit.model.PostModel
@@ -42,48 +44,178 @@ class HomeFragment : Fragment() {
         listPost = ArrayList()
         fakeData()
 
+        ////ASC
+        listPost.sortWith(compareBy<PostModel> {it.yearCreate}
+            .thenBy { it.monthCreate }
+            .thenBy { it.dayCreate }
+            .thenBy { it.hourCreate }
+            .thenBy { it.minuteCreate }
+            .thenBy { it.secondsCreate }
+        )
+        listPost.reverse()
+
         adapter = ListViewPostAdapter(requireActivity(),listPost)
 
         listView.adapter = adapter
 
+        listView.setOnItemClickListener { adapterView, view, i, l ->
+            IntentDetail(listPost[i])
+        }
+
         return view
     }
 
-fun fakeData(){
-    var dateCreateList = ArrayList<Int>()
-    dateCreateList.add(19)
-    dateCreateList.add(9)
-    dateCreateList.add(2022)
-    dateCreateList.add(21)
-    dateCreateList.add(12)
-    dateCreateList.add(44)
+    fun IntentDetail(postModel: PostModel){
+        var intent = Intent(requireContext(),PostDetailActivity::class.java)
 
-    var cmtModel = CmtModel(
-        cmtId = "1",
-        userId = "2",
-        postId = "3",
-        content = "cmt ne",
-        dateCreate = dateCreateList,
-        nameUser = "Vu The Quan"
-    )
-    listCmt.add(cmtModel)
-    listCmt.add(cmtModel)
-    listCmt.add(cmtModel)
+        intent.putExtra("postId",postModel.postId)
+        intent.putExtra("userId",postModel.userId)
+        intent.putExtra("nameUser",postModel.nameUser)
+        intent.putExtra("yearCreate",postModel.yearCreate)
+        intent.putExtra("monthCreate",postModel.monthCreate)
+        intent.putExtra("dayCreate",postModel.dayCreate)
+        intent.putExtra("hourCreate",postModel.hourCreate)
+        intent.putExtra("minuteCreate",postModel.minuteCreate)
+        intent.putExtra("secondsCreate",postModel.secondsCreate)
+        intent.putExtra("title",postModel.title)
+        intent.putExtra("description",postModel.description)
+        intent.putParcelableArrayListExtra("listCmt",postModel.listCmt)
+        intent.putStringArrayListExtra("listUserFollow",postModel.listUserFollow)
 
-    var post = PostModel(
-        postId = "postidquanvu201120",
-        userId = "useridquanvu201120",
-        dateCreate = dateCreateList,
-        title = "Test title 3",
-        description = "Test description 2",
-        image = "/image",
-        nameUser = "Nguyen van a"
-    )
-    listPost.add(post)
-    listPost.add(post)
-    listPost.add(post)
-    listPost.add(post)
-}
+        intent.putExtra("image",postModel.image)
+
+        startActivity(intent)
+    }
+
+    fun fakeData(){
+
+
+        var cmtModel1 = CmtModel(
+            cmtId = "1",
+            userId = "2",
+            postId = "3",
+            content = "cmt ne",
+            yearCreate = 2022,
+            monthCreate = 9,
+            dayCreate = 9,
+            hourCreate = 21,
+            minuteCreate = 20,
+            secondsCreate = 19,
+            nameUser = "Vu The Quan"
+        )
+        var cmtModel2 = CmtModel(
+            cmtId = "12",
+            userId = "22",
+            postId = "32",
+            content = "cmt ne2",
+            yearCreate = 2022,
+            monthCreate = 9,
+            dayCreate = 9,
+            hourCreate = 21,
+            minuteCreate = 15,
+            secondsCreate = 15,
+            nameUser = "Vu The Quan2"
+        )
+        var cmtModel3 = CmtModel(
+            cmtId = "13",
+            userId = "23",
+            postId = "33",
+            content = "cmt ne3",
+            yearCreate = 2022,
+            monthCreate = 9,
+            dayCreate = 9,
+            hourCreate = 22,
+            minuteCreate = 22,
+            secondsCreate = 19,
+            nameUser = "Vu The Quan3"
+        )
+        var cmtModel4 = CmtModel(
+            cmtId = "14",
+            userId = "24",
+            postId = "34",
+            content = "cmt ne4",
+            yearCreate = 2022,
+            monthCreate = 11,
+            dayCreate = 9,
+            hourCreate = 11,
+            minuteCreate = 20,
+            secondsCreate = 22,
+            nameUser = "Vu The Quan4"
+        )
+
+
+        listCmt.add(cmtModel1)
+        listCmt.add(cmtModel2)
+        listCmt.add(cmtModel3)
+        listCmt.add(cmtModel4)
+
+        var post1 = PostModel(
+            postId = "postidquanvu201120",
+            userId = "useridquanvu201120",
+            yearCreate = 2022,
+            monthCreate = 9,
+            dayCreate = 9,
+            hourCreate = 21,
+            minuteCreate = 20,
+            secondsCreate = 19,
+            title = "Test title 1",
+            description = "Test description 1",
+            image = "/image",
+            nameUser = "Nguyen van a",
+            listCmt = listCmt
+
+        )
+        var post2 = PostModel(
+            postId = "postidquanvu201120",
+            userId = "useridquanvu201120",
+            yearCreate = 2022,
+            monthCreate = 9,
+            dayCreate = 9,
+            hourCreate = 21,
+            minuteCreate = 15,
+            secondsCreate = 15,
+            title = "Test title 2",
+            description = "Test description 2",
+            image = "/image",
+            nameUser = "Nguyen van a",
+            listCmt = listCmt
+        )
+        var post3 = PostModel(
+            postId = "postidquanvu201120",
+            userId = "useridquanvu201120",
+            yearCreate = 2022,
+            monthCreate = 9,
+            dayCreate = 9,
+            hourCreate = 22,
+            minuteCreate = 22,
+            secondsCreate = 19,
+            title = "Test title 3",
+            description = "Test description 3",
+            image = "/image",
+            nameUser = "Nguyen van a",
+            listCmt = listCmt
+        )
+        var post4 = PostModel(
+            postId = "postidquanvu201120",
+            userId = "useridquanvu201120",
+            yearCreate = 2022,
+            monthCreate = 11,
+            dayCreate = 9,
+            hourCreate = 11,
+            minuteCreate = 20,
+            secondsCreate = 22,
+            title = "Test title 4",
+            description = "Test description 4",
+            image = "/image",
+            nameUser = "Nguyen van a",
+            listCmt = listCmt
+        )
+
+        listPost.add(post3)
+        listPost.add(post2)
+        listPost.add(post1)
+        listPost.add(post4)
+    }
 
 
 }

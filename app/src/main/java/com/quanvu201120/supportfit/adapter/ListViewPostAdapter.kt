@@ -26,7 +26,7 @@ class ListViewPostAdapter(context : Activity, listPost: ArrayList<PostModel>)
 
         image.setImageResource(R.drawable.logo)
         tv_title.text = post?.title
-        tv_dateCreate.text = " ${post?.dateCreate?.get(0)}/${post?.dateCreate?.get(1)}/${post?.dateCreate?.get(2)}  ${post?.dateCreate?.get(3)}:${post?.dateCreate?.get(4)}:${post?.dateCreate?.get(5)}"
+        tv_dateCreate.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
 
 
         return view

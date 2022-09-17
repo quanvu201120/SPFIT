@@ -7,7 +7,12 @@ class PostModel(
     var postId : String = "",
     var userId : String = "",
     var nameUser : String = "",
-    var dateCreate : ArrayList<Int> = ArrayList(),
+    var yearCreate : Int = 0,
+    var monthCreate : Int = 0,
+    var dayCreate : Int = 0,
+    var hourCreate : Int = 0,
+    var minuteCreate : Int = 0,
+    var secondsCreate : Int = 0,
     var title : String = "",
     var description : String = "",
     var listCmt : ArrayList<CmtModel> = ArrayList(),
@@ -18,7 +23,12 @@ class PostModel(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        TODO("dateCreate"),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         TODO("listCmt"),
@@ -30,6 +40,12 @@ class PostModel(
         parcel.writeString(postId)
         parcel.writeString(userId)
         parcel.writeString(nameUser)
+        parcel.writeInt(yearCreate)
+        parcel.writeInt(monthCreate)
+        parcel.writeInt(dayCreate)
+        parcel.writeInt(hourCreate)
+        parcel.writeInt(minuteCreate)
+        parcel.writeInt(secondsCreate)
         parcel.writeString(title)
         parcel.writeString(description)
         parcel.writeString(image)
@@ -40,8 +56,9 @@ class PostModel(
     }
 
     override fun toString(): String {
-        return "PostModel(postId='$postId', userId='$userId', nameUser='$nameUser', dateCreate=$dateCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, image='$image')"
+        return "PostModel(postId='$postId', userId='$userId', nameUser='$nameUser', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, image='$image')"
     }
+
 
     companion object CREATOR : Parcelable.Creator<PostModel> {
         override fun createFromParcel(parcel: Parcel): PostModel {

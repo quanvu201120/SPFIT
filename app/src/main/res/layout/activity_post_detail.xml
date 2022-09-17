@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/jalksjdfljaslkdj"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,7 +33,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_marginTop="@dimen/size10dp"
                 android:layout_marginBottom="@dimen/size10dp"
                 android:background="@color/gray" />
@@ -101,7 +101,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_marginTop="@dimen/size10dp"
                 android:layout_marginBottom="@dimen/size10dp"
                 android:background="@color/gray" />
@@ -117,7 +117,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_marginTop="@dimen/size10dp"
                 android:layout_marginBottom="@dimen/size10dp"
                 android:background="@color/gray" />
@@ -132,7 +132,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="2px"
                 android:layout_marginTop="@dimen/size10dp"
                 android:layout_marginBottom="@dimen/size10dp"
                 android:background="@color/gray" />
@@ -144,6 +144,14 @@
         </LinearLayout>
     </ScrollView>
 
+    <View
+        android:id="@+id/jalksjdfljaslkdj"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
@@ -167,13 +175,15 @@
             android:layout_marginEnd="@dimen/size5dp"
             android:backgroundTint="#00000000"
             android:ems="10"
+            android:maxLines="5"
             android:hint="Nhập bình luận..."
-            android:inputType="text"
+            android:inputType="textMultiLine"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/img_send_post_detail"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TouchTargetSizeCheck" />
+            tools:ignore="TouchTargetSizeCheck"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

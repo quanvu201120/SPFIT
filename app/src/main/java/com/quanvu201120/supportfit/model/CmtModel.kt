@@ -8,7 +8,12 @@ class CmtModel(
     var userId : String = "",
     var postId : String = "",
     var content : String = "",
-    var dateCreate : ArrayList<Int> = ArrayList(),
+    var yearCreate : Int = 0,
+    var monthCreate : Int = 0,
+    var dayCreate : Int = 0,
+    var hourCreate : Int = 0,
+    var minuteCreate : Int = 0,
+    var secondsCreate : Int = 0,
     var nameUser:String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -16,7 +21,12 @@ class CmtModel(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        TODO("dateCreate"),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
         parcel.readString().toString()) {
     }
 
@@ -25,6 +35,12 @@ class CmtModel(
         parcel.writeString(userId)
         parcel.writeString(postId)
         parcel.writeString(content)
+        parcel.writeInt(yearCreate)
+        parcel.writeInt(monthCreate)
+        parcel.writeInt(dayCreate)
+        parcel.writeInt(hourCreate)
+        parcel.writeInt(minuteCreate)
+        parcel.writeInt(secondsCreate)
         parcel.writeString(nameUser)
     }
 
@@ -33,7 +49,7 @@ class CmtModel(
     }
 
     override fun toString(): String {
-        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', content='$content', dateCreate=$dateCreate, nameUser='$nameUser')"
+        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', content='$content', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, nameUser='$nameUser')"
     }
 
     companion object CREATOR : Parcelable.Creator<CmtModel> {
