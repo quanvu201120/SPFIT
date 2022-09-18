@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_update_my_post"
+        android:title="Cập nhật" />
+    <item
+        android:id="@+id/item_delete_my_post"
+        android:title="Xóa" />
+</menu>

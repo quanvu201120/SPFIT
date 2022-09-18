@@ -16,6 +16,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.activity.PostDetailActivity
+import com.quanvu201120.supportfit.activity.mPost
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
 import com.quanvu201120.supportfit.model.CmtModel
 import com.quanvu201120.supportfit.model.PostModel
@@ -23,11 +24,14 @@ import com.quanvu201120.supportfit.model.PostModel
 
 class HomeFragment : Fragment() {
 
-    lateinit var searchView: androidx.appcompat.widget.SearchView
+    lateinit var searchView: SearchView
     lateinit var listView: ListView
     lateinit var adapter: ListViewPostAdapter
+    lateinit var view_notify_home : View
+    lateinit var img_notify_home : ImageView
     lateinit var listPost : ArrayList<PostModel>
     lateinit var listCmt : ArrayList<CmtModel>
+    lateinit var listTmpSearch : ArrayList<PostModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,28 +43,59 @@ class HomeFragment : Fragment() {
 
         searchView = view.findViewById(R.id.searchViewHome)
         listView = view.findViewById(R.id.listViewHome)
+        view_notify_home = view.findViewById(R.id.view_notify_home)
+        img_notify_home = view.findViewById(R.id.img_notify_home)
 
         listCmt = ArrayList()
         listPost = ArrayList()
-        fakeData()
+        listTmpSearch = ArrayList()
+//        fakeData()
+        listPost.addAll(mPost)
+
+        listTmpSearch.addAll(listPost)
 
         ////ASC
-        listPost.sortWith(compareBy<PostModel> {it.yearCreate}
+        listTmpSearch.sortWith(compareBy<PostModel> {it.yearCreate}
             .thenBy { it.monthCreate }
             .thenBy { it.dayCreate }
             .thenBy { it.hourCreate }
             .thenBy { it.minuteCreate }
             .thenBy { it.secondsCreate }
         )
-        listPost.reverse()
+        listTmpSearch.reverse()
 
-        adapter = ListViewPostAdapter(requireActivity(),listPost)
+        adapter = ListViewPostAdapter(requireActivity(),listTmpSearch)
 
         listView.adapter = adapter
 
         listView.setOnItemClickListener { adapterView, view, i, l ->
-            IntentDetail(listPost[i])
+            IntentDetail(listTmpSearch[i])
         }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+
+                listTmpSearch.clear()
+                listTmpSearch.addAll(listPost)
+
+                var listFilter = ArrayList<PostModel>()
+                for (item in listTmpSearch) {
+                    if (item.title!!.lowercase().contains(p0!!.lowercase())) {
+                        listFilter.add(item)
+                    }
+                }
+
+                listTmpSearch.clear()
+                listTmpSearch.addAll(listFilter)
+                adapter.notifyDataSetChanged()
+
+                return false
+            }
+        })
 
         return view
     }
@@ -81,6 +116,7 @@ class HomeFragment : Fragment() {
         intent.putExtra("description",postModel.description)
         intent.putParcelableArrayListExtra("listCmt",postModel.listCmt)
         intent.putStringArrayListExtra("listUserFollow",postModel.listUserFollow)
+        intent.putStringArrayListExtra("listTokenFollow",postModel.listTokenFollow)
 
         intent.putExtra("image",postModel.image)
 
@@ -144,6 +180,10 @@ class HomeFragment : Fragment() {
         )
 
 
+        listCmt.add(cmtModel1)
+        listCmt.add(cmtModel2)
+        listCmt.add(cmtModel3)
+        listCmt.add(cmtModel4)
         listCmt.add(cmtModel1)
         listCmt.add(cmtModel2)
         listCmt.add(cmtModel3)
@@ -215,6 +255,15 @@ class HomeFragment : Fragment() {
         listPost.add(post2)
         listPost.add(post1)
         listPost.add(post4)
+        listPost.add(post3)
+        listPost.add(post2)
+        listPost.add(post1)
+        listPost.add(post4)
+        listPost.add(post3)
+        listPost.add(post2)
+        listPost.add(post1)
+        listPost.add(post4)
+
     }
 
 

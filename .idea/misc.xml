@@ -5,10 +5,14 @@
       <map>
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/bg_circle_custom.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/bg_register_radius.xml" value="0.2595" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/icon_account.xml" value="0.2595" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/icon_add.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/icon_home.xml" value="0.1785" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/my_post.xml" value="0.1785" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/notifi_icon.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/progressbar_loading.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/select_item_nvbottom.xml" value="0.1785" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_create_post.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_loading.xml" value="0.20863616930312098" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -16,14 +20,16 @@
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_on_boarding.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_post_detail.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_register.xml" value="0.264" />
-        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_home.xml" value="0.23157894736842105" />
-        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_my_post.xml" value="0.20863616930312098" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_my_post.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_on_boarding1.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_on_boarding2.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/fragment_on_boarding3.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/item_list_cmt.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/item_list_post.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/reset_pass_dialog.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.13852073535699017" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/menu/context_menu_my_post.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

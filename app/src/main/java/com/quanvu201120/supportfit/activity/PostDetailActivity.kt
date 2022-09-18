@@ -1,31 +1,35 @@
 package com.quanvu201120.supportfit.activity
 
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.quanvu201120.supportfit.R
+import com.quanvu201120.supportfit.adapter.RecycleViewCmtAdapter
 import com.quanvu201120.supportfit.model.CmtModel
 import com.quanvu201120.supportfit.model.PostModel
 import java.util.ArrayList
-import kotlin.math.log
 
 class PostDetailActivity : AppCompatActivity() {
 
     lateinit var image_post_detail : ImageView
     lateinit var tv_dateCreate_post_detail : TextView
     lateinit var tv_nameUser_post_detail : TextView
+    lateinit var tv_follow_post_detail : TextView
     lateinit var tv_title_post_detail : TextView
     lateinit var tv_description_post_detail : TextView
-    lateinit var listViewCmt_post_detail : ListView
+    lateinit var recycleViewCmt_post_detail : RecyclerView
     lateinit var edt_cmt_post_detail : EditText
     lateinit var img_send_post_detail : ImageView
+    lateinit var progressBarCmt : ProgressBar
 
+    lateinit var recycleViewCmtAdapter: RecycleViewCmtAdapter
     lateinit var firebaseFirestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,20 +39,52 @@ class PostDetailActivity : AppCompatActivity() {
         image_post_detail = findViewById(R.id.image_post_detail)
         tv_dateCreate_post_detail = findViewById(R.id.tv_dateCreate_post_detail)
         tv_nameUser_post_detail = findViewById(R.id.tv_nameUser_post_detail)
+        tv_follow_post_detail = findViewById(R.id.tv_follow_post_detail)
         tv_title_post_detail = findViewById(R.id.tv_title_post_detail)
         tv_description_post_detail = findViewById(R.id.tv_description_post_detail)
-        listViewCmt_post_detail = findViewById(R.id.listViewCmt_post_detail)
+        recycleViewCmt_post_detail = findViewById(R.id.recycleViewCmt_post_detail)
         edt_cmt_post_detail = findViewById(R.id.edt_cmt_post_detail)
         img_send_post_detail = findViewById(R.id.img_send_post_detail)
+        progressBarCmt = findViewById(R.id.progressBarCmt)
 
         var post = getIntentToListPost()
 
 
         tv_dateCreate_post_detail.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
-        tv_nameUser_post_detail.text = post.nameUser
+        tv_nameUser_post_detail.text = if(post.userId == mUser.userId){"Bạn"}else{post.nameUser}
         tv_title_post_detail.text = post.title
         tv_description_post_detail.text = post.description
         image_post_detail.setImageResource(R.drawable.logo)
+
+        post.listCmt.sortWith(compareBy<CmtModel> {it.yearCreate}
+            .thenBy { it.monthCreate }
+            .thenBy { it.dayCreate }
+            .thenBy { it.hourCreate }
+            .thenBy { it.minuteCreate }
+            .thenBy { it.secondsCreate }
+        )
+
+        post.listCmt.reverse()
+
+        if (post.listCmt.isEmpty()){
+            recycleViewCmt_post_detail.visibility = View.GONE
+        }
+
+        if (post.userId == mUser.userId){
+            tv_follow_post_detail.visibility = View.GONE
+        }
+
+        if (mUser.listFollow.indexOf(post.postId) == -1){
+            tv_follow_post_detail.text = "Theo dõi"
+        }
+        else{
+            tv_follow_post_detail.text = "Bỏ theo dõi"
+        }
+
+        recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt)
+        recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
+        recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
+
 
     }
 
@@ -66,6 +102,7 @@ class PostDetailActivity : AppCompatActivity() {
         var secondsCreate : Int = intent.getIntExtra("secondsCreate",0)
         var listCmt : ArrayList<CmtModel>? = intent.getParcelableArrayListExtra<CmtModel>("listCmt")
         var listUserFollow : ArrayList<String>? = intent.getStringArrayListExtra("listUserFollow")
+        var listTokenFollow : ArrayList<String>? = intent.getStringArrayListExtra("listTokenFollow")
 
         var post = PostModel(
             postId = postId!!, userId = userId!!, nameUser = nameUser!!, title = title!!,

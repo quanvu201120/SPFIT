@@ -17,6 +17,7 @@ class PostModel(
     var description : String = "",
     var listCmt : ArrayList<CmtModel> = ArrayList(),
     var listUserFollow : ArrayList<String> = ArrayList(),
+    var listTokenFollow : ArrayList<String> = ArrayList(),
     var image: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -33,6 +34,7 @@ class PostModel(
         parcel.readString().toString(),
         TODO("listCmt"),
         TODO("listUserFollow"),
+        TODO("listTokenFollow"),
         parcel.readString().toString()) {
     }
 
@@ -56,9 +58,8 @@ class PostModel(
     }
 
     override fun toString(): String {
-        return "PostModel(postId='$postId', userId='$userId', nameUser='$nameUser', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, image='$image')"
+        return "PostModel(postId='$postId', userId='$userId', nameUser='$nameUser', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, listTokenFollow=$listTokenFollow, image='$image')"
     }
-
 
     companion object CREATOR : Parcelable.Creator<PostModel> {
         override fun createFromParcel(parcel: Parcel): PostModel {

@@ -52,26 +52,10 @@ class LoadingActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
         var firebaseUser = auth.currentUser
 
-//
-//                        var post = PostModel(
-//                    postId = GenerateId(),
-//                    userId = mUser.userId,
-//                    dateCreate = GetCurrentTimeFirebase(),
-//                    title = "Test title 3",
-//                    description = "Test description 2"
-//                )
-//
-//                firestore.collection(C_POST).document(post.postId)
-//                    .set(post)
-//                    .addOnSuccessListener {
-//                        Log.e("ABC","create post success")
-//                    }
 
-        startActivity(Intent(this, MainActivity::class.java))
+        get_mUser(firebaseUser!!)
 
-//        get_mUser(firebaseUser!!)
-
-//        GetDataRealtime(C_POST)
+        GetDataRealtime(C_POST)
 
 
     }
@@ -104,6 +88,29 @@ class LoadingActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 mUser = it.toObject(UserModel::class.java)!!
                 get_mPost()
+
+//                var time = GetCurrentTimeFirebase()
+//                var post = PostModel(
+//                    postId = GenerateId(),
+//                    userId = firebaseUser!!.uid,
+//                    yearCreate = time[0],
+//                    monthCreate = time[1],
+//                    dayCreate = time[2],
+//                    hourCreate = time[3],
+//                    minuteCreate = time[4],
+//                    secondsCreate = time[5],
+//                    title = "Test title 1",
+//                    description = "Test description 1",
+//                    image = "/image",
+//                    nameUser = "Nguyen van a",
+//                )
+////
+//                firestore.collection(C_POST).document(post.postId)
+//                    .set(post)
+//                    .addOnSuccessListener {
+//                        Log.e("ABC","create post success")
+//                    }
+
             }
     }
 

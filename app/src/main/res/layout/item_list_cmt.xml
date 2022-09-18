@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/size10dp"
+    android:paddingBottom="@dimen/size10dp">
+
+    <TextView
+        android:id="@+id/tv_nameUser_item_cmt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nguyen van a"
+        android:textColor="@color/purple_700"
+        android:textSize="@dimen/size16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_content_item_cmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="@dimen/size5dp"
+        android:text="abc xyz "
+        android:textColor="@color/black50"
+        android:textSize="@dimen/size16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nameUser_item_cmt" />
+
+    <TextView
+        android:id="@+id/tv_dateCreate_item_cmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size10dp"
+        android:layout_marginTop="@dimen/size5dp"
+        android:layout_marginEnd="@dimen/size5dp"
+        android:layout_marginBottom="5dp"
+        android:text="15/15/2022  12:44:03"
+        android:textColor="@color/purple_200"
+        android:textSize="@dimen/size15sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_content_item_cmt" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

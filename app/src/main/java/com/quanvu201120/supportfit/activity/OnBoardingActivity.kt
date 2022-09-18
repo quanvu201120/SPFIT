@@ -34,7 +34,7 @@ class OnBoardingActivity : AppCompatActivity() {
         var check = sharedPreferences.getBoolean(key_shared, false)
 
         if (check){
-            var intent = Intent(this@OnBoardingActivity,MainActivity::class.java)
+            var intent = Intent(this@OnBoardingActivity,LoginActivity::class.java)
             startActivity(intent)
             finish()
         }

@@ -6,12 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".fragment.HomeFragment">
 
-    <androidx.appcompat.widget.SearchView
+    <SearchView
         android:id="@+id/searchViewHome"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/img_notify_home"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
+
+    <ImageView
+        android:id="@+id/img_notify_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/notifi_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/searchViewHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchViewHome" />
+
+    <View
+        android:id="@+id/view_notify_home"
+        android:layout_width="@dimen/size10dp"
+        android:layout_height="@dimen/size10dp"
+        android:background="@drawable/bg_circle_custom"
+        android:backgroundTint="@color/red"
+        app:layout_constraintEnd_toEndOf="@+id/img_notify_home"
+        app:layout_constraintTop_toTopOf="@+id/img_notify_home" />
 
     <View
         android:id="@+id/kjlksjdfljsd098"

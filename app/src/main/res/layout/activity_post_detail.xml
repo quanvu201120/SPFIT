@@ -12,7 +12,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/size20dp"
         app:layout_constraintBottom_toTopOf="@+id/jalksjdfljaslkdj"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,13 +34,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/size10dp"
-                android:layout_marginBottom="@dimen/size10dp"
-                android:background="@color/gray" />
+                android:layout_marginTop="@dimen/size20dp"
+                android:layout_marginBottom="@dimen/size20dp"
+                android:background="#E8E8E8" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
 
                 <TextView
                     android:id="@+id/tv_dateCreate_post_detail"
@@ -51,7 +52,7 @@
                     android:textColor="@color/black50"
                     android:textSize="@dimen/size15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_follow_post_detail"
                     app:layout_constraintStart_toEndOf="@+id/textView2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
@@ -65,6 +66,22 @@
                     android:textSize="@dimen/size15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_follow_post_detail"
+                    android:paddingLeft="@dimen/size10dp"
+                    android:paddingRight="@dimen/size10dp"
+                    android:background="@color/red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/size20dp"
+                    android:text="Theo dõi"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -102,11 +119,12 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/size10dp"
-                android:layout_marginBottom="@dimen/size10dp"
-                android:background="@color/gray" />
+                android:layout_marginTop="@dimen/size20dp"
+                android:layout_marginBottom="@dimen/size20dp"
+                android:background="#E8E8E8" />
 
             <TextView
+
                 android:id="@+id/tv_title_post_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,9 +136,9 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/size10dp"
-                android:layout_marginBottom="@dimen/size10dp"
-                android:background="@color/gray" />
+                android:layout_marginTop="@dimen/size20dp"
+                android:layout_marginBottom="@dimen/size20dp"
+                android:background="#E8E8E8" />
 
             <TextView
                 android:id="@+id/tv_description_post_detail"
@@ -133,14 +151,17 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:layout_marginTop="@dimen/size10dp"
-                android:layout_marginBottom="@dimen/size10dp"
-                android:background="@color/gray" />
+                android:layout_marginTop="@dimen/size20dp"
+                android:layout_marginBottom="@dimen/size20dp"
+                android:background="#E8E8E8" />
 
-            <ListView
-                android:id="@+id/listViewCmt_post_detail"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleViewCmt_post_detail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="400dp"
+                />
+
         </LinearLayout>
     </ScrollView>
 
@@ -148,7 +169,7 @@
         android:id="@+id/jalksjdfljaslkdj"
         android:layout_width="match_parent"
         android:layout_height="2px"
-        android:background="@color/gray"
+        android:background="#E8E8E8"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
@@ -184,6 +205,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TouchTargetSizeCheck"
             />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBarCmt"
+            android:indeterminateDrawable="@drawable/progressbar_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="@dimen/size40dp"
+            android:layout_height="@dimen/size40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

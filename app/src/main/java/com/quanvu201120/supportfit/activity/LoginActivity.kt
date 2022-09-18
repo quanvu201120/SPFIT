@@ -116,9 +116,6 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email,pass)
                     .addOnSuccessListener {
                         intentLoading()
-                        btn_login.visibility = View.VISIBLE
-                        progressBar.visibility = View.GONE
-                        Toast.makeText(this, "login success", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener{
 
@@ -206,10 +203,6 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-//    }
 }
 
 fun convertEditable(s : String) : Editable{
