@@ -1,7 +1,10 @@
 package com.quanvu201120.supportfit.activity
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -10,10 +13,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.adapter.RecycleViewCmtAdapter
 import com.quanvu201120.supportfit.model.CmtModel
 import com.quanvu201120.supportfit.model.PostModel
+import java.io.File
 import java.util.ArrayList
 
 class PostDetailActivity : AppCompatActivity() {
@@ -30,7 +36,7 @@ class PostDetailActivity : AppCompatActivity() {
     lateinit var progressBarCmt : ProgressBar
 
     lateinit var recycleViewCmtAdapter: RecycleViewCmtAdapter
-    lateinit var firebaseFirestore: FirebaseFirestore
+    lateinit var storage: FirebaseStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +53,14 @@ class PostDetailActivity : AppCompatActivity() {
         img_send_post_detail = findViewById(R.id.img_send_post_detail)
         progressBarCmt = findViewById(R.id.progressBarCmt)
 
-        var post = getIntentToListPost()
+        storage = FirebaseStorage.getInstance()
 
+        var post = getIntentToListPost()
 
         tv_dateCreate_post_detail.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
         tv_nameUser_post_detail.text = if(post.userId == mUser.userId){"Bạn"}else{post.nameUser}
         tv_title_post_detail.text = post.title
         tv_description_post_detail.text = post.description
-        image_post_detail.setImageResource(R.drawable.logo)
 
         post.listCmt.sortWith(compareBy<CmtModel> {it.yearCreate}
             .thenBy { it.monthCreate }
@@ -69,6 +75,26 @@ class PostDetailActivity : AppCompatActivity() {
         if (post.listCmt.isEmpty()){
             recycleViewCmt_post_detail.visibility = View.GONE
         }
+
+        if (post.image.equals("image")){
+            image_post_detail.setImageResource(R.drawable.logo)
+        }
+        else{
+            var image_file : File = File.createTempFile("get_image",".png")
+
+            var storageReference : StorageReference = storage.reference
+
+            //truyền vào tên file
+            storageReference.child(post.image)
+                //đây là get nên truyền vào file nhận ảnh sau khi thực hiện getFile
+                .getFile(image_file)
+                .addOnSuccessListener {
+
+                    var bitmap : Bitmap = BitmapFactory.decodeFile(image_file.path)
+                    image_post_detail.setImageBitmap(bitmap)
+
+                }
+       }
 
         if (post.userId == mUser.userId){
             tv_follow_post_detail.visibility = View.GONE
@@ -86,10 +112,13 @@ class PostDetailActivity : AppCompatActivity() {
         recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
 
 
+
+
     }
 
     fun getIntentToListPost() : PostModel{
         var postId : String? = intent.getStringExtra("postId")
+        var image : String? = intent.getStringExtra("image")
         var userId : String? = intent.getStringExtra("userId")
         var nameUser : String? = intent.getStringExtra("nameUser")
         var title : String? = intent.getStringExtra("title")
@@ -108,7 +137,7 @@ class PostDetailActivity : AppCompatActivity() {
             postId = postId!!, userId = userId!!, nameUser = nameUser!!, title = title!!,
             description = description!!, yearCreate = yearCreate!!, monthCreate = monthCreate!!,
             dayCreate = dayCreate!!, hourCreate = hourCreate!!, minuteCreate = minuteCreate!!,
-            secondsCreate = secondsCreate!!, listCmt = listCmt!!, listUserFollow = listUserFollow!!
+            secondsCreate = secondsCreate!!, listCmt = listCmt!!, listUserFollow = listUserFollow!!, image = image!!
         )
         return post
     }

@@ -20,11 +20,11 @@ class ListViewPostAdapter(context : Activity, listPost: ArrayList<PostModel>)
         var view = LayoutInflater.from(parent.context).inflate(R.layout.item_list_post,parent,false)
         var post = getItem(position)
 
-        var image = view.findViewById<ImageView>(R.id.image_item_post)
+        var image = view.findViewById<TextView>(R.id.image_item_post)
         var tv_title = view.findViewById<TextView>(R.id.tv_title_item_post)
         var tv_dateCreate = view.findViewById<TextView>(R.id.tv_dateCreate_item_post)
 
-        image.setImageResource(R.drawable.logo)
+        image.text = post?.title!![0].toString()
         tv_title.text = post?.title
         tv_dateCreate.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
 

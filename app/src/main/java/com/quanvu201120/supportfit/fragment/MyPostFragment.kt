@@ -275,6 +275,7 @@ class MyPostFragment : Fragment() {
         var intent = Intent(requireContext(), PostDetailActivity::class.java)
 
         intent.putExtra("postId",postModel.postId)
+        intent.putExtra("image",postModel.image)
         intent.putExtra("userId",postModel.userId)
         intent.putExtra("nameUser",postModel.nameUser)
         intent.putExtra("yearCreate",postModel.yearCreate)

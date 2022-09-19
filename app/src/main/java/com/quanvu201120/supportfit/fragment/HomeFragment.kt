@@ -104,6 +104,7 @@ class HomeFragment : Fragment() {
         var intent = Intent(requireContext(),PostDetailActivity::class.java)
 
         intent.putExtra("postId",postModel.postId)
+        intent.putExtra("image",postModel.image)
         intent.putExtra("userId",postModel.userId)
         intent.putExtra("nameUser",postModel.nameUser)
         intent.putExtra("yearCreate",postModel.yearCreate)
@@ -272,27 +273,3 @@ class HomeFragment : Fragment() {
 
 
 
-//    val GET_FROM_GALLERY = 3;
-//    lateinit var URI_IMAGE : Uri
-//    lateinit var imageView : ImageView
-
-
-//        imageView = view.findViewById(R.id.imageView4)
-//        imageView.setOnClickListener {
-//            startActivityForResult(
-//                Intent(
-//                    Intent.ACTION_PICK,
-//                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
-//                ),
-//                GET_FROM_GALLERY
-//            )
-//        }
-
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-//            URI_IMAGE = data?.data!!
-//            imageView.setImageURI(URI_IMAGE)
-//        }
-//    }
