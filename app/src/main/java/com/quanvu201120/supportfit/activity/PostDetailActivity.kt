@@ -55,12 +55,14 @@ class PostDetailActivity : AppCompatActivity() {
 
         storage = FirebaseStorage.getInstance()
 
-        var post = getIntentToListPost()
+        var postId : String? = intent.getStringExtra("postId")
+
+        var post = mPost.find { i -> i.postId == postId }
 
         tv_dateCreate_post_detail.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
-        tv_nameUser_post_detail.text = if(post.userId == mUser.userId){"Bạn"}else{post.nameUser}
-        tv_title_post_detail.text = post.title
-        tv_description_post_detail.text = post.description
+        tv_nameUser_post_detail.text = if(post!!.userId == mUser.userId){"Bạn"}else{post!!.nameUser}
+        tv_title_post_detail.text = post!!.title
+        tv_description_post_detail.text = post!!.description
 
         post.listCmt.sortWith(compareBy<CmtModel> {it.yearCreate}
             .thenBy { it.monthCreate }
@@ -111,35 +113,7 @@ class PostDetailActivity : AppCompatActivity() {
         recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
         recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
 
-
-
-
     }
 
-    fun getIntentToListPost() : PostModel{
-        var postId : String? = intent.getStringExtra("postId")
-        var image : String? = intent.getStringExtra("image")
-        var userId : String? = intent.getStringExtra("userId")
-        var nameUser : String? = intent.getStringExtra("nameUser")
-        var title : String? = intent.getStringExtra("title")
-        var description : String? = intent.getStringExtra("description")
-        var yearCreate : Int = intent.getIntExtra("yearCreate",0)
-        var monthCreate : Int = intent.getIntExtra("monthCreate",0)
-        var dayCreate : Int = intent.getIntExtra("dayCreate",0)
-        var hourCreate : Int = intent.getIntExtra("hourCreate",0)
-        var minuteCreate : Int = intent.getIntExtra("minuteCreate",0)
-        var secondsCreate : Int = intent.getIntExtra("secondsCreate",0)
-        var listCmt : ArrayList<CmtModel>? = intent.getParcelableArrayListExtra<CmtModel>("listCmt")
-        var listUserFollow : ArrayList<String>? = intent.getStringArrayListExtra("listUserFollow")
-        var listTokenFollow : ArrayList<String>? = intent.getStringArrayListExtra("listTokenFollow")
-
-        var post = PostModel(
-            postId = postId!!, userId = userId!!, nameUser = nameUser!!, title = title!!,
-            description = description!!, yearCreate = yearCreate!!, monthCreate = monthCreate!!,
-            dayCreate = dayCreate!!, hourCreate = hourCreate!!, minuteCreate = minuteCreate!!,
-            secondsCreate = secondsCreate!!, listCmt = listCmt!!, listUserFollow = listUserFollow!!, image = image!!
-        )
-        return post
-    }
 
 }

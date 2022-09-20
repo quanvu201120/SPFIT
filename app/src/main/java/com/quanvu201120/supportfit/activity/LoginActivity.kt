@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         if (auth.currentUser != null){
-//            intentLoading()
+            intentLoading()
         }
 
         //
