@@ -64,7 +64,7 @@ class LoadingActivity : AppCompatActivity() {
 
 
     fun get_mNotify(){
-        firestore.collection(C_NOTIFY).get()
+        firestore.collection(C_NOTIFY).whereEqualTo("userId", mUser.userId).get()
             .addOnSuccessListener {
                 mNotify = it.toObjects(NotifyModel::class.java) as ArrayList<NotifyModel>
                 Log.e("ABC get notify", mNotify.toString() )
@@ -77,9 +77,7 @@ class LoadingActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 mPost = it.toObjects(PostModel::class.java) as ArrayList<PostModel>
                 Log.e("ABC get post", mPost.toString() )
-//                get_mNotify()
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
+                get_mNotify()
             }
     }
 
@@ -88,9 +86,6 @@ class LoadingActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 mUser = it.toObject(UserModel::class.java)!!
                 get_mPost()
-
-
-
             }
     }
 
@@ -107,7 +102,7 @@ class LoadingActivity : AppCompatActivity() {
 
                             DocumentChange.Type.ADDED -> {
                                 mPost.add(tmp)
-                                Log.e("abc realtime add", mPost.toString() )
+//                                Log.e("abc realtime add", mPost.toString() )
                             }
 
                             DocumentChange.Type.MODIFIED -> {
@@ -117,12 +112,12 @@ class LoadingActivity : AppCompatActivity() {
                                 if (index != -1){
                                     mPost.set(index, tmp)
                                 }else{}
-                                Log.e("abc realtime update", mPost.toString() )
+//                                Log.e("abc realtime update", mPost.toString() )
                             }
 
                             else -> {
                                 mPost.remove(tmp)
-                                 Log.e("abc realtime delete", mPost.toString() )
+//                                 Log.e("abc realtime delete", mPost.toString() )
                             }
 
                         }

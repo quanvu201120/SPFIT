@@ -1,23 +1,24 @@
 package com.quanvu201120.supportfit.activity
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.adapter.RecycleViewCmtAdapter
 import com.quanvu201120.supportfit.model.CmtModel
+import com.quanvu201120.supportfit.model.NotifyModel
 import com.quanvu201120.supportfit.model.PostModel
 import java.io.File
 import java.util.ArrayList
@@ -38,6 +39,8 @@ class PostDetailActivity : AppCompatActivity() {
     lateinit var recycleViewCmtAdapter: RecycleViewCmtAdapter
     lateinit var storage: FirebaseStorage
 
+    var post : PostModel = PostModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
@@ -57,22 +60,24 @@ class PostDetailActivity : AppCompatActivity() {
 
         var postId : String? = intent.getStringExtra("postId")
 
-        var post = mPost.find { i -> i.postId == postId }
+        post = mPost.find { i -> i.postId == postId }!!
 
-        tv_dateCreate_post_detail.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
-        tv_nameUser_post_detail.text = if(post!!.userId == mUser.userId){"Bạn"}else{post!!.nameUser}
-        tv_title_post_detail.text = post!!.title
-        tv_description_post_detail.text = post!!.description
+//        tv_dateCreate_post_detail.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
+//        tv_nameUser_post_detail.text = if(post!!.userId == mUser.userId){"Bạn"}else{post!!.nameUser}
+//        tv_title_post_detail.text = post!!.title
+//        tv_description_post_detail.text = post!!.description
+//
+//        post.listCmt.sortWith(compareBy<CmtModel> {it.yearCreate}
+//            .thenBy { it.monthCreate }
+//            .thenBy { it.dayCreate }
+//            .thenBy { it.hourCreate }
+//            .thenBy { it.minuteCreate }
+//            .thenBy { it.secondsCreate }
+//        )
+//
+//        post.listCmt.reverse()
 
-        post.listCmt.sortWith(compareBy<CmtModel> {it.yearCreate}
-            .thenBy { it.monthCreate }
-            .thenBy { it.dayCreate }
-            .thenBy { it.hourCreate }
-            .thenBy { it.minuteCreate }
-            .thenBy { it.secondsCreate }
-        )
-
-        post.listCmt.reverse()
+        LoadDataToUI()
 
         if (post.listCmt.isEmpty()){
             recycleViewCmt_post_detail.visibility = View.GONE
@@ -109,11 +114,69 @@ class PostDetailActivity : AppCompatActivity() {
             tv_follow_post_detail.text = "Bỏ theo dõi"
         }
 
+//        recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt)
+//        recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
+//        recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
+
+        GetDataRealtimePost()
+    }
+
+    fun LoadDataToUI(){
+        tv_dateCreate_post_detail.text = "${post?.dayCreate}/${post?.monthCreate}/${post?.yearCreate}  ${post?.hourCreate}:${post?.minuteCreate}:${post?.secondsCreate}"
+        tv_nameUser_post_detail.text = if(post!!.userId == mUser.userId){"Bạn"}else{post!!.nameUser}
+        tv_title_post_detail.text = post!!.title
+        tv_description_post_detail.text = post!!.description
+
+        post.listCmt.sortWith(compareBy<CmtModel> {it.yearCreate}
+            .thenBy { it.monthCreate }
+            .thenBy { it.dayCreate }
+            .thenBy { it.hourCreate }
+            .thenBy { it.minuteCreate }
+            .thenBy { it.secondsCreate }
+        )
+
+        post.listCmt.reverse()
+
         recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt)
         recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
         recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
-
     }
 
+    @SuppressLint("LongLogTag")
+    fun GetDataRealtimePost(){
+
+        var firestore = FirebaseFirestore.getInstance()
+
+        firestore.collection(C_POST).addSnapshotListener { value, error ->
+            value?.documentChanges?.map {
+                var doc : DocumentSnapshot = it.document
+
+                var tmp = doc.toObject(PostModel::class.java)!!
+                when(it.type){
+
+                    DocumentChange.Type.ADDED -> {
+
+                    }
+
+                    DocumentChange.Type.MODIFIED -> {
+//
+                        if (tmp.postId == post.postId){
+                            post = tmp
+                            LoadDataToUI()
+                            Toast.makeText(this, "", Toast.LENGTH_SHORT).show()
+//                            Log.e("abc realtime update detail", mPost.toString() )
+
+                        }else{}
+                    }
+
+                    else -> {
+
+                    }
+
+                }
+
+            }
+        }
+    }
 
 }
