@@ -1,10 +1,15 @@
 package com.quanvu201120.supportfit.fragment
 
+import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.activity.*
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
@@ -24,6 +29,9 @@ class MyPostFragment : Fragment() {
     lateinit var listCmt : ArrayList<CmtModel>
     lateinit var listTmpSearch : ArrayList<PostModel>
 
+    lateinit var firebaseFirestore : FirebaseFirestore
+    lateinit var storage: FirebaseStorage
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -37,6 +45,8 @@ class MyPostFragment : Fragment() {
         img_account_MyPost = view.findViewById(R.id.img_account_MyPost)
         listViewMyPost = view.findViewById(R.id.listViewMyPost)
 
+        firebaseFirestore = FirebaseFirestore.getInstance()
+        storage = FirebaseStorage.getInstance()
 
         listCmt = ArrayList()
         listPost = ArrayList()
@@ -100,10 +110,42 @@ class MyPostFragment : Fragment() {
         })
 
 
-        img_add_MyPost.setOnClickListener { startActivity(Intent(requireContext(),CreatePostActivity::class.java)) }
+        img_add_MyPost.setOnClickListener {
+            startActivityForResult(Intent(requireContext(),CreatePostActivity::class.java),1000) }
         img_account_MyPost.setOnClickListener { startActivity(Intent(requireContext(),AccountActivity::class.java)) }
 
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK){
+            listPost.clear()
+            for (item in mPost) {
+                if (item.userId == mUser.userId) {
+                    listPost.add(item)
+                }
+            }
+
+            listTmpSearch.clear()
+            listTmpSearch.addAll(listPost)
+
+            ////ASC
+            listTmpSearch.sortWith(compareBy<PostModel> {it.yearCreate}
+                .thenBy { it.monthCreate }
+                .thenBy { it.dayCreate }
+                .thenBy { it.hourCreate }
+                .thenBy { it.minuteCreate }
+                .thenBy { it.secondsCreate }
+            )
+            listTmpSearch.reverse()
+
+            adapter = ListViewPostAdapter(requireActivity(),listTmpSearch)
+
+            listViewMyPost.adapter = adapter
+        }
+
     }
 
     override fun onCreateContextMenu(
@@ -115,6 +157,50 @@ class MyPostFragment : Fragment() {
         super.onCreateContextMenu(menu, v, menuInfo)
     }
 
+    fun deletePost(post : PostModel){
+        var dialog = AlertDialog.Builder(requireContext())
+
+        dialog.setMessage("Xác nhận xóa bài viết")
+
+        dialog.setPositiveButton("Đồng ý",
+            object : DialogInterface.OnClickListener{
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+
+                    if (!post.image.equals("image")){
+                        storage.reference.child(post.image).delete()
+                            .addOnSuccessListener {
+                                firebaseFirestore.collection(C_POST).document(post.postId).delete()
+                                    .addOnSuccessListener {
+                                        listTmpSearch.remove(post)
+                                        adapter.notifyDataSetChanged()
+                                        Toast.makeText(requireContext(), "Đã xóa bài viết", Toast.LENGTH_SHORT).show()
+                                    }
+
+                            }
+                    }
+                    else{
+                        firebaseFirestore.collection(C_POST).document(post.postId).delete()
+                            .addOnSuccessListener {
+                                listTmpSearch.remove(post)
+                                adapter.notifyDataSetChanged()
+                                Toast.makeText(requireContext(), "Đã xóa bài viết", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    listTmpSearch.remove(post)
+                    adapter.notifyDataSetChanged()
+
+
+                }
+            })
+        dialog.setNegativeButton("Hủy bỏ",object  : DialogInterface.OnClickListener{
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+
+            }
+        })
+
+        dialog.show()
+    }
+
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
         var info : AdapterView.AdapterContextMenuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
@@ -122,7 +208,7 @@ class MyPostFragment : Fragment() {
 
         when(item.itemId){
             R.id.item_update_my_post -> Toast.makeText(requireContext(), "update " + listTmpSearch[position].title, Toast.LENGTH_SHORT).show()
-            R.id.item_delete_my_post -> Toast.makeText(requireContext(), "delete " + listTmpSearch[position].title, Toast.LENGTH_SHORT).show()
+            R.id.item_delete_my_post -> deletePost(listTmpSearch[position])
         }
 
         return super.onContextItemSelected(item)

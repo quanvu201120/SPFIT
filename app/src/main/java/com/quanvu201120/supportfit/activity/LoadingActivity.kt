@@ -116,7 +116,8 @@ class LoadingActivity : AppCompatActivity() {
                             }
 
                             else -> {
-                                mPost.remove(tmp)
+                                var index = mPost.indexOf(mPost.find { it.postId == tmp.postId })
+                                mPost.removeAt(index)
 //                                 Log.e("abc realtime delete", mPost.toString() )
                             }
 

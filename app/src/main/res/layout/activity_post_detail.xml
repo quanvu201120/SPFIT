@@ -152,7 +152,7 @@
                 android:layout_height="2px"
                 android:layout_marginTop="@dimen/size20dp"
                 android:layout_marginBottom="@dimen/size20dp"
-                android:background="#E8E8E8" />
+                android:background="@color/red" />
 
 
             <androidx.recyclerview.widget.RecyclerView

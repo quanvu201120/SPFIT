@@ -1,13 +1,18 @@
 package com.quanvu201120.supportfit.activity
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.ContextMenu
+import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
@@ -18,10 +23,8 @@ import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.adapter.RecycleViewCmtAdapter
 import com.quanvu201120.supportfit.model.CmtModel
-import com.quanvu201120.supportfit.model.NotifyModel
 import com.quanvu201120.supportfit.model.PostModel
 import java.io.File
-import java.util.ArrayList
 
 class PostDetailActivity : AppCompatActivity() {
 
@@ -38,6 +41,7 @@ class PostDetailActivity : AppCompatActivity() {
 
     lateinit var recycleViewCmtAdapter: RecycleViewCmtAdapter
     lateinit var storage: FirebaseStorage
+    lateinit var firebaseFirestore: FirebaseFirestore
 
     var post : PostModel = PostModel()
 
@@ -57,6 +61,7 @@ class PostDetailActivity : AppCompatActivity() {
         progressBarCmt = findViewById(R.id.progressBarCmt)
 
         storage = FirebaseStorage.getInstance()
+        firebaseFirestore = FirebaseFirestore.getInstance()
 
         var postId : String? = intent.getStringExtra("postId")
 
@@ -118,7 +123,106 @@ class PostDetailActivity : AppCompatActivity() {
 //        recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
 //        recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
 
+        img_send_post_detail.setOnClickListener {
+            var str_cmt = edt_cmt_post_detail.text.toString()
+
+            img_send_post_detail.visibility = View.INVISIBLE
+            progressBarCmt.visibility = View.VISIBLE
+
+            if (str_cmt.isEmpty()){return@setOnClickListener}
+            var time = GetCurrentTimeFirebase()
+
+            var cmt = CmtModel(
+                cmtId = GenerateId(),
+                userId = mUser.userId,
+                postId = post.postId,
+                content = str_cmt,
+                yearCreate = time[0],
+                monthCreate = time[1],
+                dayCreate = time[2],
+                hourCreate = time[3],
+                minuteCreate = time[4],
+                secondsCreate = time[5],
+                nameUser = mUser.name
+            )
+
+            val view = this.currentFocus
+            if (view != null) {
+                val imm: InputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+
+            post.listCmt.add(cmt)
+
+            firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                .addOnSuccessListener {
+                    edt_cmt_post_detail.text = convertEditable("")
+                    img_send_post_detail.visibility = View.VISIBLE
+                    progressBarCmt.visibility = View.GONE
+                    Toast.makeText(this, "Đã đăng", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    img_send_post_detail.visibility = View.VISIBLE
+                    progressBarCmt.visibility = View.GONE
+                }
+
+        }
+
         GetDataRealtimePost()
+    }
+
+    fun deleteCmt(cmt_delete : CmtModel){
+        var dialog = AlertDialog.Builder(this)
+
+        dialog.setMessage("Xác nhận xóa bình luận")
+
+        dialog.setPositiveButton("Đồng ý",
+        object : DialogInterface.OnClickListener{
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+                post.listCmt.remove(cmt_delete)
+                firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                    .addOnSuccessListener {
+                        Toast.makeText(this@PostDetailActivity, "Đã xóa bình luận", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener {
+
+                    }
+            }
+        })
+        dialog.setNegativeButton("Hủy bỏ",object  : DialogInterface.OnClickListener{
+            override fun onClick(p0: DialogInterface?, p1: Int) {
+
+            }
+        })
+
+        dialog.show()
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+
+        if (item.itemId == 100){
+
+            var cmt_delete = post.listCmt.get(item.groupId)
+
+            if (post.userId == mUser.userId){
+                deleteCmt(cmt_delete)
+            }
+            else{
+                if (cmt_delete.userId != mUser.userId){
+                    Toast.makeText(this, "Bạn không thể xóa", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    deleteCmt(cmt_delete)
+                }
+            }
+
+
+
+        }
+
+        return super.onContextItemSelected(item)
     }
 
     fun LoadDataToUI(){
@@ -162,8 +266,11 @@ class PostDetailActivity : AppCompatActivity() {
 //
                         if (tmp.postId == post.postId){
                             post = tmp
+
                             LoadDataToUI()
-                            Toast.makeText(this, "", Toast.LENGTH_SHORT).show()
+                            if (!post.listCmt.isEmpty()){
+                                recycleViewCmt_post_detail.visibility = View.VISIBLE
+                            }
 //                            Log.e("abc realtime update detail", mPost.toString() )
 
                         }else{}

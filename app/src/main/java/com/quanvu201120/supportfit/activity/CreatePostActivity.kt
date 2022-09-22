@@ -58,6 +58,7 @@ class CreatePostActivity : AppCompatActivity() {
         }
 
         btn_cancel_create_post.setOnClickListener {
+            setResult(Activity.RESULT_CANCELED)
             finish()
         }
 
@@ -135,6 +136,7 @@ class CreatePostActivity : AppCompatActivity() {
                 firebaseFirestore.collection(C_USER).document(mUser.userId).set(mUser)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Tạo bài viết thành công", Toast.LENGTH_SHORT).show()
+                        setResult(Activity.RESULT_OK)
                         finish()
                     }
                     .addOnFailureListener {
