@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.model.CmtModel
 import com.quanvu201120.supportfit.model.NotifyModel
@@ -35,6 +37,7 @@ var mUser = UserModel()
 var mPost = ArrayList<PostModel>()
 var mCmt = ArrayList<CmtModel>()
 var mNotify = ArrayList<NotifyModel>()
+
 
 class LoadingActivity : AppCompatActivity() {
 
@@ -87,6 +90,7 @@ class LoadingActivity : AppCompatActivity() {
                 mUser = it.toObject(UserModel::class.java)!!
                 get_mPost()
             }
+
     }
 
     fun GetDataRealtime(coll : String){

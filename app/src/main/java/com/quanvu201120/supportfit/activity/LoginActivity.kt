@@ -66,7 +66,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         //
-        getTokenMessage()
+
+//        getTokenDevice()
 
         var sharedPreferences : SharedPreferences = getSharedPreferences("ACCOUNT", Activity.MODE_PRIVATE)
 

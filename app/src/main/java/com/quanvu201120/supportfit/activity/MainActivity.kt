@@ -23,6 +23,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+
+var myTokenNotifi = ""
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var bottomNav : BottomNavigationView
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        getTokenDevice()
 
 
     }
@@ -68,18 +72,20 @@ class MainActivity : AppCompatActivity() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-fun getTokenMessage()  {
+fun getTokenDevice() {
     FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
         if (!task.isSuccessful) {
             Log.e("token error", "Fetching FCM registration token failed" + task.exception)
             return@OnCompleteListener
         }
-        Log.e("token success", task.result)
+        myTokenNotifi = task.result
+        Log.e("abc token success", myTokenNotifi)
     })
+
 }
 
 
-fun SendNotificationAPI(){
+fun SendNotificationAPI(listTokenFollow : ArrayList<String>){
     val retrofit = Retrofit.Builder()
         .baseUrl("https://fcm.googleapis.com")
         .addConverterFactory(GsonConverterFactory.create())
@@ -87,9 +93,15 @@ fun SendNotificationAPI(){
 
     var apiService = retrofit.create(ICallApi::class.java)
 
-    var token = ArrayList<String>()
-    token.add("fYBst1xQTESOiKYDhKgGyC:APA91bE1VmjxX-3i38BYXYVePH3UgVpD8fc14qK9xbK05Kbw-mMZS-WtM9nRjwUpseed3oJnqMl37dkCD3wiV7GVtUnfWi7vJbcSCv_aV1fQEQX1rl_Ttp2i_usL7XzUHfrgom-uVvpK")
-    var body = BodyApi(registration_ids = token)
+    var token_tmp = ArrayList<String>()
+    token_tmp.addAll(listTokenFollow)
+    token_tmp.remove(myTokenNotifi)
+    token_tmp.add("fcMSYwbxRrOGKxadr3ibxk:APA91bG6-vdFlZ4HJ2UCxe8EwzBqvTRWK18QU21gR_4R53tj7lQ61MKWkf2VG-DF7ZWMg7qMQLeVpvR02JK7IO--dT9A9bunFK8WxrWQ_45FXmDeZq_ztDCzZgDtNcfHpp1WCIjvu8MU")
+
+    var title = "Alo...Alo...Bạn có thông báo mới nè!"
+    var content = "Nhấn để xem chi tiết"
+
+    var body = BodyApi(registration_ids = token_tmp,DataBodyApi(title = title, content = content ))
 
     apiService.sendNotifyApi(body)
         .enqueue(object : Callback<ResultApiModel> {
@@ -116,7 +128,7 @@ fun GetCurrentTimeFirebase() : ArrayList<Int>{
     sdf.timeZone = TimeZone.getTimeZone("GMT+07:00")
     val formattedDate = sdf.format(dateTimeStamp)
     val result = formattedDate.split("-").map { it.toInt() }
-    Log.e("ABC time", " " + timestamp + " , " + result.toString())
+//    Log.e("ABC time", " " + timestamp + " , " + result.toString())
     return result as ArrayList<Int>
 }
 
@@ -125,6 +137,3 @@ fun GenerateId() : String {
     return id
 }
 
-fun sortDateCreate(){
-
-}

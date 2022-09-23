@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
@@ -13,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
@@ -83,6 +85,8 @@ class PostDetailActivity : AppCompatActivity() {
 //        post.listCmt.reverse()
 
         LoadDataToUI()
+
+
 
         if (post.listCmt.isEmpty()){
             recycleViewCmt_post_detail.visibility = View.GONE
@@ -161,12 +165,40 @@ class PostDetailActivity : AppCompatActivity() {
                     img_send_post_detail.visibility = View.VISIBLE
                     progressBarCmt.visibility = View.GONE
                     Toast.makeText(this, "Đã đăng", Toast.LENGTH_SHORT).show()
+                    SendNotificationAPI(post.listTokenFollow)
                 }
                 .addOnFailureListener {
                     img_send_post_detail.visibility = View.VISIBLE
                     progressBarCmt.visibility = View.GONE
                 }
 
+        }
+
+        tv_follow_post_detail.setOnClickListener {
+            tv_follow_post_detail.isVisible = false
+            if (mUser.listFollow.indexOf(post.postId) == -1){
+                mUser.listFollow.add(post.postId)
+                post.listUserFollow.add(mUser.userId)
+                post.listTokenFollow.add(myTokenNotifi)
+
+                firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                    .addOnSuccessListener {
+                        tv_follow_post_detail.setText("Bỏ theo dõi")
+                        tv_follow_post_detail.isVisible = true
+                    }
+
+            }
+            else{
+                mUser.listFollow.remove(post.postId)
+                post.listUserFollow.remove(mUser.userId)
+                post.listTokenFollow.remove(myTokenNotifi)
+
+                firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                    .addOnSuccessListener {
+                        tv_follow_post_detail.setText("Theo dõi")
+                        tv_follow_post_detail.isVisible = true
+                    }
+            }
         }
 
         GetDataRealtimePost()
