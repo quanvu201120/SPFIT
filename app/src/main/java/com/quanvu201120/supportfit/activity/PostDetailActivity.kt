@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.createBitmap
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,9 +25,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.adapter.RecycleViewCmtAdapter
-import com.quanvu201120.supportfit.model.CmtModel
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.*
 import java.io.File
+import kotlin.math.log
 
 class PostDetailActivity : AppCompatActivity() {
 
@@ -46,6 +47,7 @@ class PostDetailActivity : AppCompatActivity() {
     lateinit var firebaseFirestore: FirebaseFirestore
 
     var post : PostModel = PostModel()
+    lateinit var listUserFollow : ArrayList<UserModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +66,8 @@ class PostDetailActivity : AppCompatActivity() {
 
         storage = FirebaseStorage.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
+
+        listUserFollow = ArrayList()
 
         var postId : String? = intent.getStringExtra("postId")
 
@@ -116,7 +120,7 @@ class PostDetailActivity : AppCompatActivity() {
             tv_follow_post_detail.visibility = View.GONE
         }
 
-        if (mUser.listFollow.indexOf(post.postId) == -1){
+        if (mUser.listFollow.find { i -> i.idPost == post.postId } == null){
             tv_follow_post_detail.text = "Theo dõi"
         }
         else{
@@ -126,7 +130,7 @@ class PostDetailActivity : AppCompatActivity() {
 //        recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt)
 //        recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
 //        recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
-
+        Log.e("abc fff", post.listUserFollow.toString() )
         img_send_post_detail.setOnClickListener {
             var str_cmt = edt_cmt_post_detail.text.toString()
 
@@ -172,31 +176,172 @@ class PostDetailActivity : AppCompatActivity() {
                     progressBarCmt.visibility = View.GONE
                 }
 
+            if (post.userId != mUser.userId){
+                firebaseFirestore.collection(C_USER).document(post.userId).get().addOnSuccessListener {
+                    var ownerPost = it.toObject(UserModel::class.java)
+                    var itemListNotifi = ownerPost!!.listNotify.find { it -> it.idPost == post.postId }
+
+                    if (itemListNotifi == null){
+                        var notifyModel = NotifyModel(
+                            notifyId = GenerateId(),
+                            postId = post.postId,
+                            userId = ownerPost.userId,
+                            yearCreate = time[0],
+                            monthCreate = time[1],
+                            dayCreate = time[2],
+                            hourCreate = time[3],
+                            minuteCreate = time[4],
+                            secondsCreate = time[5],
+                            status = false,
+                            content = "Ai đó đã bình luận vào bài viết của bạn!"
+                        )
+                        firebaseFirestore.collection(C_NOTIFY).document(notifyModel.notifyId).set(notifyModel)
+                            .addOnSuccessListener {
+//                                Log.e("abc","create notify owne" )
+                            }
+                        ownerPost.listNotify.add(ItemListNotifi(notifiId = notifyModel.notifyId, idPost = post.postId))
+                        firebaseFirestore.collection(C_USER).document(ownerPost.userId).update("listNotify",ownerPost.listNotify)
+                            .addOnSuccessListener {
+//                                Log.e("abc","add notify owne" )
+                            }
+
+                    }
+                    else{
+
+                        var notifyUpdate = NotifyModel(
+                            notifyId = itemListNotifi.notifiId,
+                            postId = post.postId,
+                            userId = ownerPost.userId,
+                            yearCreate = time[0],
+                            monthCreate = time[1],
+                            dayCreate = time[2],
+                            hourCreate = time[3],
+                            minuteCreate = time[4],
+                            secondsCreate = time[5],
+                            status = false,
+                            content = "Ai đó đã bình luận vào bài viết của bạn!"
+                        )
+                        firebaseFirestore.collection(C_NOTIFY).document(notifyUpdate.notifyId)
+                            .set(notifyUpdate)
+                            .addOnSuccessListener {
+//                                Log.e("abc","update false notify owne" )
+                            }
+                    }
+
+                }
+            }
+
+
+            if (!post.listUserFollow.isEmpty()){
+                firebaseFirestore.collection(C_USER).whereIn("userId",post.listUserFollow).get()
+                    .addOnSuccessListener {
+                        listUserFollow.clear()
+                        listUserFollow.addAll(it.toObjects(UserModel::class.java))
+
+                        listUserFollow.map { item ->
+
+                            if (item.userId != mUser.userId){
+
+                                var itemlistfl = item.listFollow.find { it.idPost == post.postId}
+
+                                if (itemlistfl!!.notifiId.isEmpty()){
+                                    var notifyModel = NotifyModel(
+                                        notifyId = GenerateId(),
+                                        postId = post.postId,
+                                        userId = item.userId,
+                                        yearCreate = time[0],
+                                        monthCreate = time[1],
+                                        dayCreate = time[2],
+                                        hourCreate = time[3],
+                                        minuteCreate = time[4],
+                                        secondsCreate = time[5],
+                                        status = false,
+                                        content = "Bình luận mới về bài viết bạn đang theo dõi!"
+                                    )
+                                    firebaseFirestore.collection(C_NOTIFY).document(notifyModel.notifyId).set(notifyModel)
+                                        .addOnSuccessListener {
+                                            Log.e("abc", "create notify cmt" )
+                                        }
+
+                                    item.listNotify.add(ItemListNotifi(notifiId = notifyModel.notifyId))
+
+                                    var index = item.listFollow.indexOf(itemlistfl)
+                                    itemlistfl.notifiId = notifyModel.notifyId
+                                    item.listFollow.set(index,itemlistfl)
+
+                                    firebaseFirestore.collection(C_USER).document(item.userId).set(item)
+                                        .addOnSuccessListener {
+//                                            Log.e("abc", "add notificmt listfollow user - list notifi user" )
+                                        }
+
+                                }
+                                else{
+
+                                    var notifyUpdate = NotifyModel(
+                                        notifyId = itemlistfl.notifiId,
+                                        postId = post.postId,
+                                        userId = item.userId,
+                                        yearCreate = time[0],
+                                        monthCreate = time[1],
+                                        dayCreate = time[2],
+                                        hourCreate = time[3],
+                                        minuteCreate = time[4],
+                                        secondsCreate = time[5],
+                                        status = false,
+                                        content = "Bình luận mới về bài viết bạn đang theo dõi!"
+                                    )
+
+                                    firebaseFirestore.collection(C_NOTIFY).document(notifyUpdate.notifyId)
+                                        .set(notifyUpdate)
+                                        .addOnSuccessListener {
+//                                            Log.e("abc", "update notify cmt user" )
+                                        }
+
+                                }
+                            }
+
+
+
+                        }
+
+                    }
+            }
+
+
         }
 
         tv_follow_post_detail.setOnClickListener {
             tv_follow_post_detail.isVisible = false
-            if (mUser.listFollow.indexOf(post.postId) == -1){
-                mUser.listFollow.add(post.postId)
+            if (mUser.listFollow.find { i -> i.idPost == post.postId } == null){
+                mUser.listFollow.add(ItemListFollow(idPost = post.postId))
                 post.listUserFollow.add(mUser.userId)
                 post.listTokenFollow.add(myTokenNotifi)
 
-                firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                firebaseFirestore.collection(C_USER).document(mUser.userId).update("listFollow",mUser.listFollow)
                     .addOnSuccessListener {
-                        tv_follow_post_detail.setText("Bỏ theo dõi")
-                        tv_follow_post_detail.isVisible = true
+                        firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                            .addOnSuccessListener {
+                                tv_follow_post_detail.setText("Bỏ theo dõi")
+                                tv_follow_post_detail.isVisible = true
+                            }
                     }
 
             }
             else{
-                mUser.listFollow.remove(post.postId)
+
+                //xử lí xóa notify
+
+                mUser.listFollow.remove(mUser.listFollow.find { i -> i.idPost == post.postId })
                 post.listUserFollow.remove(mUser.userId)
                 post.listTokenFollow.remove(myTokenNotifi)
 
-                firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                firebaseFirestore.collection(C_USER).document(mUser.userId).update("listFollow",mUser.listFollow)
                     .addOnSuccessListener {
-                        tv_follow_post_detail.setText("Theo dõi")
-                        tv_follow_post_detail.isVisible = true
+                        firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                            .addOnSuccessListener {
+                                tv_follow_post_detail.setText("Theo dõi")
+                                tv_follow_post_detail.isVisible = true
+                            }
                     }
             }
         }

@@ -13,7 +13,8 @@ class NotifyModel(
     var hourCreate : Int = 0,
     var minuteCreate : Int = 0,
     var secondsCreate : Int = 0,
-    var status : Boolean = false
+    var status : Boolean = false,
+    var content:String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
@@ -25,7 +26,8 @@ class NotifyModel(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
-        parcel.readByte() != 0.toByte()) {
+        parcel.readByte() != 0.toByte(),
+        parcel.readString().toString()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -39,6 +41,7 @@ class NotifyModel(
         parcel.writeInt(minuteCreate)
         parcel.writeInt(secondsCreate)
         parcel.writeByte(if (status) 1 else 0)
+        parcel.writeString(content)
     }
 
     override fun describeContents(): Int {
@@ -46,7 +49,7 @@ class NotifyModel(
     }
 
     override fun toString(): String {
-        return "NotifyModel(notifyId='$notifyId', postId='$postId', userId='$userId', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, status=$status)"
+        return "NotifyModel(notifyId='$notifyId', postId='$postId', userId='$userId', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, status=$status, content='$content')"
     }
 
     companion object CREATOR : Parcelable.Creator<NotifyModel> {

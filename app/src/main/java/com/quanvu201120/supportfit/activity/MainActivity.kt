@@ -95,8 +95,12 @@ fun SendNotificationAPI(listTokenFollow : ArrayList<String>){
 
     var token_tmp = ArrayList<String>()
     token_tmp.addAll(listTokenFollow)
-    token_tmp.remove(myTokenNotifi)
-    token_tmp.add("fcMSYwbxRrOGKxadr3ibxk:APA91bG6-vdFlZ4HJ2UCxe8EwzBqvTRWK18QU21gR_4R53tj7lQ61MKWkf2VG-DF7ZWMg7qMQLeVpvR02JK7IO--dT9A9bunFK8WxrWQ_45FXmDeZq_ztDCzZgDtNcfHpp1WCIjvu8MU")
+
+    var length = token_tmp?.filter { item -> item == myTokenNotifi }?.size
+
+    for ( i in 0..length!!){token_tmp.remove(myTokenNotifi)}
+
+//    token_tmp.add("fcMSYwbxRrOGKxadr3ibxk:APA91bG6-vdFlZ4HJ2UCxe8EwzBqvTRWK18QU21gR_4R53tj7lQ61MKWkf2VG-DF7ZWMg7qMQLeVpvR02JK7IO--dT9A9bunFK8WxrWQ_45FXmDeZq_ztDCzZgDtNcfHpp1WCIjvu8MU")
 
     var title = "Alo...Alo...Bạn có thông báo mới nè!"
     var content = "Nhấn để xem chi tiết"

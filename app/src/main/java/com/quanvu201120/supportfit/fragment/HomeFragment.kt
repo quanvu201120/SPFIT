@@ -15,6 +15,7 @@ import android.widget.ListView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.quanvu201120.supportfit.R
+import com.quanvu201120.supportfit.activity.NotifyActivity
 import com.quanvu201120.supportfit.activity.PostDetailActivity
 import com.quanvu201120.supportfit.activity.mPost
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
@@ -96,6 +97,10 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+
+        img_notify_home.setOnClickListener {
+            startActivity(Intent(requireContext(),NotifyActivity::class.java))
+        }
 
         return view
     }
