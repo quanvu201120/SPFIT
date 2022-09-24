@@ -27,7 +27,8 @@
             android:exported="false" />
         <activity
             android:name=".activity.NotifyActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.LoadingActivity"
             android:exported="false"
@@ -39,7 +40,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activity.OnBoardingActivity"
             android:exported="true"

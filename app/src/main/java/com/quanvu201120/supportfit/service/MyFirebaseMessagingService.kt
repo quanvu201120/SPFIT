@@ -9,12 +9,17 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.quanvu201120.supportfit.R
-import com.quanvu201120.supportfit.activity.MainActivity
+import com.quanvu201120.supportfit.activity.*
 
+
+val ID_NOTIFI = 1
 class MyFirebaseMessagingService : FirebaseMessagingService() {
+
+
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
@@ -27,9 +32,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
     private fun sendnotification(title: String?, strMessage: String?) {
 
+
+
         var bitmap = resources.getDrawable(R.drawable.logo).toBitmap(50,50)
 
-        var intent = Intent(this, MainActivity::class.java)
+        var intent = Intent(this, if(!ON_SCREEN){OnBoardingActivity::class.java}else{ NotifyActivity::class.java})
+
         var pendingIntent = PendingIntent.getActivity(this,0,intent, PendingIntent.FLAG_IMMUTABLE )
 
         var notification  = NotificationCompat.Builder(this, CHANNEL_SPFIT_ID)
@@ -42,7 +50,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .build()
 
         var notificationManagerCompat = NotificationManagerCompat.from(this)
-        notificationManagerCompat.notify(1,notification)
+        notificationManagerCompat.notify(ID_NOTIFI,notification)
     }
 
     override fun onNewToken(token: String) {

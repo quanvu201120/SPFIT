@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -14,6 +15,7 @@ import com.quanvu201120.supportfit.fragment.HomeFragment
 import com.quanvu201120.supportfit.fragment.MyPostFragment
 import com.quanvu201120.supportfit.model.*
 import com.quanvu201120.supportfit.service.ICallApi
+import com.quanvu201120.supportfit.service.ID_NOTIFI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +27,7 @@ import kotlin.collections.ArrayList
 
 
 var myTokenNotifi = ""
+var ON_SCREEN = false
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,6 +70,28 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
+    override fun onResume() {
+        super.onResume()
+        ON_SCREEN = true
+//        Log.e( "abc: ","onResume" )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        var notificationManagerCompat = NotificationManagerCompat.from(this)
+        notificationManagerCompat.cancel(ID_NOTIFI)
+//        Log.e( "abc: ","onStop" )
+        ON_SCREEN = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        var notificationManagerCompat = NotificationManagerCompat.from(this)
+        notificationManagerCompat.cancel(ID_NOTIFI)
+//        Log.e( "abc: ","onDestroy" )
+        ON_SCREEN = false
+    }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +123,7 @@ fun SendNotificationAPI(listTokenFollow : ArrayList<String>){
 
     var length = token_tmp?.filter { item -> item == myTokenNotifi }?.size
 
-    for ( i in 0..length!!){token_tmp.remove(myTokenNotifi)}
+//    for ( i in 0..length!!){token_tmp.remove(myTokenNotifi)}
 
 //    token_tmp.add("fcMSYwbxRrOGKxadr3ibxk:APA91bG6-vdFlZ4HJ2UCxe8EwzBqvTRWK18QU21gR_4R53tj7lQ61MKWkf2VG-DF7ZWMg7qMQLeVpvR02JK7IO--dT9A9bunFK8WxrWQ_45FXmDeZq_ztDCzZgDtNcfHpp1WCIjvu8MU")
 

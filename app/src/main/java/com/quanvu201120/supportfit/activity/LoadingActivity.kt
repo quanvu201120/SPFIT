@@ -72,6 +72,7 @@ class LoadingActivity : AppCompatActivity() {
                 mNotify = it.toObjects(NotifyModel::class.java) as ArrayList<NotifyModel>
                 Log.e("ABC get notify", mNotify.toString() )
                 startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
     }
 
