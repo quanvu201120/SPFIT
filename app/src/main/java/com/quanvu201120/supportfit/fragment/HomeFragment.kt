@@ -14,12 +14,14 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.quanvu201120.supportfit.R
-import com.quanvu201120.supportfit.activity.NotifyActivity
-import com.quanvu201120.supportfit.activity.PostDetailActivity
-import com.quanvu201120.supportfit.activity.mPost
+import com.quanvu201120.supportfit.activity.*
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
 import com.quanvu201120.supportfit.model.CmtModel
+import com.quanvu201120.supportfit.model.NotifyModel
 import com.quanvu201120.supportfit.model.PostModel
 
 
@@ -34,6 +36,8 @@ class HomeFragment : Fragment() {
     lateinit var listCmt : ArrayList<CmtModel>
     lateinit var listTmpSearch : ArrayList<PostModel>
 
+    lateinit var firestore : FirebaseFirestore
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -46,6 +50,8 @@ class HomeFragment : Fragment() {
         listView = view.findViewById(R.id.listViewHome)
         view_notify_home = view.findViewById(R.id.view_notify_home)
         img_notify_home = view.findViewById(R.id.img_notify_home)
+
+        firestore = FirebaseFirestore.getInstance()
 
         listCmt = ArrayList()
         listPost = ArrayList()
@@ -69,6 +75,21 @@ class HomeFragment : Fragment() {
 
         listView.adapter = adapter
 
+        var isNotifi = true
+        for ( i in mNotify){
+            if (i.status == false){
+                isNotifi = false
+                break
+            }
+        }
+        if (isNotifi == false){
+            view_notify_home.visibility = View.VISIBLE
+        }
+
+        else{
+            view_notify_home.visibility = View.GONE
+        }
+        Log.e("abc",""+isNotifi)
         listView.setOnItemClickListener { adapterView, view, i, l ->
             IntentDetail(listTmpSearch[i])
         }
@@ -101,7 +122,7 @@ class HomeFragment : Fragment() {
         img_notify_home.setOnClickListener {
             startActivity(Intent(requireContext(),NotifyActivity::class.java))
         }
-
+        GetDataRealtime()
         return view
     }
 
@@ -127,7 +148,37 @@ class HomeFragment : Fragment() {
 
         startActivity(intent)
     }
+    fun GetDataRealtime( ){
+        firestore.collection(C_NOTIFY).addSnapshotListener { value, error ->
+            value?.documentChanges?.map {
+                var doc: DocumentSnapshot = it.document
 
+                var tmp = doc.toObject(NotifyModel::class.java)!!
+
+                var check = tmp.userId == mUser.userId
+
+                var isNull = true
+
+                if (check){
+                    for ( i in mNotify){
+                        if (i.status == false){
+                            isNull = false
+                            break
+                        }
+                    }
+                    if (isNull){
+                        view_notify_home.visibility = View.GONE
+                    }
+                    else{
+                        view_notify_home.visibility = View.VISIBLE
+                    }
+                }
+
+
+            }
+
+        }
+    }
 }
 
 

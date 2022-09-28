@@ -130,7 +130,7 @@ class PostDetailActivity : AppCompatActivity() {
 //        recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt)
 //        recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
 //        recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
-        Log.e("abc fff", post.listUserFollow.toString() )
+//        Log.e("abc fff", post.listUserFollow.toString() )
         img_send_post_detail.setOnClickListener {
             var str_cmt = edt_cmt_post_detail.text.toString()
 
@@ -177,8 +177,13 @@ class PostDetailActivity : AppCompatActivity() {
                 }
 
             if (post.userId != mUser.userId){
+
+
+                //notifi chủ bài viết -> check listNotify có idPost và idNotify.
                 firebaseFirestore.collection(C_USER).document(post.userId).get().addOnSuccessListener {
                     var ownerPost = it.toObject(UserModel::class.java)
+                    //tìm item mới idPost == post.postId để xác định có notify gửi cho chủ tus hay chưa
+                    //idNotify dùng để update status
                     var itemListNotifi = ownerPost!!.listNotify.find { it -> it.idPost == post.postId }
 
                     if (itemListNotifi == null){
@@ -193,7 +198,8 @@ class PostDetailActivity : AppCompatActivity() {
                             minuteCreate = time[4],
                             secondsCreate = time[5],
                             status = false,
-                            content = "Ai đó đã bình luận vào bài viết của bạn!"
+                            content = "Ai đó đã bình luận vào bài viết của bạn",
+                            titlePost = post.title
                         )
                         firebaseFirestore.collection(C_NOTIFY).document(notifyModel.notifyId).set(notifyModel)
                             .addOnSuccessListener {
@@ -219,7 +225,8 @@ class PostDetailActivity : AppCompatActivity() {
                             minuteCreate = time[4],
                             secondsCreate = time[5],
                             status = false,
-                            content = "Ai đó đã bình luận vào bài viết của bạn!"
+                            content = "Ai đó đã bình luận vào bài viết của bạn",
+                            titlePost = post.title
                         )
                         firebaseFirestore.collection(C_NOTIFY).document(notifyUpdate.notifyId)
                             .set(notifyUpdate)
@@ -231,7 +238,10 @@ class PostDetailActivity : AppCompatActivity() {
                 }
             }
 
-
+            //notify người theo dõi -> check list follow
+            // id post xác định post follow
+            //idNotify == empty hoặc có giá trị xác định đã có thông báo về bài viết đó chưa
+            //và idNotify dùng update status
             if (!post.listUserFollow.isEmpty()){
                 firebaseFirestore.collection(C_USER).whereIn("userId",post.listUserFollow).get()
                     .addOnSuccessListener {
@@ -256,7 +266,8 @@ class PostDetailActivity : AppCompatActivity() {
                                         minuteCreate = time[4],
                                         secondsCreate = time[5],
                                         status = false,
-                                        content = "Bình luận mới về bài viết bạn đang theo dõi!"
+                                        content = "Bình luận mới về bài viết bạn đang theo dõi",
+                                        titlePost = post.title
                                     )
                                     firebaseFirestore.collection(C_NOTIFY).document(notifyModel.notifyId).set(notifyModel)
                                         .addOnSuccessListener {
@@ -288,7 +299,8 @@ class PostDetailActivity : AppCompatActivity() {
                                         minuteCreate = time[4],
                                         secondsCreate = time[5],
                                         status = false,
-                                        content = "Bình luận mới về bài viết bạn đang theo dõi!"
+                                        content = "Bình luận mới về bài viết bạn đang theo dõi",
+                                        titlePost = post.title
                                     )
 
                                     firebaseFirestore.collection(C_NOTIFY).document(notifyUpdate.notifyId)

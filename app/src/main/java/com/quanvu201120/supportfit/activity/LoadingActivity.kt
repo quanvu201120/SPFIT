@@ -59,6 +59,7 @@ class LoadingActivity : AppCompatActivity() {
         get_mUser(firebaseUser!!)
 
         GetDataRealtime(C_POST)
+        GetDataRealtime(C_NOTIFY)
 
 
     }
@@ -161,35 +162,44 @@ class LoadingActivity : AppCompatActivity() {
 
                     }
 ////// NOTIFY /////////////////////////////////////////////////////////
-                    else -> {
+                    C_NOTIFY -> {
                         var tmp = doc.toObject(NotifyModel::class.java)!!
 
-                        var check  = mPost.find { it.postId == tmp.postId }
+                        var check  = tmp.userId == mUser.userId
 
-                        when(it.type){
+                        if(check){
+                            when(it.type){
 
-                            DocumentChange.Type.ADDED -> {
-                                mNotify.add(tmp)
-                                Log.e("abc realtime add", mNotify.toString() )
+                                DocumentChange.Type.ADDED -> {
+                                    mNotify.add(tmp)
+                                    Log.e("abc realtime n add", mNotify.toString() )
+                                }
+
+                                DocumentChange.Type.MODIFIED -> {
+                                    var index = mNotify.indexOf(mNotify.filter { it.notifyId == tmp.notifyId }[0])
+
+                                    if (index != -1){
+                                        mNotify.set(index, tmp)
+                                        Log.e("abc realtime n update", mNotify.toString() )
+                                    }else{}
+                                }
+
+                                else -> {
+                                    var index = mNotify.indexOf(mNotify.filter { it.notifyId == tmp.notifyId }[0])
+                                    if (index != -1){
+                                        mNotify.removeAt(index)
+                                        Log.e("abc realtime n delete", mNotify.toString() )
+                                    }else{}
+
+                                }
+
                             }
+                        }else{}
 
-                            DocumentChange.Type.MODIFIED -> {
-                                var index = mNotify.indexOf(mNotify.filter { it.notifyId == tmp.notifyId }[0])
 
-                                if (index != -1){
-                                    mNotify.set(index, tmp)
-                                }else{}
-                                Log.e("abc realtime update", mNotify.toString() )
-                            }
-
-                            else -> {
-                                mNotify.remove(tmp)
-                                Log.e("abc realtime delete", mNotify.toString() )
-                            }
-
-                        }
                     }
 ///////////////////////////////////////////////////////////////
+                    else -> {}
                 }
 
             }

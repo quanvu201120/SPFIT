@@ -29,6 +29,7 @@
         app:layout_constraintTop_toTopOf="@+id/searchViewHome" />
 
     <View
+        android:visibility="gone"
         android:id="@+id/view_notify_home"
         android:layout_width="@dimen/size10dp"
         android:layout_height="@dimen/size10dp"

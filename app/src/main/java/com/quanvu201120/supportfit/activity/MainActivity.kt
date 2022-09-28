@@ -123,7 +123,7 @@ fun SendNotificationAPI(listTokenFollow : ArrayList<String>){
 
     var length = token_tmp?.filter { item -> item == myTokenNotifi }?.size
 
-//    for ( i in 0..length!!){token_tmp.remove(myTokenNotifi)}
+    for ( i in 0..length!!){token_tmp.remove(myTokenNotifi)}
 
 //    token_tmp.add("fcMSYwbxRrOGKxadr3ibxk:APA91bG6-vdFlZ4HJ2UCxe8EwzBqvTRWK18QU21gR_4R53tj7lQ61MKWkf2VG-DF7ZWMg7qMQLeVpvR02JK7IO--dT9A9bunFK8WxrWQ_45FXmDeZq_ztDCzZgDtNcfHpp1WCIjvu8MU")
 
