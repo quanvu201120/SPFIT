@@ -66,8 +66,8 @@ class CreatePostActivity : AppCompatActivity() {
 
             var check = false
 
-           var title = edt_title_create_post.text.toString()
-           var description = edt_description_create_post.text.toString()
+           var title = edt_title_create_post.text.toString().trim()
+           var description = edt_description_create_post.text.toString().trim()
 
             if (title.isEmpty()){
                 check = true

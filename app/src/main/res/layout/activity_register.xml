@@ -50,27 +50,6 @@
             android:textSize="@dimen/size18sp"
             android:id="@+id/edt_name_dangky" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Số điện thoại"
-            android:textColor="@color/black"
-            android:textSize="@dimen/size18sp"
-            android:textStyle="bold"/>
-
-        <EditText
-
-            android:hint="Số điện thoại"
-            android:textColorHint="@color/gray2"
-            android:inputType="text"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size50dp"
-            android:paddingLeft="@dimen/size10dp"
-            android:paddingRight="@dimen/size10dp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/size18sp"
-            android:id="@+id/edt_phone_dangky" />
-
 
         <TextView
             android:layout_width="match_parent"

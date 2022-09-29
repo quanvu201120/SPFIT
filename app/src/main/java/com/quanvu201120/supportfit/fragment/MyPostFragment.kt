@@ -120,7 +120,7 @@ class MyPostFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 1000 && resultCode == Activity.RESULT_OK){
+        if ((requestCode == 1000 || requestCode == 2000) && resultCode == Activity.RESULT_OK){
             listPost.clear()
             for (item in mPost) {
                 if (item.userId == mUser.userId) {
@@ -207,14 +207,20 @@ class MyPostFragment : Fragment() {
         var position = info.position
 
         when(item.itemId){
-            R.id.item_update_my_post -> Toast.makeText(requireContext(), "update " + listTmpSearch[position].title, Toast.LENGTH_SHORT).show()
+            R.id.item_update_my_post -> IntentUpdate(position)
             R.id.item_delete_my_post -> deletePost(listTmpSearch[position])
         }
 
         return super.onContextItemSelected(item)
     }
 
+    fun IntentUpdate(position: Int){
+        var postId = listTmpSearch[position].postId
+        var intent = Intent(requireContext(), UpdatePostActivity::class.java)
+        intent.putExtra("postId",postId)
 
+        startActivityForResult(intent,2000)
+    }
 
     fun IntentDetail(postModel: PostModel){
         var intent = Intent(requireContext(), PostDetailActivity::class.java)

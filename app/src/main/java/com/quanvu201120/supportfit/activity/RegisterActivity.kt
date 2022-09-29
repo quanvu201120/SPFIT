@@ -23,7 +23,6 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var edt_email_dangky : EditText
     lateinit var edt_pass_dangky : EditText
     lateinit var edt_name_dangky : EditText
-    lateinit var edt_phone_dangky : EditText
     lateinit var edt_nhaplaipass_dangky : EditText
     lateinit var btn_dangky_dangky : Button
     lateinit var progressBar: ProgressBar
@@ -37,7 +36,6 @@ class RegisterActivity : AppCompatActivity() {
 
         edt_email_dangky = findViewById(R.id.edt_email_dangky)
         edt_name_dangky = findViewById(R.id.edt_name_dangky)
-        edt_phone_dangky = findViewById(R.id.edt_phone_dangky)
         edt_pass_dangky = findViewById(R.id.edt_pass_dangky)
         edt_nhaplaipass_dangky = findViewById(R.id.edt_nhaplaipass_dangky)
         btn_dangky_dangky = findViewById(R.id.btn_dangky_dangky)
@@ -51,7 +49,6 @@ class RegisterActivity : AppCompatActivity() {
 
             var email = edt_email_dangky.text.toString().trim()
             var name = edt_name_dangky.text.toString().trim()
-            var phone = edt_phone_dangky.text.toString().trim()
             var pass1 = edt_pass_dangky.text.toString().trim()
             var pass2 = edt_nhaplaipass_dangky.text.toString().trim()
 
@@ -59,11 +56,9 @@ class RegisterActivity : AppCompatActivity() {
                 edt_email_dangky.setError("Vui lòng nhập email")
             }
             if (name.isEmpty()){
-                edt_email_dangky.setError("Vui lòng nhập email")
+                edt_name_dangky.setError("Vui lòng nhập email")
             }
-            if (phone.isEmpty()){
-                edt_email_dangky.setError("Vui lòng nhập email")
-            }
+
             if (pass1.isEmpty()){
                 edt_pass_dangky.setError("Vui lòng nhập mật khẩu")
             }
@@ -71,7 +66,7 @@ class RegisterActivity : AppCompatActivity() {
                 edt_nhaplaipass_dangky.setError("Vui lòng nhập lại mật khẩu")
             }
 
-            if (!email.isEmpty() && !name.isEmpty() && !phone.isEmpty() && !pass1.isEmpty() && !pass2.isEmpty()){
+            if (!email.isEmpty() && !name.isEmpty() &&  !pass1.isEmpty() && !pass2.isEmpty()){
 
                 if (pass1 != pass2){
                     edt_nhaplaipass_dangky.setError("Mật khẩu không khớp")
@@ -85,7 +80,7 @@ class RegisterActivity : AppCompatActivity() {
                         .addOnSuccessListener {
 
                             val uid = auth.currentUser!!.uid
-                            val user = UserModel(userId = uid, name = name, phone = phone, email = email)
+                            val user = UserModel(userId = uid, name = name, email = email)
 
                             fireStore.collection(C_USER).document(uid)
                                 .set(user)
