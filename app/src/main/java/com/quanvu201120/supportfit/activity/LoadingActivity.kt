@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.android.gms.tasks.OnCompleteListener
@@ -60,7 +61,7 @@ class LoadingActivity : AppCompatActivity() {
 
         GetDataRealtime(C_POST)
         GetDataRealtime(C_NOTIFY)
-
+        GetDataRealtimeUser()
 
     }
 
@@ -108,7 +109,7 @@ class LoadingActivity : AppCompatActivity() {
 
                             DocumentChange.Type.ADDED -> {
                                 mPost.add(tmp)
-//                                Log.e("abc realtime add", mPost.toString() )
+                                Log.e("abc realtime add p", mPost.toString() )
                             }
 
                             DocumentChange.Type.MODIFIED -> {
@@ -118,13 +119,13 @@ class LoadingActivity : AppCompatActivity() {
                                 if (index != -1){
                                     mPost.set(index, tmp)
                                 }else{}
-//                                Log.e("abc realtime update", mPost.toString() )
+                                Log.e("abc realtime update p", mPost.toString() )
                             }
 
                             else -> {
                                 var index = mPost.indexOf(mPost.find { it.postId == tmp.postId })
                                 mPost.removeAt(index)
-//                                 Log.e("abc realtime delete", mPost.toString() )
+                                 Log.e("abc realtime delete p", mPost.toString() )
                             }
 
                         }
@@ -206,6 +207,28 @@ class LoadingActivity : AppCompatActivity() {
         }
     }
 
+    fun GetDataRealtimeUser( ){
+        firestore.collection(C_USER).addSnapshotListener { value, error ->
+            value?.documentChanges?.map {
+                var doc: DocumentSnapshot = it.document
+
+                var tmp = doc.toObject(UserModel::class.java)!!
+
+                var check = tmp.userId == mUser.userId
+
+
+                if (check){
+                    if (it.type == DocumentChange.Type.MODIFIED){
+                        mUser = tmp
+                        Log.e("abc update user", mUser.toString())
+                    }
+                }
+
+
+            }
+
+        }
+    }
 
 //Comment GetDataRealtimePost
 //    fun GetDataRealtimePost(){

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
@@ -32,6 +33,7 @@ class HomeFragment : Fragment() {
     lateinit var adapter: ListViewPostAdapter
     lateinit var view_notify_home : View
     lateinit var img_notify_home : ImageView
+    lateinit var tv_no_item_home : TextView
     lateinit var listPost : ArrayList<PostModel>
     lateinit var listCmt : ArrayList<CmtModel>
     lateinit var listTmpSearch : ArrayList<PostModel>
@@ -46,6 +48,7 @@ class HomeFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
+        tv_no_item_home = view.findViewById(R.id.tv_no_item_home)
         searchView = view.findViewById(R.id.searchViewHome)
         listView = view.findViewById(R.id.listViewHome)
         view_notify_home = view.findViewById(R.id.view_notify_home)
@@ -122,8 +125,20 @@ class HomeFragment : Fragment() {
         img_notify_home.setOnClickListener {
             startActivity(Intent(requireContext(),NotifyActivity::class.java))
         }
+        check_no_item()
         GetDataRealtime()
         return view
+    }
+
+    fun check_no_item(){
+        if (listTmpSearch.isEmpty()){
+            tv_no_item_home.visibility = View.VISIBLE
+            listView.visibility = View.INVISIBLE
+        }
+        else{
+            tv_no_item_home.visibility = View.GONE
+            listView.visibility = View.VISIBLE
+        }
     }
 
     fun IntentDetail(postModel: PostModel){

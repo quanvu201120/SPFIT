@@ -4,6 +4,162 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AccountActivity">
+    tools:context=".activity.AccountActivity"
+    android:background="@color/white">
 
+
+    <TextView
+        android:id="@+id/tv_name_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="Nguyễn Văn A"
+        android:textColor="@color/black50"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintEnd_toStartOf="@+id/img_edit_name_account"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/tv_email_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="nguyenvana@gmail.com"
+        android:textColor="@color/black50"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintEnd_toStartOf="@+id/img_edit_name_account"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name_account" />
+
+    <ImageView
+        android:id="@+id/img_edit_name_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+    <ImageView
+        android:id="@+id/img_edit_email_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView8"
+        app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+    <TextView
+
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Họ tên:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_name_account" />
+
+    <TextView
+
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Email:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_email_account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_email_account" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Quản lí tài khoản"
+        android:textSize="@dimen/size22sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_change_password_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:drawableStart="@drawable/ic_baseline_lock_24"
+        android:gravity="center"
+        android:text=" Đổi mật khẩu"
+        android:textColor="@color/orange"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email_account" />
+
+    <TextView
+        android:id="@+id/tv_logout_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:drawableEnd="@drawable/ic_baseline_logout_24"
+        android:gravity="center"
+        android:text="Đăng xuất "
+        android:textColor="@color/orange"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email_account" />
+
+    <TextView
+        android:id="@+id/tv_title_list_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="#EDEDED"
+        android:gravity="center"
+        android:text="Bài viết đang theo dõi"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_change_password_account" />
+
+    <ListView
+        android:id="@+id/listview_follow_account"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_list_account" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_no_item_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Không có bài viết nào"
+        android:textSize="@dimen/size18sp"
+        android:textColor="@color/gray2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_list_account" />
 </androidx.constraintlayout.widget.ConstraintLayout>

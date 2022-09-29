@@ -23,6 +23,7 @@ class MyPostFragment : Fragment() {
     lateinit var img_add_MyPost : ImageView
     lateinit var img_account_MyPost : ImageView
     lateinit var listViewMyPost : ListView
+    lateinit var tv_no_item_mypost : TextView
     lateinit var adapter : ListViewPostAdapter
 
     lateinit var listPost : ArrayList<PostModel>
@@ -39,6 +40,7 @@ class MyPostFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_my_post, container, false)
 
+        tv_no_item_mypost = view.findViewById(R.id.tv_no_item_mypost)
         searchView_MyPost = view.findViewById(R.id.searchView_MyPost)
         img_add_MyPost = view.findViewById(R.id.img_add_MyPost)
         img_account_MyPost = view.findViewById(R.id.img_account_MyPost)
@@ -114,13 +116,28 @@ class MyPostFragment : Fragment() {
             startActivityForResult(Intent(requireContext(),CreatePostActivity::class.java),1000) }
         img_account_MyPost.setOnClickListener { startActivity(Intent(requireContext(),AccountActivity::class.java)) }
 
+        check_no_item()
+
         return view
+    }
+
+    fun check_no_item(){
+        if (listTmpSearch.isEmpty()){
+            tv_no_item_mypost.visibility = View.VISIBLE
+            listViewMyPost.visibility = View.INVISIBLE
+        }
+        else{
+            tv_no_item_mypost.visibility = View.GONE
+            listViewMyPost.visibility = View.VISIBLE
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if ((requestCode == 1000 || requestCode == 2000) && resultCode == Activity.RESULT_OK){
+
+
             listPost.clear()
             for (item in mPost) {
                 if (item.userId == mUser.userId) {
@@ -144,6 +161,8 @@ class MyPostFragment : Fragment() {
             adapter = ListViewPostAdapter(requireActivity(),listTmpSearch)
 
             listViewMyPost.adapter = adapter
+
+            check_no_item()
         }
 
     }
@@ -171,9 +190,7 @@ class MyPostFragment : Fragment() {
                             .addOnSuccessListener {
                                 firebaseFirestore.collection(C_POST).document(post.postId).delete()
                                     .addOnSuccessListener {
-                                        listTmpSearch.remove(post)
-                                        adapter.notifyDataSetChanged()
-                                        Toast.makeText(requireContext(), "Đã xóa bài viết", Toast.LENGTH_SHORT).show()
+                                        removePostmUser(post)
                                     }
 
                             }
@@ -181,9 +198,7 @@ class MyPostFragment : Fragment() {
                     else{
                         firebaseFirestore.collection(C_POST).document(post.postId).delete()
                             .addOnSuccessListener {
-                                listTmpSearch.remove(post)
-                                adapter.notifyDataSetChanged()
-                                Toast.makeText(requireContext(), "Đã xóa bài viết", Toast.LENGTH_SHORT).show()
+                                removePostmUser(post)
                             }
                     }
                     listTmpSearch.remove(post)
@@ -199,6 +214,17 @@ class MyPostFragment : Fragment() {
         })
 
         dialog.show()
+    }
+
+    fun removePostmUser(post : PostModel){
+        mUser.listPost.remove(post.postId)
+        firebaseFirestore.collection(C_USER).document(mUser.userId).update("listPost", mUser.listPost)
+            .addOnSuccessListener {
+                listTmpSearch.remove(post)
+                adapter.notifyDataSetChanged()
+                Toast.makeText(requireContext(), "Đã xóa bài viết", Toast.LENGTH_SHORT).show()
+                check_no_item()
+            }
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

@@ -9,10 +9,7 @@ import android.view.ContextMenu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import com.quanvu201120.supportfit.R
@@ -25,6 +22,7 @@ class NotifyActivity : AppCompatActivity() {
     lateinit var listview : ListView
     lateinit var adapter: ListViewNotifyAdapter
     lateinit var layout_loading: LinearLayout
+    lateinit var tv_no_item_notify : TextView
 
     lateinit var listNotifi : ArrayList<NotifyModel>
 
@@ -38,6 +36,7 @@ class NotifyActivity : AppCompatActivity() {
 
         listview = findViewById(R.id.listViewNofiti)
         layout_loading = findViewById(R.id.layout_loading)
+        tv_no_item_notify = findViewById(R.id.tv_no_item_notify)
 
         listNotifi = ArrayList()
         listNotifi.addAll(mNotify)
@@ -70,9 +69,20 @@ class NotifyActivity : AppCompatActivity() {
             }
 
         }
-
+        check_no_item()
         registerForContextMenu(listview)
 
+    }
+
+    fun check_no_item(){
+        if (listNotifi.isEmpty()){
+            tv_no_item_notify.visibility = View.VISIBLE
+            listview.visibility = View.INVISIBLE
+        }
+        else{
+            tv_no_item_notify.visibility = View.GONE
+            listview.visibility = View.VISIBLE
+        }
     }
 
     override fun onCreateContextMenu(
@@ -138,6 +148,7 @@ class NotifyActivity : AppCompatActivity() {
                                     adapter.notifyDataSetChanged()
                                     layout_loading.visibility = View.GONE
                                     Toast.makeText(this@NotifyActivity, "Đã xóa", Toast.LENGTH_SHORT).show()
+                                    check_no_item()
                                 }
 
                         }
