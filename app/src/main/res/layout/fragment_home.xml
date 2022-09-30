@@ -4,19 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.HomeFragment">
+    tools:context=".fragment.HomeFragment"
+    android:background="@color/white">
+
 
     <SearchView
-        android:queryHint="Tiêu đề bài viết"
         android:id="@+id/searchViewHome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
+        android:closeIcon="@drawable/ic_baseline_close_24"
+        android:queryHint="Tiêu đề bài viết"
+        android:searchHintIcon="@drawable/ic_baseline_search_hint"
+        android:searchIcon="@drawable/ic_baseline_search_24"
+        android:theme="@style/ThemeOverlay.SearchView"
         app:layout_constraintEnd_toStartOf="@+id/img_notify_home"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
-
 
     <ImageView
         android:id="@+id/img_notify_home"
@@ -47,6 +53,8 @@
         app:layout_constraintTop_toBottomOf="@+id/searchViewHome" />
 
     <ListView
+        android:divider="#F1F1F1"
+        android:dividerHeight="0.5dp"
         android:id="@+id/listViewHome"
         android:layout_width="match_parent"
         android:layout_height="0dp"

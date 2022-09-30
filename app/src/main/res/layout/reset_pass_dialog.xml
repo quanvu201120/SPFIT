@@ -19,6 +19,7 @@
             android:textColor="@color/black"
             android:text="Email"/>
         <EditText
+            android:backgroundTint="@color/black"
             android:layout_marginLeft="@dimen/size10dp"
             android:id="@+id/edtEmail_resetPassDialog"
             android:layout_width="match_parent"

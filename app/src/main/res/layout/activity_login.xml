@@ -47,7 +47,7 @@
             android:textStyle="bold"/>
 
         <EditText
-
+            android:backgroundTint="@color/black"
             android:hint="Email"
             android:textColorHint="@color/gray2"
             android:inputType="text"
@@ -75,6 +75,8 @@
             android:textStyle="bold"/>
 
         <EditText
+
+            android:backgroundTint="@color/black"
             android:hint="Mật khẩu"
             android:textColorHint="@color/gray2"
             android:inputType="textPassword"
@@ -109,10 +111,11 @@
                 android:id="@+id/btn_dangnhap_login"
                 android:layout_width="@dimen/size150dp"
                 android:layout_height="40dp"
-                android:text="Đăng nhập"
                 android:backgroundTint="@color/red"
+                android:text="Đăng nhập"
                 android:textColor="@color/white"
-                android:textSize="@dimen/size14sp"/>
+                android:textSize="@dimen/size14sp"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <ProgressBar
                 android:id="@+id/progress_dangnhap"

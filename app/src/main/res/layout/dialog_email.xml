@@ -3,9 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <EditText
+        android:textColor="@color/black"
+        android:textColorHint="@color/gray2"
+        android:backgroundTint="@color/black"
         android:id="@+id/edt_dialog_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,6 +37,7 @@
         app:layout_constraintTop_toTopOf="@+id/edt_dialog_email" />
 
     <Button
+        android:textColor="@color/white"
         android:id="@+id/btn_dialog_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

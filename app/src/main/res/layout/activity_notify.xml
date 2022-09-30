@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.NotifyActivity">
+    tools:context=".activity.NotifyActivity"
+    android:background="@color/white">
 
 
     <TextView
@@ -23,6 +24,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:divider="#F1F1F1"
+        android:dividerHeight="0.5dp"
         android:id="@+id/listViewNofiti"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -28,6 +28,7 @@
         app:itemRippleColor="#008EFF"
         app:itemTextColor="@color/select_item_nav_bottom"
         app:itemIconTint="@color/select_item_nav_bottom"
+        android:background="@color/white"
 
         />
 
