@@ -10,10 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -200,6 +197,7 @@ class UpdatePostActivity : AppCompatActivity() {
     }
 
     fun resultOk(){
+        Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
         setResult(Activity.RESULT_OK)
         finish()
     }

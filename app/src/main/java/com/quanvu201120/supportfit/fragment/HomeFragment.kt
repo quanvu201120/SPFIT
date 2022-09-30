@@ -10,10 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.SearchView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.DocumentSnapshot
@@ -33,6 +30,7 @@ class HomeFragment : Fragment() {
     lateinit var adapter: ListViewPostAdapter
     lateinit var view_notify_home : View
     lateinit var img_notify_home : ImageView
+    lateinit var img_reload_home : ImageView
     lateinit var tv_no_item_home : TextView
     lateinit var listPost : ArrayList<PostModel>
     lateinit var listCmt : ArrayList<CmtModel>
@@ -48,6 +46,7 @@ class HomeFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
+        img_reload_home = view.findViewById(R.id.img_reload_home)
         tv_no_item_home = view.findViewById(R.id.tv_no_item_home)
         searchView = view.findViewById(R.id.searchViewHome)
         listView = view.findViewById(R.id.listViewHome)
@@ -122,11 +121,33 @@ class HomeFragment : Fragment() {
             }
         })
 
+        img_reload_home.setOnClickListener {
+            listPost.clear()
+            listTmpSearch.clear()
+            listPost.addAll(mPost)
+            listTmpSearch.addAll(listPost)
+
+            ////ASC
+            listTmpSearch.sortWith(compareBy<PostModel> {it.yearCreate}
+                .thenBy { it.monthCreate }
+                .thenBy { it.dayCreate }
+                .thenBy { it.hourCreate }
+                .thenBy { it.minuteCreate }
+                .thenBy { it.secondsCreate }
+            )
+            listTmpSearch.reverse()
+
+            adapter = ListViewPostAdapter(requireActivity(),listTmpSearch)
+
+            listView.adapter = adapter
+            Toast.makeText(requireContext(), "Đã cập nhật", Toast.LENGTH_SHORT).show()
+        }
+
         img_notify_home.setOnClickListener {
             startActivity(Intent(requireContext(),NotifyActivity::class.java))
         }
         check_no_item()
-        GetDataRealtime()
+        GetDataRealtimeNotify()
         return view
     }
 
@@ -142,9 +163,15 @@ class HomeFragment : Fragment() {
     }
 
     fun IntentDetail(postModel: PostModel){
-        var intent = Intent(requireContext(),PostDetailActivity::class.java)
 
-        intent.putExtra("postId",postModel.postId)
+        var checkDelete = mPost.find { it -> it.postId == postModel.postId }
+        if (checkDelete == null){
+            Toast.makeText(requireContext(), "Bài viết đã bị xóa", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            var intent = Intent(requireContext(),PostDetailActivity::class.java)
+
+            intent.putExtra("postId",postModel.postId)
 //        intent.putExtra("image",postModel.image)
 //        intent.putExtra("userId",postModel.userId)
 //        intent.putExtra("nameUser",postModel.nameUser)
@@ -161,9 +188,12 @@ class HomeFragment : Fragment() {
 //        intent.putStringArrayListExtra("listTokenFollow",postModel.listTokenFollow)
 //        intent.putExtra("image",postModel.image)
 
-        startActivity(intent)
+            startActivity(intent)
+        }
+
+
     }
-    fun GetDataRealtime( ){
+    fun GetDataRealtimeNotify( ){
         firestore.collection(C_NOTIFY).addSnapshotListener { value, error ->
             value?.documentChanges?.map {
                 var doc: DocumentSnapshot = it.document

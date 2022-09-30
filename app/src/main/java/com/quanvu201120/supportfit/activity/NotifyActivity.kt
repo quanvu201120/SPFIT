@@ -56,17 +56,25 @@ class NotifyActivity : AppCompatActivity() {
         listview.setOnItemClickListener { adapterView, view, i, l ->
 
             var item = listNotifi[i]
-            Log.e("ABC", "" + i + "----" +listNotifi[i].toString() )
-            if (item.status == false){
-                layout_loading.visibility = View.VISIBLE
-                firestore.collection(C_NOTIFY).document(item.notifyId).update("status",true)
-                    .addOnSuccessListener {
-                        IntentDetail(item.postId)
-                    }
+
+            var check = mPost.find { it -> it.postId == item.postId }
+            if (check == null){
+                Toast.makeText(this, "Bài viết không còn nữa", Toast.LENGTH_SHORT).show()
             }
             else{
-                IntentDetail(item.postId)
+                Log.e("ABC", "" + i + "----" +listNotifi[i].toString() )
+                if (item.status == false){
+                    layout_loading.visibility = View.VISIBLE
+                    firestore.collection(C_NOTIFY).document(item.notifyId).update("status",true)
+                        .addOnSuccessListener {
+                            IntentDetail(item.postId)
+                        }
+                }
+                else{
+                    IntentDetail(item.postId)
+                }
             }
+
 
         }
         check_no_item()

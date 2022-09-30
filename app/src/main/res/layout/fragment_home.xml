@@ -31,6 +31,16 @@
         android:layout_marginEnd="10dp"
         android:src="@drawable/notifi_icon"
         app:layout_constraintBottom_toBottomOf="@+id/searchViewHome"
+        app:layout_constraintEnd_toStartOf="@+id/img_reload_home"
+        app:layout_constraintTop_toTopOf="@+id/searchViewHome" />
+
+    <ImageView
+        android:id="@+id/img_reload_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_reload"
+        app:layout_constraintBottom_toBottomOf="@+id/searchViewHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchViewHome" />
 

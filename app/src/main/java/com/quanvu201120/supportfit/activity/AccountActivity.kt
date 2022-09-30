@@ -321,6 +321,7 @@ class AccountActivity : AppCompatActivity() {
                     listPostFollow.add(it)
                 }
             }
+            listPostFollow.reverse()
 
             adapter = ListViewPostAdapter(this, listPostFollow)
             listview_follow_account.adapter = adapter
@@ -328,11 +329,19 @@ class AccountActivity : AppCompatActivity() {
     }
 
     fun IntentDetail(postModel: PostModel){
-        var intent = Intent(this,PostDetailActivity::class.java)
+        var checkDelete = mPost.find { it -> it.postId == postModel.postId }
+        if (checkDelete == null){
+            Toast.makeText(this, "Bài viết đã bị xóa", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            var intent = Intent(this,PostDetailActivity::class.java)
 
-        intent.putExtra("postId",postModel.postId)
+            intent.putExtra("postId",postModel.postId)
 
-        startActivity(intent)
+            startActivity(intent)
+        }
+
+
     }
 
 
