@@ -9,9 +9,9 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="@dimen/size128dp"
-        android:layout_height="@dimen/size128dp"
-        android:src="@drawable/logo"
+        android:layout_width="@dimen/size70dp"
+        android:layout_height="@dimen/size70dp"
+        android:src="@drawable/logo2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

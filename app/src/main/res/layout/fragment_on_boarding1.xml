@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="@dimen/size128dp"
         android:layout_height="@dimen/size128dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/logo2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

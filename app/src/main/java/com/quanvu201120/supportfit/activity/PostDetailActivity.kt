@@ -99,7 +99,7 @@ class PostDetailActivity : AppCompatActivity() {
         }
 
         if (post.image.equals("image")){
-            image_post_detail.setImageResource(R.drawable.logo)
+            image_post_detail.setImageResource(R.drawable.logo2)
         }
         else{
             var image_file : File = File.createTempFile("get_image",".png")
