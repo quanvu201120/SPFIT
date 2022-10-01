@@ -1,11 +1,15 @@
 package com.quanvu201120.supportfit.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
@@ -14,7 +18,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.createBitmap
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,12 +37,19 @@ import kotlin.math.log
 
 class PostDetailActivity : AppCompatActivity() {
 
+    lateinit var layout_comment_post_detail : ConstraintLayout
+    lateinit var imgImageCmt_post_detail : ImageView
+    lateinit var imgDeleteImageCmt_post_detail : ImageView
+    lateinit var img_camera_post_detail : ImageView
+    lateinit var img_disable_comment : ImageView
+    lateinit var tv_complete_post_detail : TextView
     lateinit var image_post_detail : ImageView
     lateinit var tv_dateCreate_post_detail : TextView
     lateinit var tv_nameUser_post_detail : TextView
     lateinit var tv_follow_post_detail : TextView
     lateinit var tv_title_post_detail : TextView
     lateinit var tv_description_post_detail : TextView
+    lateinit var tv_no_item_post_detail : TextView
     lateinit var recycleViewCmt_post_detail : RecyclerView
     lateinit var edt_cmt_post_detail : EditText
     lateinit var img_send_post_detail : ImageView
@@ -51,10 +64,14 @@ class PostDetailActivity : AppCompatActivity() {
 
     var isDelete = false
 
+    val GET_FROM_GALLERY = 3;
+    var URI_IMAGE : Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_detail)
 
+        tv_no_item_post_detail = findViewById(R.id.tv_no_item_post_detail)
         image_post_detail = findViewById(R.id.image_post_detail)
         tv_dateCreate_post_detail = findViewById(R.id.tv_dateCreate_post_detail)
         tv_nameUser_post_detail = findViewById(R.id.tv_nameUser_post_detail)
@@ -65,6 +82,13 @@ class PostDetailActivity : AppCompatActivity() {
         edt_cmt_post_detail = findViewById(R.id.edt_cmt_post_detail)
         img_send_post_detail = findViewById(R.id.img_send_post_detail)
         progressBarCmt = findViewById(R.id.progressBarCmt)
+
+        imgImageCmt_post_detail = findViewById(R.id.imgImageCmt_post_detail)
+        imgDeleteImageCmt_post_detail = findViewById(R.id.imgDeleteImageCmt_post_detail)
+        img_camera_post_detail = findViewById(R.id.img_camera_post_detail)
+        img_disable_comment = findViewById(R.id.img_disable_comment)
+        tv_complete_post_detail = findViewById(R.id.tv_complete_post_detail)
+        layout_comment_post_detail = findViewById(R.id.layout_comment_post_detail)
 
         storage = FirebaseStorage.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
@@ -140,14 +164,19 @@ class PostDetailActivity : AppCompatActivity() {
             else{
                 var str_cmt = edt_cmt_post_detail.text.toString()
 
-                img_send_post_detail.visibility = View.INVISIBLE
-                progressBarCmt.visibility = View.VISIBLE
 
-                if (str_cmt.isEmpty()){return@setOnClickListener}
+                if (str_cmt.isEmpty() && URI_IMAGE == null){return@setOnClickListener}
+
                 var time = GetCurrentTimeFirebase()
 
+                img_send_post_detail.visibility = View.INVISIBLE
+                progressBarCmt.visibility = View.VISIBLE
+                img_camera_post_detail.visibility = View.INVISIBLE
+                imgDeleteImageCmt_post_detail.visibility = View.GONE
+
+                var generateCmtId = GenerateId()
                 var cmt = CmtModel(
-                    cmtId = GenerateId(),
+                    cmtId = generateCmtId,
                     userId = mUser.userId,
                     postId = post.postId,
                     content = str_cmt,
@@ -157,7 +186,8 @@ class PostDetailActivity : AppCompatActivity() {
                     hourCreate = time[3],
                     minuteCreate = time[4],
                     secondsCreate = time[5],
-                    nameUser = mUser.name
+                    nameUser = mUser.name,
+                    image = if(URI_IMAGE == null){"image"}else{generateCmtId + ".png"}
                 )
 
                 val view = this.currentFocus
@@ -169,18 +199,44 @@ class PostDetailActivity : AppCompatActivity() {
 
                 post.listCmt.add(cmt)
 
-                firebaseFirestore.collection(C_POST).document(post.postId).set(post)
-                    .addOnSuccessListener {
-                        edt_cmt_post_detail.text = convertEditable("")
-                        img_send_post_detail.visibility = View.VISIBLE
-                        progressBarCmt.visibility = View.GONE
-                        Toast.makeText(this, "Đã đăng", Toast.LENGTH_SHORT).show()
-                        SendNotificationAPI(post.listTokenFollow)
-                    }
-                    .addOnFailureListener {
-                        img_send_post_detail.visibility = View.VISIBLE
-                        progressBarCmt.visibility = View.GONE
-                    }
+                if (URI_IMAGE != null){
+                    var storageReference : StorageReference = storage.reference.child( generateCmtId+".png")
+                    storageReference.putFile(URI_IMAGE!!)
+                        .addOnSuccessListener {
+                            firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                                .addOnSuccessListener {
+                                    edt_cmt_post_detail.text = convertEditable("")
+                                    img_send_post_detail.visibility = View.VISIBLE
+                                    progressBarCmt.visibility = View.GONE
+                                    img_camera_post_detail.visibility = View.VISIBLE
+                                    resetImageCmt()
+                                    Toast.makeText(this, "Đã đăng", Toast.LENGTH_SHORT).show()
+                                    SendNotificationAPI(post.listTokenFollow)
+                                }
+                                .addOnFailureListener {
+                                    img_send_post_detail.visibility = View.VISIBLE
+                                    progressBarCmt.visibility = View.GONE
+                                }
+                        }
+                }
+                else{
+                    firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                        .addOnSuccessListener {
+                            edt_cmt_post_detail.text = convertEditable("")
+                            img_send_post_detail.visibility = View.VISIBLE
+                            progressBarCmt.visibility = View.GONE
+                            img_camera_post_detail.visibility = View.VISIBLE
+                            resetImageCmt()
+                            Toast.makeText(this, "Đã đăng", Toast.LENGTH_SHORT).show()
+                            SendNotificationAPI(post.listTokenFollow)
+                        }
+                        .addOnFailureListener {
+                            img_send_post_detail.visibility = View.VISIBLE
+                            progressBarCmt.visibility = View.GONE
+                        }
+                }
+
+
 
                 if (post.userId != mUser.userId){
 
@@ -370,7 +426,38 @@ class PostDetailActivity : AppCompatActivity() {
             }
         }
 
+        img_camera_post_detail.setOnClickListener {
+            startActivityForResult(
+                Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                ),
+                GET_FROM_GALLERY
+            )
+        }
+
+        imgDeleteImageCmt_post_detail.setOnClickListener {
+            resetImageCmt()
+        }
+
         GetDataRealtimePost()
+    }
+
+    fun resetImageCmt(){
+        imgImageCmt_post_detail.visibility = View.GONE
+        imgDeleteImageCmt_post_detail.visibility = View.GONE
+        URI_IMAGE = null
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            URI_IMAGE = data?.data!!
+            imgImageCmt_post_detail.setImageURI(URI_IMAGE)
+
+            imgImageCmt_post_detail.visibility = View.VISIBLE
+            imgDeleteImageCmt_post_detail.visibility = View.VISIBLE
+        }
     }
 
     fun deleteCmt(cmt_delete : CmtModel){
@@ -382,6 +469,11 @@ class PostDetailActivity : AppCompatActivity() {
         object : DialogInterface.OnClickListener{
             override fun onClick(p0: DialogInterface?, p1: Int) {
                 post.listCmt.remove(cmt_delete)
+
+                if (!cmt_delete.equals("image")){
+                    storage.reference.child(cmt_delete.image).delete()
+                }
+
                 firebaseFirestore.collection(C_POST).document(post.postId).set(post)
                     .addOnSuccessListener {
                         Toast.makeText(this@PostDetailActivity, "Đã xóa bình luận", Toast.LENGTH_SHORT).show()
@@ -445,6 +537,32 @@ class PostDetailActivity : AppCompatActivity() {
         recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt)
         recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
         recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
+
+        if (post.isComplete == true){
+            tv_complete_post_detail.text = "Đã hoàn thành"
+        }
+        else{
+            tv_complete_post_detail.text = "Chưa hoàn thành"
+        }
+
+        if (post.isDisableCmt == true){
+            img_disable_comment.visibility = View.VISIBLE
+            layout_comment_post_detail.isVisible = false
+        }
+        else{
+            img_disable_comment.visibility = View.GONE
+            layout_comment_post_detail.isVisible = true
+        }
+
+        if (post.listCmt.isEmpty()){
+            tv_no_item_post_detail.visibility = View.VISIBLE
+            recycleViewCmt_post_detail.visibility = View.GONE
+        }
+        else{
+            tv_no_item_post_detail.visibility = View.GONE
+            recycleViewCmt_post_detail.visibility = View.VISIBLE
+        }
+
     }
 
     @SuppressLint("LongLogTag")

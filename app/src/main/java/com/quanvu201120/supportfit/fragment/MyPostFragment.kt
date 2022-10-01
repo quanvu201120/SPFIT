@@ -185,6 +185,12 @@ class MyPostFragment : Fragment() {
             object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
 
+                    post.listCmt.map { item ->
+                        if (!item.image.equals("image")){
+                            storage.reference.child(item.image).delete()
+                        }
+                    }
+
                     if (!post.image.equals("image")){
                         storage.reference.child(post.image).delete()
                             .addOnSuccessListener {

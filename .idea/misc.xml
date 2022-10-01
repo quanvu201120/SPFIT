@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/bg_circle_custom.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/bg_register_radius.xml" value="0.2595" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/ic_baseline_camera.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/ic_baseline_cloud_download_24.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.231" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.2595" />
@@ -28,7 +29,7 @@
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_notify.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_on_boarding.xml" value="0.264" />
-        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_post_detail.xml" value="0.23655913978494625" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_post_detail.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_update_post.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/dialog_account.xml" value="0.253125" />

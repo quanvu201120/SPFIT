@@ -18,7 +18,9 @@ class PostModel(
     var listCmt : ArrayList<CmtModel> = ArrayList(),
     var listUserFollow : ArrayList<String> = ArrayList(),
     var listTokenFollow : ArrayList<String> = ArrayList(),
-    var image: String = ""
+    var image: String = "",
+    var isComplete : Boolean = false,
+    var isDisableCmt : Boolean = false,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
@@ -35,7 +37,13 @@ class PostModel(
         TODO("listCmt"),
         TODO("listUserFollow"),
         TODO("listTokenFollow"),
-        parcel.readString().toString()) {
+        parcel.readString().toString(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readByte() != 0.toByte()) {
+    }
+
+    override fun toString(): String {
+        return "PostModel(postId='$postId', userId='$userId', nameUser='$nameUser', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, listTokenFollow=$listTokenFollow, image='$image', isComplete=$isComplete, isDisableCmt=$isDisableCmt)"
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -51,14 +59,12 @@ class PostModel(
         parcel.writeString(title)
         parcel.writeString(description)
         parcel.writeString(image)
+        parcel.writeByte(if (isComplete) 1 else 0)
+        parcel.writeByte(if (isDisableCmt) 1 else 0)
     }
 
     override fun describeContents(): Int {
         return 0
-    }
-
-    override fun toString(): String {
-        return "PostModel(postId='$postId', userId='$userId', nameUser='$nameUser', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, listTokenFollow=$listTokenFollow, image='$image')"
     }
 
     companion object CREATOR : Parcelable.Creator<PostModel> {

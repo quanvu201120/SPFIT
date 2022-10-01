@@ -114,13 +114,65 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size5dp">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/img_disable_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/icon_comments_disabled_"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    app:layout_constraintEnd_toStartOf="@id/img_disable_comment"
+                    android:id="@+id/tv_complete_post_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size5dp"
+                    android:text="abc hoàn thành"
+                    android:textColor="@color/black50"
+                    android:textSize="@dimen/size15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView333"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/textView333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trạng thái:"
+                    android:textColor="@color/black50"
+                    android:textSize="@dimen/size15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2px"
+                android:layout_height="2dp"
                 android:layout_marginTop="@dimen/size20dp"
-                android:layout_marginBottom="@dimen/size20dp"
+                android:layout_marginBottom="@dimen/size5dp"
                 android:background="#E8E8E8" />
+
+            <TextView
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/size5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/red"
+                android:text="Tiêu đề"/>
 
             <TextView
 
@@ -134,10 +186,19 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2px"
+                android:layout_height="2dp"
                 android:layout_marginTop="@dimen/size20dp"
-                android:layout_marginBottom="@dimen/size20dp"
+                android:layout_marginBottom="@dimen/size5dp"
                 android:background="#E8E8E8" />
+
+            <TextView
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/size5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/red"
+                android:text="Nội dung"/>
 
             <TextView
                 android:id="@+id/tv_description_post_detail"
@@ -149,10 +210,19 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2px"
+                android:layout_height="2dp"
                 android:layout_marginTop="@dimen/size20dp"
-                android:layout_marginBottom="@dimen/size20dp"
-                android:background="@color/red" />
+                android:layout_marginBottom="@dimen/size5dp"
+                android:background="#E8E8E8" />
+
+            <TextView
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/size5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/red"
+                android:text="Danh sách bình luận"/>
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -160,6 +230,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_no_item_post_detail"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/size18sp"
+                android:textColor="@color/black50"
+                android:text="Không có bình luận"/>
 
         </LinearLayout>
     </ScrollView>
@@ -169,43 +250,74 @@
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="#E8E8E8"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toTopOf="@+id/layout_comment_post_detail"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/layout_comment_post_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="5dp">
+        tools:layout_editor_absoluteX="5dp"
+        >
 
         <ImageView
+            android:visibility="gone"
+            android:id="@+id/imgDeleteImageCmt_post_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_baseline_close_24"
+            app:layout_constraintStart_toEndOf="@id/imgImageCmt_post_detail"
+            app:layout_constraintTop_toTopOf="@id/imgImageCmt_post_detail" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/imgImageCmt_post_detail"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/icon_add"
+            app:layout_constraintBottom_toTopOf="@id/edt_cmt_post_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="@id/edt_cmt_post_detail"
+            android:id="@+id/img_camera_post_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="@id/edt_cmt_post_detail"
             android:id="@+id/img_send_post_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_send"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
-            android:textColorHint="@color/gray2"
-            android:textColor="@color/black"
             android:id="@+id/edt_cmt_post_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginEnd="@dimen/size5dp"
             android:backgroundTint="@color/gray2"
             android:ems="10"
-            android:maxLines="5"
             android:hint="Nhập bình luận..."
             android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/img_send_post_detail"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TouchTargetSizeCheck"
-            />
+            app:layout_constraintStart_toEndOf="@id/img_camera_post_detail"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ProgressBar
             android:visibility="gone"

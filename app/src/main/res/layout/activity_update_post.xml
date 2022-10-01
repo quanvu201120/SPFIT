@@ -46,7 +46,7 @@
         android:gravity="top"
         android:hint="Nội dung"
         android:inputType="textMultiLine"
-        android:lines="15"
+        android:lines="10"
         android:padding="@dimen/size10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,18 +83,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_submit_update_post"
-        app:layout_constraintTop_toBottomOf="@+id/edt_description_update_post" />
+        app:layout_constraintTop_toBottomOf="@+id/checkbox_blockCmt_update" />
 
     <ProgressBar
-        android:visibility="gone"
-        android:indeterminateDrawable="@drawable/progressbar_loading"
         android:id="@+id/progressBar_update_post"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:indeterminateDrawable="@drawable/progressbar_loading"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_submit_update_post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_submit_update_post" />
+
+    <CheckBox
+        android:id="@+id/checkbox_complete_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Hoàn thành"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintEnd_toStartOf="@+id/checkbox_blockCmt_update"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_description_update_post" />
+
+    <CheckBox
+        android:id="@+id/checkbox_blockCmt_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Khóa bình luận"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/checkbox_complete_update"
         app:layout_constraintTop_toBottomOf="@+id/edt_description_update_post" />
 
 

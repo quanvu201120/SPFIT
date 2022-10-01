@@ -101,6 +101,8 @@ class CreatePostActivity : AppCompatActivity() {
                 description = description,
                 image = if(URI_IMAGE == null){"image"}else{idPost_imageName+".png"},
                 nameUser = mUser.name,
+                isComplete = false,
+                isDisableCmt = false
             )
 
             if (URI_IMAGE == null){

@@ -22,7 +22,7 @@
         android:id="@+id/tv_content_item_cmt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size10dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="@dimen/size5dp"
         android:text="abc xyz "
@@ -32,12 +32,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nameUser_item_cmt" />
 
+    <ImageView
+        android:id="@+id/img_item_liss_cmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:maxHeight="400dp"
+        android:src="@drawable/ic_baseline_cloud_download_24"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content_item_cmt" />
+
     <TextView
         android:id="@+id/tv_dateCreate_item_cmt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size10dp"
-        android:layout_marginTop="@dimen/size5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="@dimen/size5dp"
         android:layout_marginBottom="5dp"
         android:text="15/15/2022  12:44:03"
@@ -47,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_content_item_cmt" />
+        app:layout_constraintTop_toBottomOf="@+id/img_item_liss_cmt" />
 
 
 

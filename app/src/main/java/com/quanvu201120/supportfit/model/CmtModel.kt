@@ -14,7 +14,8 @@ class CmtModel(
     var hourCreate : Int = 0,
     var minuteCreate : Int = 0,
     var secondsCreate : Int = 0,
-    var nameUser:String = ""
+    var nameUser:String = "",
+    var image : String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
@@ -27,6 +28,7 @@ class CmtModel(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
+        parcel.readString().toString(),
         parcel.readString().toString()) {
     }
 
@@ -42,6 +44,7 @@ class CmtModel(
         parcel.writeInt(minuteCreate)
         parcel.writeInt(secondsCreate)
         parcel.writeString(nameUser)
+        parcel.writeString(image)
     }
 
     override fun describeContents(): Int {
@@ -49,7 +52,7 @@ class CmtModel(
     }
 
     override fun toString(): String {
-        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', content='$content', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, nameUser='$nameUser')"
+        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', content='$content', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, nameUser='$nameUser', image='$image')"
     }
 
     companion object CREATOR : Parcelable.Creator<CmtModel> {

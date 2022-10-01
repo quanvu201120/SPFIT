@@ -27,6 +27,9 @@ class UpdatePostActivity : AppCompatActivity() {
     lateinit var edt_title_update_post : EditText
     lateinit var edt_description_update_post : EditText
     lateinit var progressBar_update_post : ProgressBar
+    lateinit var checkbox_complete_update : CheckBox
+    lateinit var checkbox_blockCmt_update : CheckBox
+
 
     val GET_FROM_GALLERY = 3;
     var URI_IMAGE : Uri? = null
@@ -39,6 +42,8 @@ class UpdatePostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_post)
 
+        checkbox_complete_update = findViewById(R.id.checkbox_complete_update)
+        checkbox_blockCmt_update = findViewById(R.id.checkbox_blockCmt_update)
         img_update_post = findViewById(R.id.img_update_post)
         btn_submit_update_post = findViewById(R.id.btn_submit_update_post)
         btn_cancel_update_post = findViewById(R.id.btn_cancel_update_post)
@@ -53,6 +58,9 @@ class UpdatePostActivity : AppCompatActivity() {
         var post : PostModel? = mPost.find { item -> item.postId == postIdIntent }
 
 //set data
+
+        checkbox_complete_update.isChecked = if (post?.isComplete == true){true}else{false}
+        checkbox_blockCmt_update.isChecked = if (post?.isDisableCmt == true){true}else{false}
 
         if (post?.image.equals("image")){
             img_update_post.setImageResource(R.drawable.icon_add)
@@ -99,6 +107,8 @@ class UpdatePostActivity : AppCompatActivity() {
 
             var title = edt_title_update_post.text.toString().trim()
             var description = edt_description_update_post.text.toString().trim()
+            var complete = checkbox_complete_update.isChecked
+            var blockCmt = checkbox_blockCmt_update.isChecked
 
             if (title.isEmpty()){
                 checkEmpty = true
@@ -115,18 +125,21 @@ class UpdatePostActivity : AppCompatActivity() {
 
             }
 
+            var checkChangeComplete = if(complete != post.isComplete){true}else{false}
+            var checkDisableCmt = if(blockCmt != post.isDisableCmt){true}else{false}
+
             //kiểm tra có sự thay đổi
-            if (!post.title.equals(title) || !post.description.equals(description) || URI_IMAGE != null){
+            if (!post.title.equals(title) || !post.description.equals(description) || URI_IMAGE != null || checkChangeComplete  || checkDisableCmt == true){
 
                 progressBar_update_post.visibility = View.VISIBLE
                 btn_cancel_update_post.visibility = View.INVISIBLE
                 btn_submit_update_post.visibility = View.INVISIBLE
 
                 if (URI_IMAGE != null){
-                    updateImage(title,description,post)
+                    updateImage(title,description,post,complete,blockCmt)
                 }
                 else{
-                    updateContent(title,description,post)
+                    updateContent(title,description,post,complete,blockCmt)
                 }
 
             }
@@ -147,10 +160,12 @@ class UpdatePostActivity : AppCompatActivity() {
 
     }
 
-    fun updateContent(titleUpdate : String, desciptionUpdate : String, prePost : PostModel){
+    fun updateContent(titleUpdate : String, desciptionUpdate : String, prePost : PostModel,complete:Boolean,blockCmt:Boolean){
         var postUpdate = prePost
         postUpdate.title = titleUpdate
         postUpdate.description = desciptionUpdate
+        postUpdate.isComplete = complete
+        postUpdate.isDisableCmt = blockCmt
 
         firebaseFirestore.collection(C_POST).document(postUpdate.postId).set(postUpdate)
             .addOnSuccessListener {
@@ -158,7 +173,7 @@ class UpdatePostActivity : AppCompatActivity() {
             }
     }
 
-    fun updateImage(titleUpdate : String, desciptionUpdate : String, prePost : PostModel){
+    fun updateImage(titleUpdate : String, desciptionUpdate : String, prePost : PostModel,complete:Boolean,blockCmt:Boolean){
 
         var imageName = if(!prePost?.image.equals("image")){prePost.image}else{prePost.postId + ".png"}
 
@@ -170,11 +185,11 @@ class UpdatePostActivity : AppCompatActivity() {
                 if(prePost?.image.equals("image")){
                     var postUpdate = prePost
                     postUpdate.image = imageName
-                    updateContent(titleUpdate,desciptionUpdate,postUpdate)
+                    updateContent(titleUpdate,desciptionUpdate,postUpdate,complete,blockCmt)
                 }
                 else{
                     if (!prePost.title.equals(titleUpdate) || !prePost.description.equals(desciptionUpdate)){
-                        updateContent(titleUpdate,desciptionUpdate,prePost)
+                        updateContent(titleUpdate,desciptionUpdate,prePost,complete,blockCmt)
                     }
                     else{
                         resultOk()
