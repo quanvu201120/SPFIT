@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.adapter.ListViewNotifyAdapter
 import com.quanvu201120.supportfit.model.NotifyModel
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 
 class NotifyActivity : AppCompatActivity() {
 

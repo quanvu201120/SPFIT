@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 import java.io.File
 import kotlin.math.log
 
@@ -55,7 +55,7 @@ class UpdatePostActivity : AppCompatActivity() {
         firebaseStorage = FirebaseStorage.getInstance()
 
         var postIdIntent = intent.getStringExtra("postId")
-        var post : PostModel? = mPost.find { item -> item.postId == postIdIntent }
+        var post : PostsModel? = mPost.find { item -> item.postId == postIdIntent }
 
 //set data
 
@@ -160,20 +160,20 @@ class UpdatePostActivity : AppCompatActivity() {
 
     }
 
-    fun updateContent(titleUpdate : String, desciptionUpdate : String, prePost : PostModel,complete:Boolean,blockCmt:Boolean){
+    fun updateContent(titleUpdate : String, desciptionUpdate : String, prePost : PostsModel,complete:Boolean,blockCmt:Boolean){
         var postUpdate = prePost
         postUpdate.title = titleUpdate
         postUpdate.description = desciptionUpdate
         postUpdate.isComplete = complete
         postUpdate.isDisableCmt = blockCmt
 
-        firebaseFirestore.collection(C_POST).document(postUpdate.postId).set(postUpdate)
+        firebaseFirestore.collection(C_POSTS).document(postUpdate.postId).set(postUpdate)
             .addOnSuccessListener {
                 resultOk()
             }
     }
 
-    fun updateImage(titleUpdate : String, desciptionUpdate : String, prePost : PostModel,complete:Boolean,blockCmt:Boolean){
+    fun updateImage(titleUpdate : String, desciptionUpdate : String, prePost : PostsModel,complete:Boolean,blockCmt:Boolean){
 
         var imageName = if(!prePost?.image.equals("image")){prePost.image}else{prePost.postId + ".png"}
 

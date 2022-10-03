@@ -20,7 +20,7 @@ import com.quanvu201120.supportfit.activity.*
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
 import com.quanvu201120.supportfit.model.CmtModel
 import com.quanvu201120.supportfit.model.NotifyModel
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 
 
 class HomeFragment : Fragment() {
@@ -32,9 +32,9 @@ class HomeFragment : Fragment() {
     lateinit var img_notify_home : ImageView
     lateinit var img_reload_home : ImageView
     lateinit var tv_no_item_home : TextView
-    lateinit var listPost : ArrayList<PostModel>
+    lateinit var listPost : ArrayList<PostsModel>
     lateinit var listCmt : ArrayList<CmtModel>
-    lateinit var listTmpSearch : ArrayList<PostModel>
+    lateinit var listTmpSearch : ArrayList<PostsModel>
 
     lateinit var firestore : FirebaseFirestore
 
@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
         listTmpSearch.addAll(listPost)
 
         ////ASC
-        listTmpSearch.sortWith(compareBy<PostModel> {it.yearCreate}
+        listTmpSearch.sortWith(compareBy<PostsModel> {it.yearCreate}
             .thenBy { it.monthCreate }
             .thenBy { it.dayCreate }
             .thenBy { it.hourCreate }
@@ -106,7 +106,7 @@ class HomeFragment : Fragment() {
                 listTmpSearch.clear()
                 listTmpSearch.addAll(listPost)
 
-                var listFilter = ArrayList<PostModel>()
+                var listFilter = ArrayList<PostsModel>()
                 for (item in listTmpSearch) {
                     if (item.title!!.lowercase().contains(p0!!.lowercase())) {
                         listFilter.add(item)
@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
             listTmpSearch.addAll(listPost)
 
             ////ASC
-            listTmpSearch.sortWith(compareBy<PostModel> {it.yearCreate}
+            listTmpSearch.sortWith(compareBy<PostsModel> {it.yearCreate}
                 .thenBy { it.monthCreate }
                 .thenBy { it.dayCreate }
                 .thenBy { it.hourCreate }
@@ -162,7 +162,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun IntentDetail(postModel: PostModel){
+    fun IntentDetail(postModel: PostsModel){
 
         var checkDelete = mPost.find { it -> it.postId == postModel.postId }
         if (checkDelete == null){

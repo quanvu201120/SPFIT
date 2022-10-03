@@ -10,11 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.quanvu201120.supportfit.R
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 
 
-class ListViewPostAdapter(context : Activity, listPost: ArrayList<PostModel>)
-    : ArrayAdapter<PostModel>(context,R.layout.item_list_post,listPost) {
+class ListViewPostAdapter(context : Activity, listPost: ArrayList<PostsModel>)
+    : ArrayAdapter<PostsModel>(context,R.layout.item_list_post,listPost) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 

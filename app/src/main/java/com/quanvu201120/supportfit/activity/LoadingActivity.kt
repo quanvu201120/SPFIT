@@ -23,7 +23,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.model.CmtModel
 import com.quanvu201120.supportfit.model.NotifyModel
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 import com.quanvu201120.supportfit.model.UserModel
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -35,7 +35,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 var mUser = UserModel()
-var mPost = ArrayList<PostModel>()
+var mPost = ArrayList<PostsModel>()
 var mCmt = ArrayList<CmtModel>()
 var mNotify = ArrayList<NotifyModel>()
 
@@ -59,7 +59,7 @@ class LoadingActivity : AppCompatActivity() {
 
         get_mUser(firebaseUser!!)
 
-        GetDataRealtime(C_POST)
+        GetDataRealtime(C_POSTS)
         GetDataRealtime(C_NOTIFY)
         GetDataRealtimeUser()
 
@@ -79,9 +79,9 @@ class LoadingActivity : AppCompatActivity() {
     }
 
     fun get_mPost(){
-        firestore.collection(C_POST).get()
+        firestore.collection(C_POSTS).get()
             .addOnSuccessListener {
-                mPost = it.toObjects(PostModel::class.java) as ArrayList<PostModel>
+                mPost = it.toObjects(PostsModel::class.java) as ArrayList<PostsModel>
                 Log.e("ABC get post", mPost.toString() )
                 get_mNotify()
             }
@@ -103,8 +103,8 @@ class LoadingActivity : AppCompatActivity() {
 
                 when(coll){
 ///// POST //////////////////////////////////////////////////////////
-                    C_POST -> {
-                        var tmp = doc.toObject(PostModel::class.java)!!
+                    C_POSTS -> {
+                        var tmp = doc.toObject(PostsModel::class.java)!!
                         when(it.type){
 
                             DocumentChange.Type.ADDED -> {
@@ -134,7 +134,7 @@ class LoadingActivity : AppCompatActivity() {
                     C_CMT -> {
                         var tmp = doc.toObject(CmtModel::class.java)!!
 
-                        var check : PostModel? = mPost.find { it.postId == tmp.postId }
+                        var check : PostsModel? = mPost.find { it.postId == tmp.postId }
 
                         if (check != null){
                             var index = mPost.indexOf(check)
@@ -232,10 +232,10 @@ class LoadingActivity : AppCompatActivity() {
 
 //Comment GetDataRealtimePost
 //    fun GetDataRealtimePost(){
-//        firestore.collection(C_POST).addSnapshotListener { value, error ->
+//        firestore.collection(C_POSTS).addSnapshotListener { value, error ->
 //            value?.documentChanges?.map {
 //                var doc : DocumentSnapshot = it.document
-//                var tmp = doc.toObject(PostModel::class.java)!!
+//                var tmp = doc.toObject(PostsModel::class.java)!!
 //                when(it.type){
 //
 //                    DocumentChange.Type.ADDED -> {

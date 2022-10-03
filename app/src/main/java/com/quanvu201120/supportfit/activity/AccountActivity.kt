@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
 import com.quanvu201120.supportfit.model.NotifyModel
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 import com.quanvu201120.supportfit.model.UserModel
 
 class AccountActivity : AppCompatActivity() {
@@ -32,7 +32,7 @@ class AccountActivity : AppCompatActivity() {
     lateinit var listview_follow_account : ListView
 
     lateinit var adapter : ListViewPostAdapter
-    lateinit var listPostFollow : ArrayList<PostModel>
+    lateinit var listPostFollow : ArrayList<PostsModel>
 
     lateinit var auth: FirebaseAuth
     lateinit var firestore: FirebaseFirestore
@@ -328,7 +328,7 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
-    fun IntentDetail(postModel: PostModel){
+    fun IntentDetail(postModel: PostsModel){
         var checkDelete = mPost.find { it -> it.postId == postModel.postId }
         if (checkDelete == null){
             Toast.makeText(this, "Bài viết đã bị xóa", Toast.LENGTH_SHORT).show()

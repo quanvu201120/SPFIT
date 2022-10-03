@@ -3,7 +3,7 @@ package com.quanvu201120.supportfit.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class PostModel(
+class PostsModel(
     var postId : String = "",
     var userId : String = "",
     var nameUser : String = "",
@@ -67,12 +67,12 @@ class PostModel(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<PostModel> {
-        override fun createFromParcel(parcel: Parcel): PostModel {
-            return PostModel(parcel)
+    companion object CREATOR : Parcelable.Creator<PostsModel> {
+        override fun createFromParcel(parcel: Parcel): PostsModel {
+            return PostsModel(parcel)
         }
 
-        override fun newArray(size: Int): Array<PostModel?> {
+        override fun newArray(size: Int): Array<PostsModel?> {
             return arrayOfNulls(size)
         }
     }

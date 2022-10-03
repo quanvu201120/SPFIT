@@ -49,21 +49,52 @@
 
     <TextView
         android:id="@+id/tv_dateCreate_item_cmt"
-        android:layout_width="match_parent"
+        android:layout_width="139dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/size5dp"
-        android:layout_marginBottom="5dp"
         android:text="15/15/2022  12:44:03"
         android:textColor="@color/purple_200"
         android:textSize="@dimen/size15sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_item_liss_cmt" />
 
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/img_like_1_item_cmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/icon_like_1"
+        app:layout_constraintBottom_toBottomOf="@id/tv_dateCreate_item_cmt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_dateCreate_item_cmt" />
+
+    <ImageView
+        android:id="@+id/img_like_0_item_cmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/icon_like_0"
+        app:layout_constraintBottom_toBottomOf="@id/tv_dateCreate_item_cmt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_dateCreate_item_cmt" />
+
+    <TextView
+        android:id="@+id/tv_count_like_item_cmt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="8dp"
+        android:text="99999999 và chủ bài viết"
+        android:textColor="@color/red"
+        android:textSize="@dimen/size15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_dateCreate_item_cmt"
+        app:layout_constraintEnd_toStartOf="@+id/tv_dateCreate_item_cmt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_dateCreate_item_cmt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

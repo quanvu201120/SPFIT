@@ -13,19 +13,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
+import com.quanvu201120.supportfit.activity.mUser
 import com.quanvu201120.supportfit.model.CmtModel
 import java.io.File
 
 
-class RecycleViewCmtAdapter(val listCmt : ArrayList<CmtModel>) :
+interface onClickLikeItem{
+    fun onClickLike(cmt : CmtModel)
+}
+
+class RecycleViewCmtAdapter(val listCmt : ArrayList<CmtModel>, var listener : onClickLikeItem) :
     RecyclerView.Adapter<RecycleViewCmtAdapter.CmtHoler>() {
     lateinit var storage : FirebaseStorage
 
     inner class CmtHoler(view: View) : RecyclerView.ViewHolder(view), View.OnCreateContextMenuListener{
         var tv_name : TextView
         var tv_content : TextView
+        var tv_count_like_item_cmt : TextView
         var tv_dateCreate : TextView
         var img_item_liss_cmt : ImageView
+        var img_like_1_item_cmt : ImageView
+        var img_like_0_item_cmt : ImageView
 
         init {
             storage = FirebaseStorage.getInstance()
@@ -33,6 +41,12 @@ class RecycleViewCmtAdapter(val listCmt : ArrayList<CmtModel>) :
             tv_content = view.findViewById<TextView>(R.id.tv_content_item_cmt)
             tv_dateCreate = view.findViewById<TextView>(R.id.tv_dateCreate_item_cmt)
             img_item_liss_cmt = view.findViewById<ImageView>(R.id.img_item_liss_cmt)
+            img_like_1_item_cmt = view.findViewById<ImageView>(R.id.img_like_1_item_cmt)
+            img_like_0_item_cmt = view.findViewById<ImageView>(R.id.img_like_0_item_cmt)
+            tv_count_like_item_cmt = view.findViewById<TextView>(R.id.tv_count_like_item_cmt)
+
+            img_like_0_item_cmt.setOnClickListener { listener.onClickLike( listCmt[adapterPosition] ) }
+            img_like_1_item_cmt.setOnClickListener { listener.onClickLike( listCmt[adapterPosition] ) }
 
             view.setOnCreateContextMenuListener(this)
         }
@@ -57,6 +71,39 @@ class RecycleViewCmtAdapter(val listCmt : ArrayList<CmtModel>) :
         holder.tv_name.text = cmt?.nameUser
         holder.tv_content.text = cmt?.content
         holder.tv_dateCreate.text = "${cmt?.dayCreate}/${cmt?.monthCreate}/${cmt?.yearCreate}  ${cmt?.hourCreate}:${cmt?.minuteCreate}:${cmt?.secondsCreate}"
+
+        var count = cmt.listLike.size
+        var isRecognized = cmt.listLike.find { it == cmt.userId } //nếu có id chủ posts trong đó là đã được công nhận
+
+        if (count == 0){
+            holder.img_like_0_item_cmt.visibility = View.VISIBLE
+            holder.img_like_1_item_cmt.visibility = View.GONE
+            holder.tv_count_like_item_cmt.text = ""
+        }
+        else{
+            var textCount = if(count == 1 && isRecognized != null){
+                                "Chủ bài viết"
+                            }
+                            else{
+                                if (isRecognized != null){
+                                   "${count-1} và chủ bài viết"
+                                }else{
+                                    "${count}"
+                                }
+                            }
+            var checkLiked = cmt.listLike.find { it == mUser.userId }
+
+            if (checkLiked != null){
+                holder.img_like_0_item_cmt.visibility = View.GONE
+                holder.img_like_1_item_cmt.visibility = View.VISIBLE
+            }
+            else{
+                holder.img_like_0_item_cmt.visibility = View.VISIBLE
+                holder.img_like_1_item_cmt.visibility = View.GONE
+            }
+            holder.tv_count_like_item_cmt.text = textCount
+
+        }
 
         if (!cmt.image.equals("image")){
             holder.img_item_liss_cmt.visibility = View.VISIBLE

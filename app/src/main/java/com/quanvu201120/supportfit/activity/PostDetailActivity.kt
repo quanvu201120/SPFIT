@@ -31,11 +31,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.adapter.RecycleViewCmtAdapter
+import com.quanvu201120.supportfit.adapter.onClickLikeItem
 import com.quanvu201120.supportfit.model.*
 import java.io.File
 import kotlin.math.log
 
-class PostDetailActivity : AppCompatActivity() {
+class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
 
     lateinit var layout_comment_post_detail : ConstraintLayout
     lateinit var imgImageCmt_post_detail : ImageView
@@ -59,7 +60,7 @@ class PostDetailActivity : AppCompatActivity() {
     lateinit var storage: FirebaseStorage
     lateinit var firebaseFirestore: FirebaseFirestore
 
-    var post : PostModel = PostModel()
+    var post : PostsModel = PostsModel()
     lateinit var listUserFollow : ArrayList<UserModel>
 
     var isDelete = false
@@ -187,7 +188,7 @@ class PostDetailActivity : AppCompatActivity() {
                     minuteCreate = time[4],
                     secondsCreate = time[5],
                     nameUser = mUser.name,
-                    image = if(URI_IMAGE == null){"image"}else{generateCmtId + ".png"}
+                    image = if(URI_IMAGE == null){"image"}else{generateCmtId + ".png"},
                 )
 
                 val view = this.currentFocus
@@ -203,7 +204,7 @@ class PostDetailActivity : AppCompatActivity() {
                     var storageReference : StorageReference = storage.reference.child( generateCmtId+".png")
                     storageReference.putFile(URI_IMAGE!!)
                         .addOnSuccessListener {
-                            firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                            firebaseFirestore.collection(C_POSTS).document(post.postId).set(post)
                                 .addOnSuccessListener {
                                     edt_cmt_post_detail.text = convertEditable("")
                                     img_send_post_detail.visibility = View.VISIBLE
@@ -220,7 +221,7 @@ class PostDetailActivity : AppCompatActivity() {
                         }
                 }
                 else{
-                    firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                    firebaseFirestore.collection(C_POSTS).document(post.postId).set(post)
                         .addOnSuccessListener {
                             edt_cmt_post_detail.text = convertEditable("")
                             img_send_post_detail.visibility = View.VISIBLE
@@ -398,7 +399,7 @@ class PostDetailActivity : AppCompatActivity() {
 
                     firebaseFirestore.collection(C_USER).document(mUser.userId).update("listFollow",mUser.listFollow)
                         .addOnSuccessListener {
-                            firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                            firebaseFirestore.collection(C_POSTS).document(post.postId).set(post)
                                 .addOnSuccessListener {
                                     tv_follow_post_detail.setText("Bỏ theo dõi")
                                     tv_follow_post_detail.isVisible = true
@@ -416,7 +417,7 @@ class PostDetailActivity : AppCompatActivity() {
 
                     firebaseFirestore.collection(C_USER).document(mUser.userId).update("listFollow",mUser.listFollow)
                         .addOnSuccessListener {
-                            firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                            firebaseFirestore.collection(C_POSTS).document(post.postId).set(post)
                                 .addOnSuccessListener {
                                     tv_follow_post_detail.setText("Theo dõi")
                                     tv_follow_post_detail.isVisible = true
@@ -474,7 +475,7 @@ class PostDetailActivity : AppCompatActivity() {
                     storage.reference.child(cmt_delete.image).delete()
                 }
 
-                firebaseFirestore.collection(C_POST).document(post.postId).set(post)
+                firebaseFirestore.collection(C_POSTS).document(post.postId).set(post)
                     .addOnSuccessListener {
                         Toast.makeText(this@PostDetailActivity, "Đã xóa bình luận", Toast.LENGTH_SHORT).show()
                     }
@@ -534,7 +535,7 @@ class PostDetailActivity : AppCompatActivity() {
 
         post.listCmt.reverse()
 
-        recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt)
+        recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt, this)
         recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
         recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
 
@@ -570,11 +571,11 @@ class PostDetailActivity : AppCompatActivity() {
 
         var firestore = FirebaseFirestore.getInstance()
 
-        firestore.collection(C_POST).addSnapshotListener { value, error ->
+        firestore.collection(C_POSTS).addSnapshotListener { value, error ->
             value?.documentChanges?.map {
                 var doc : DocumentSnapshot = it.document
 
-                var tmp = doc.toObject(PostModel::class.java)!!
+                var tmp = doc.toObject(PostsModel::class.java)!!
                 when(it.type){
 
                     DocumentChange.Type.ADDED -> {
@@ -603,6 +604,36 @@ class PostDetailActivity : AppCompatActivity() {
 
                 }
 
+            }
+        }
+    }
+
+    override fun onClickLike(cmt: CmtModel) {
+
+        if (isDelete){
+            Toast.makeText(this, "Bài viết đã bị xóa", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            var index = post.listCmt.indexOf(cmt)
+            var checkLiked = cmt.listLike.find { it == mUser.userId }
+            var cmtUpdate = cmt
+
+            if (checkLiked == null){
+                cmtUpdate.listLike.add(mUser.userId)
+                post.listCmt.set(index, cmtUpdate)
+                firebaseFirestore.collection(C_POSTS).document(post.postId).update("listCmt", post.listCmt)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Đã thích", Toast.LENGTH_SHORT).show()
+                    }
+
+            }
+            else{
+                cmtUpdate.listLike.remove(mUser.userId)
+                post.listCmt.set(index, cmtUpdate)
+                firebaseFirestore.collection(C_POSTS).document(post.postId).update("listCmt", post.listCmt)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Bỏ thích", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
     }

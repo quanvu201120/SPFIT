@@ -13,7 +13,7 @@ import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.model.UserModel
 
 val C_USER = "USER"
-val C_POST = "POST"
+val C_POSTS = "POSTS"
 val C_CMT = "CMT"
 val C_NOTIFY = "NOTIFY"
 

@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.quanvu201120.supportfit.R
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 import java.io.File
 
 class CreatePostActivity : AppCompatActivity() {
@@ -88,7 +88,7 @@ class CreatePostActivity : AppCompatActivity() {
 
             var idPost_imageName = GenerateId() //vừa là tên image vừa là id post
             var time = GetCurrentTimeFirebase()
-            var post = PostModel(
+            var post = PostsModel(
                 postId = idPost_imageName,
                 userId = mUser.userId,
                 yearCreate = time[0],
@@ -116,7 +116,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     }
 
-    fun createPostImage(idPost_imageName : String, post : PostModel){
+    fun createPostImage(idPost_imageName : String, post : PostsModel){
         var storageReference : StorageReference = firebaseStorage.reference.child(idPost_imageName+".png")
         storageReference.putFile(URI_IMAGE!!)
             .addOnSuccessListener {
@@ -129,8 +129,8 @@ class CreatePostActivity : AppCompatActivity() {
             }
     }
 
-    fun createPost(idPost_imageName : String, post : PostModel){
-        firebaseFirestore.collection(C_POST).document(idPost_imageName)
+    fun createPost(idPost_imageName : String, post : PostsModel){
+        firebaseFirestore.collection(C_POSTS).document(idPost_imageName)
             .set(post)
             .addOnSuccessListener {
 

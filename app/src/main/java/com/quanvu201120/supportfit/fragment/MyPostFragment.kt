@@ -14,7 +14,7 @@ import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.activity.*
 import com.quanvu201120.supportfit.adapter.ListViewPostAdapter
 import com.quanvu201120.supportfit.model.CmtModel
-import com.quanvu201120.supportfit.model.PostModel
+import com.quanvu201120.supportfit.model.PostsModel
 
 
 class MyPostFragment : Fragment() {
@@ -26,9 +26,9 @@ class MyPostFragment : Fragment() {
     lateinit var tv_no_item_mypost : TextView
     lateinit var adapter : ListViewPostAdapter
 
-    lateinit var listPost : ArrayList<PostModel>
+    lateinit var listPost : ArrayList<PostsModel>
     lateinit var listCmt : ArrayList<CmtModel>
-    lateinit var listTmpSearch : ArrayList<PostModel>
+    lateinit var listTmpSearch : ArrayList<PostsModel>
 
     lateinit var firebaseFirestore : FirebaseFirestore
     lateinit var storage: FirebaseStorage
@@ -67,7 +67,7 @@ class MyPostFragment : Fragment() {
 
 
         ////ASC
-        listTmpSearch.sortWith(compareBy<PostModel> {it.yearCreate}
+        listTmpSearch.sortWith(compareBy<PostsModel> {it.yearCreate}
             .thenBy { it.monthCreate }
             .thenBy { it.dayCreate }
             .thenBy { it.hourCreate }
@@ -96,7 +96,7 @@ class MyPostFragment : Fragment() {
                 listTmpSearch.clear()
                 listTmpSearch.addAll(listPost)
 
-                var listFilter = ArrayList<PostModel>()
+                var listFilter = ArrayList<PostsModel>()
                 for (item in listTmpSearch) {
                     if (item.title!!.lowercase().contains(p0!!.lowercase())) {
                         listFilter.add(item)
@@ -149,7 +149,7 @@ class MyPostFragment : Fragment() {
             listTmpSearch.addAll(listPost)
 
             ////ASC
-            listTmpSearch.sortWith(compareBy<PostModel> {it.yearCreate}
+            listTmpSearch.sortWith(compareBy<PostsModel> {it.yearCreate}
                 .thenBy { it.monthCreate }
                 .thenBy { it.dayCreate }
                 .thenBy { it.hourCreate }
@@ -176,7 +176,7 @@ class MyPostFragment : Fragment() {
         super.onCreateContextMenu(menu, v, menuInfo)
     }
 
-    fun deletePost(post : PostModel){
+    fun deletePost(post : PostsModel){
         var dialog = AlertDialog.Builder(requireContext())
 
         dialog.setMessage("Xác nhận xóa bài viết")
@@ -194,7 +194,7 @@ class MyPostFragment : Fragment() {
                     if (!post.image.equals("image")){
                         storage.reference.child(post.image).delete()
                             .addOnSuccessListener {
-                                firebaseFirestore.collection(C_POST).document(post.postId).delete()
+                                firebaseFirestore.collection(C_POSTS).document(post.postId).delete()
                                     .addOnSuccessListener {
                                         removePostmUser(post)
                                     }
@@ -202,7 +202,7 @@ class MyPostFragment : Fragment() {
                             }
                     }
                     else{
-                        firebaseFirestore.collection(C_POST).document(post.postId).delete()
+                        firebaseFirestore.collection(C_POSTS).document(post.postId).delete()
                             .addOnSuccessListener {
                                 removePostmUser(post)
                             }
@@ -222,7 +222,7 @@ class MyPostFragment : Fragment() {
         dialog.show()
     }
 
-    fun removePostmUser(post : PostModel){
+    fun removePostmUser(post : PostsModel){
         mUser.listPost.remove(post.postId)
         firebaseFirestore.collection(C_USER).document(mUser.userId).update("listPost", mUser.listPost)
             .addOnSuccessListener {
@@ -254,7 +254,7 @@ class MyPostFragment : Fragment() {
         startActivityForResult(intent,2000)
     }
 
-    fun IntentDetail(postModel: PostModel){
+    fun IntentDetail(postModel: PostsModel){
         var intent = Intent(requireContext(), PostDetailActivity::class.java)
 
         intent.putExtra("postId",postModel.postId)
