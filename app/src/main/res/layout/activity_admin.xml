@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AdminActivity"
+    android:background="@color/white">
+
+    <TextView
+        android:background="#CACACA"
+        android:id="@+id/textView10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Cấp quyền quản trị"
+        android:textColor="@color/red"
+        android:textSize="@dimen/size20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchViewAdmin" />
+    <SearchView
+        android:id="@+id/searchViewAdmin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:closeIcon="@drawable/ic_baseline_close_24"
+        android:queryHint="Tiêu đề bài viết"
+        android:searchHintIcon="@drawable/ic_baseline_search_hint"
+        android:searchIcon="@drawable/ic_baseline_search_24"
+        android:theme="@style/ThemeOverlay.SearchView"
+        app:layout_constraintEnd_toStartOf="@+id/checkBoxAdmin"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Quản trị viên"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/searchViewAdmin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchViewAdmin" />
+
+    <ListView
+        android:id="@+id/listViewAdmin"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+</androidx.constraintlayout.widget.ConstraintLayout>

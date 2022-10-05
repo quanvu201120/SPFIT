@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Email:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Chức vụ:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email_dialog_role" />
+
+    <TextView
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:id="@+id/tv_email_dialog_role"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="abc@gmail.com"
+        android:textColor="@color/black"
+        android:textSize="@dimen/size18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView16"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup_dialog_role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/textView18"
+        tools:layout_editor_absoluteX="-27dp">
+
+        <RadioButton
+            android:layout_marginLeft="@dimen/size20dp"
+            android:id="@+id/radioButtonAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quản trị viên"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size18sp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonCustomer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/size20dp"
+            android:text="Người dùng"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size18sp" />
+
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/btnSubmitDialogRoleAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cập nhật"
+        android:textSize="@dimen/size14sp"
+        android:backgroundTint="@color/red"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroup_dialog_role"/>
+
+    <ProgressBar
+        app:layout_constraintBottom_toBottomOf="@id/btnSubmitDialogRoleAdmin"
+        app:layout_constraintTop_toTopOf="@id/btnSubmitDialogRoleAdmin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        android:layout_width="@dimen/size40dp"
+        android:layout_height="@dimen/size40dp"
+        android:indeterminateDrawable="@drawable/progressbar_loading"
+        android:id="@+id/progressBarAdmin"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,6 +38,7 @@ var mUser = UserModel()
 var mPost = ArrayList<PostsModel>()
 var mCmt = ArrayList<CmtModel>()
 var mNotify = ArrayList<NotifyModel>()
+var mListUser = ArrayList<UserModel>()
 
 
 class LoadingActivity : AppCompatActivity() {
@@ -91,6 +92,9 @@ class LoadingActivity : AppCompatActivity() {
         firestore.collection(C_USER).document(firebaseUser!!.uid).get()
             .addOnSuccessListener {
                 mUser = it.toObject(UserModel::class.java)!!
+                if (mUser.admin){
+                    GetDataRealtimeUserAdmin()
+                }
                 get_mPost()
             }
 
@@ -222,6 +226,35 @@ class LoadingActivity : AppCompatActivity() {
                         mUser = tmp
                         Log.e("abc update user", mUser.toString())
                     }
+                }
+
+
+            }
+
+        }
+    }
+
+    fun GetDataRealtimeUserAdmin(){
+        firestore.collection(C_USER).addSnapshotListener { value, error ->
+            value?.documentChanges?.map {
+                var doc: DocumentSnapshot = it.document
+
+                var tmp = doc.toObject(UserModel::class.java)!!
+
+                if (it.type == DocumentChange.Type.ADDED){
+                    mListUser.add(tmp)
+                }
+                else if(it.type == DocumentChange.Type.MODIFIED){
+                    var preUser = mListUser.find { it.userId == tmp.userId }
+                    var index = mListUser.indexOf(preUser)
+
+                    if (index != -1){
+                        mListUser.set(index, tmp)
+                    }else{}
+
+                }
+                else {
+                    mListUser.remove(tmp)
                 }
 
 

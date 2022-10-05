@@ -9,7 +9,8 @@ class UserModel(
     var email : String = "",
     var listPost : ArrayList<String> = ArrayList(),
     var listNotify : ArrayList<ItemListNotifi> = ArrayList(),
-    var listFollow : ArrayList<ItemListFollow> = ArrayList()
+    var listFollow : ArrayList<ItemListFollow> = ArrayList(),
+    var admin : Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
@@ -17,13 +18,15 @@ class UserModel(
         parcel.readString().toString(),
         TODO("listPost"),
         TODO("listNotify"),
-        TODO("listFollow")) {
+        TODO("listFollow"),
+        parcel.readByte() != 0.toByte()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userId)
         parcel.writeString(name)
         parcel.writeString(email)
+        parcel.writeByte(if (admin) 1 else 0)
     }
 
     override fun describeContents(): Int {
@@ -31,7 +34,7 @@ class UserModel(
     }
 
     override fun toString(): String {
-        return "UserModel(userId='$userId', name='$name', email='$email', listPost=$listPost, listNotify=$listNotify, listFollow=$listFollow)"
+        return "UserModel(userId='$userId', name='$name', email='$email', listPost=$listPost, listNotify=$listNotify, listFollow=$listFollow, admin=$admin)"
     }
 
     companion object CREATOR : Parcelable.Creator<UserModel> {

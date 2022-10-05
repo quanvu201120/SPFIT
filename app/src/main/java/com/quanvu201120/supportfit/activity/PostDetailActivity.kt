@@ -22,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.createBitmap
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentChange
@@ -464,7 +465,9 @@ class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
     fun deleteCmt(cmt_delete : CmtModel){
         var dialog = AlertDialog.Builder(this)
 
-        dialog.setMessage("Xác nhận xóa bình luận")
+        var title = if(mUser.userId == post.userId || cmt_delete.userId == mUser.userId){"Xác nhận xóa bình luận"}else{"Xóa bình luận với quyền quản trị viên"}
+
+        dialog.setMessage(title)
 
         dialog.setPositiveButton("Đồng ý",
         object : DialogInterface.OnClickListener{
@@ -500,7 +503,7 @@ class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
 
             var cmt_delete = post.listCmt.get(item.groupId)
 
-            if (post.userId == mUser.userId){
+            if (post.userId == mUser.userId || mUser.admin){
                 deleteCmt(cmt_delete)
             }
             else{
@@ -538,6 +541,7 @@ class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
         recycleViewCmtAdapter = RecycleViewCmtAdapter(listCmt = post.listCmt, this)
         recycleViewCmt_post_detail.adapter = recycleViewCmtAdapter
         recycleViewCmt_post_detail.layoutManager = LinearLayoutManager(this@PostDetailActivity)
+        recycleViewCmt_post_detail.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
         if (post.isComplete == true){
             tv_complete_post_detail.text = "Đã hoàn thành"

@@ -17,4 +17,5 @@
     <dimen name="size30sp">30sp</dimen>
     <dimen name="size15sp">15sp</dimen>
     <dimen name="size70dp">70dp</dimen>
+    <dimen name="size15dp">15dp</dimen>
 </resources>
