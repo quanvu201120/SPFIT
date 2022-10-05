@@ -7,6 +7,7 @@ class CmtModel(
     var cmtId : String = "",
     var userId : String = "",
     var postId : String = "",
+    var ownerPostId : String = "",
     var content : String = "",
     var yearCreate : Int = 0,
     var monthCreate : Int = 0,
@@ -19,6 +20,7 @@ class CmtModel(
     var listLike : ArrayList<String> = ArrayList()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -38,6 +40,7 @@ class CmtModel(
         parcel.writeString(cmtId)
         parcel.writeString(userId)
         parcel.writeString(postId)
+        parcel.writeString(ownerPostId)
         parcel.writeString(content)
         parcel.writeInt(yearCreate)
         parcel.writeInt(monthCreate)
@@ -54,7 +57,7 @@ class CmtModel(
     }
 
     override fun toString(): String {
-        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', content='$content', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, nameUser='$nameUser', image='$image', listLike=$listLike)"
+        return "CmtModel(cmtId='$cmtId', userId='$userId', postId='$postId', ownerPostId='$ownerPostId', content='$content', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, nameUser='$nameUser', image='$image', listLike=$listLike)"
     }
 
     companion object CREATOR : Parcelable.Creator<CmtModel> {

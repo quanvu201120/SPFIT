@@ -73,7 +73,7 @@ class RecycleViewCmtAdapter(val listCmt : ArrayList<CmtModel>, var listener : on
         holder.tv_dateCreate.text = "${cmt?.dayCreate}/${cmt?.monthCreate}/${cmt?.yearCreate}  ${cmt?.hourCreate}:${cmt?.minuteCreate}:${cmt?.secondsCreate}"
 
         var count = cmt.listLike.size
-        var isRecognized = cmt.listLike.find { it == cmt.userId } //nếu có id chủ posts trong đó là đã được công nhận
+        var isRecognized = cmt.listLike.find { it == cmt.ownerPostId } //nếu có id chủ posts trong đó là đã được công nhận
 
         if (count == 0){
             holder.img_like_0_item_cmt.visibility = View.VISIBLE

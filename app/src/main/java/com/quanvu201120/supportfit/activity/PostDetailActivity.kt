@@ -190,6 +190,7 @@ class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
                     secondsCreate = time[5],
                     nameUser = mUser.name,
                     image = if(URI_IMAGE == null){"image"}else{generateCmtId + ".png"},
+                    ownerPostId = post.userId
                 )
 
                 val view = this.currentFocus

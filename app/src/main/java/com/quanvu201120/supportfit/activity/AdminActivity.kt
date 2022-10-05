@@ -106,9 +106,7 @@ class AdminActivity : AppCompatActivity() {
 
             radioGroup_dialog_role.setOnCheckedChangeListener { radioGroup, i ->
                 when(i){
-                    R.id.radioButtonAdmin -> {isAdminChange = true; Toast.makeText(this,
-                        "check",
-                        Toast.LENGTH_SHORT).show()}
+                    R.id.radioButtonAdmin -> {isAdminChange = true}
                     R.id.radioButtonCustomer -> {isAdminChange = false}
                 }
             }
