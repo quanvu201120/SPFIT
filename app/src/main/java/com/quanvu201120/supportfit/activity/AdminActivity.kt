@@ -36,6 +36,7 @@ class AdminActivity : AppCompatActivity() {
         firestore = Firebase.firestore
 
         listTmpSearch = ArrayList()
+        listTmpSearch.clear()
         listTmpSearch.addAll(mListUser)
 
         adapter = ListViewAdminAdapter(this, listTmpSearch)

@@ -93,6 +93,7 @@ class LoadingActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 mUser = it.toObject(UserModel::class.java)!!
                 if (mUser.admin){
+                    mListUser.clear()
                     GetDataRealtimeUserAdmin()
                 }
                 get_mPost()
