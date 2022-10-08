@@ -34,7 +34,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
 
 
-        var bitmap = resources.getDrawable(R.drawable.logo).toBitmap(50,50)
+        var bitmap = resources.getDrawable(R.drawable.logo2).toBitmap(50,50)
 
         var intent = Intent(this, if(!ON_SCREEN){OnBoardingActivity::class.java}else{ NotifyActivity::class.java})
 
