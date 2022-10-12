@@ -10,7 +10,7 @@
         android:id="@+id/img_update_post"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:src="@drawable/ic_baseline_cloud_download_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/bg_register_radius"
         android:hint="Tiêu đề"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/bg_register_radius"
         android:gravity="top"
@@ -73,7 +73,7 @@
         android:id="@+id/btn_cancel_update_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="5dp"
         android:backgroundTint="@color/red"
         android:paddingLeft="@dimen/size20dp"
         android:paddingRight="@dimen/size20dp"
@@ -99,30 +99,55 @@
         app:layout_constraintTop_toTopOf="@+id/btn_submit_update_post" />
 
     <CheckBox
+
         android:id="@+id/checkbox_complete_update"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="40dp"
         android:text="Hoàn thành"
         android:textColor="@color/black"
         android:textSize="@dimen/size18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkbox_blockCmt_update"
         app:layout_constraintEnd_toStartOf="@+id/checkbox_blockCmt_update"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_description_update_post" />
+        app:layout_constraintTop_toTopOf="@+id/checkbox_blockCmt_update" />
 
     <CheckBox
+
         android:id="@+id/checkbox_blockCmt_update"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
         android:text="Khóa bình luận"
         android:textColor="@color/black"
         android:textSize="@dimen/size18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/checkbox_complete_update"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_update" />
+
+    <Spinner
+        android:background="@color/white"
+        android:id="@+id/spinner_update"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView20"
         app:layout_constraintTop_toBottomOf="@+id/edt_description_update_post" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Chọn danh mục: "
+        android:textColor="@color/black"
+        android:textSize="@dimen/size16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_update"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spinner_update" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

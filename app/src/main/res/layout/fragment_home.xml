@@ -73,15 +73,15 @@
         app:layout_constraintTop_toBottomOf="@+id/searchViewHome" />
 
     <ListView
-        android:divider="#F1F1F1"
-        android:dividerHeight="0.5dp"
         android:id="@+id/listViewHome"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:divider="#F1F1F1"
+        android:dividerHeight="0.5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kjlksjdfljsd098" />
+        app:layout_constraintTop_toBottomOf="@id/kjlksjdfljsd09888888888888"/>
 
     <TextView
         android:visibility="gone"
@@ -95,5 +95,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/kjlksjdfljsd098"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Danh mục: "
+        android:textColor="@color/black"
+        android:textSize="@dimen/size16sp"
+        app:layout_constraintBottom_toBottomOf="@id/spinner_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spinner_home" />
+
+    <View
+        android:id="@+id/kjlksjdfljsd09888888888888"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_home" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

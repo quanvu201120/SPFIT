@@ -26,6 +26,7 @@ import com.quanvu201120.supportfit.model.PostsModel
 
 class HomeFragment : Fragment() {
 
+    lateinit var spinner: Spinner
     lateinit var searchView: SearchView
     lateinit var listView: ListView
     lateinit var adapter: ListViewPostAdapter
@@ -40,6 +41,11 @@ class HomeFragment : Fragment() {
 
     lateinit var firestore : FirebaseFirestore
     lateinit var storage : FirebaseStorage
+
+    lateinit var listSpinner : ArrayList<String>
+    lateinit var arrayAdapterSpinner: ArrayAdapter<String>
+
+    var filter_list = "Tất cả nội dung"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,6 +62,7 @@ class HomeFragment : Fragment() {
         listView = view.findViewById(R.id.listViewHome)
         view_notify_home = view.findViewById(R.id.view_notify_home)
         img_notify_home = view.findViewById(R.id.img_notify_home)
+        spinner = view.findViewById(R.id.spinner_home)
 
         storage = FirebaseStorage.getInstance()
         firestore = FirebaseFirestore.getInstance()
@@ -63,7 +70,16 @@ class HomeFragment : Fragment() {
         listCmt = ArrayList()
         listPost = ArrayList()
         listTmpSearch = ArrayList()
-//        fakeData()
+
+        listSpinner = ArrayList()
+        listSpinner.add("Tất cả nội dung")
+        listSpinner.add("Vật dụng thất lạc")
+        listSpinner.add("Thuê vật dụng")
+        listSpinner.add("Tài liệu học tập")
+        listSpinner.add("Khác")
+
+        arrayAdapterSpinner = ArrayAdapter(requireContext(),android.R.layout.simple_list_item_1, listSpinner)
+
         listPost.addAll(mPost)
 
         listTmpSearch.addAll(listPost)
@@ -101,7 +117,40 @@ class HomeFragment : Fragment() {
             IntentDetail(listTmpSearch[i])
         }
 
+        spinner.adapter = arrayAdapterSpinner
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                filter_list = listSpinner[p2]
 
+                listPost.clear()
+                listTmpSearch.clear()
+
+                if (filter_list == listSpinner[0]){
+                    listPost.addAll(mPost)
+                }
+                else{
+                    listPost.addAll(mPost.filter { it -> it.category == filter_list })
+                }
+                listTmpSearch.addAll(listPost)
+
+                ////ASC
+                listTmpSearch.sortWith(compareBy<PostsModel> {it.yearCreate}
+                    .thenBy { it.monthCreate }
+                    .thenBy { it.dayCreate }
+                    .thenBy { it.hourCreate }
+                    .thenBy { it.minuteCreate }
+                    .thenBy { it.secondsCreate }
+                )
+                listTmpSearch.reverse()
+
+                adapter = ListViewPostAdapter(requireActivity(),listTmpSearch)
+
+                listView.adapter = adapter
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
 
         img_admin_home.setOnClickListener {
             startActivity(Intent(requireContext(),AdminActivity::class.java))

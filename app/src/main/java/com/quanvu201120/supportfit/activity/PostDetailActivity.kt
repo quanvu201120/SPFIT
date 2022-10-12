@@ -52,6 +52,7 @@ class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
     lateinit var tv_title_post_detail : TextView
     lateinit var tv_description_post_detail : TextView
     lateinit var tv_no_item_post_detail : TextView
+    lateinit var tv_category_post_detail : TextView
     lateinit var recycleViewCmt_post_detail : RecyclerView
     lateinit var edt_cmt_post_detail : EditText
     lateinit var img_send_post_detail : ImageView
@@ -74,6 +75,7 @@ class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
         setContentView(R.layout.activity_post_detail)
 
         tv_no_item_post_detail = findViewById(R.id.tv_no_item_post_detail)
+        tv_category_post_detail = findViewById(R.id.tv_category_post_detail)
         image_post_detail = findViewById(R.id.image_post_detail)
         tv_dateCreate_post_detail = findViewById(R.id.tv_dateCreate_post_detail)
         tv_nameUser_post_detail = findViewById(R.id.tv_nameUser_post_detail)
@@ -528,6 +530,7 @@ class PostDetailActivity : AppCompatActivity(),  onClickLikeItem{
         tv_nameUser_post_detail.text = if(post!!.userId == mUser.userId){"Bạn"}else{post!!.nameUser}
         tv_title_post_detail.text = post!!.title
         tv_description_post_detail.text = post!!.description
+        tv_category_post_detail.text = post!!.category
 
         post.listCmt.sortWith(compareBy<CmtModel> {it.yearCreate}
             .thenBy { it.monthCreate }

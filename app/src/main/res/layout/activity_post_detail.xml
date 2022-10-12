@@ -119,6 +119,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size5dp">
 
+                <TextView
+                    android:id="@+id/tv_category_post_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size5dp"
+                    android:text="Tài liệu học tập"
+                    android:textColor="@color/black50"
+                    android:textSize="@dimen/size15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView0000003"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textView0000003"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Danh mục:"
+                    android:textColor="@color/black50"
+                    android:textSize="@dimen/size15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size5dp">
+
                 <ImageView
                     android:visibility="gone"
                     android:id="@+id/img_disable_comment"

@@ -29,6 +29,11 @@ class UpdatePostActivity : AppCompatActivity() {
     lateinit var progressBar_update_post : ProgressBar
     lateinit var checkbox_complete_update : CheckBox
     lateinit var checkbox_blockCmt_update : CheckBox
+    lateinit var spinner_update : Spinner
+
+    lateinit var listSpinner : ArrayList<String>
+    lateinit var arrayAdapter: ArrayAdapter<String>
+
 
 
     val GET_FROM_GALLERY = 3;
@@ -42,6 +47,7 @@ class UpdatePostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_post)
 
+        spinner_update = findViewById(R.id.spinner_update)
         checkbox_complete_update = findViewById(R.id.checkbox_complete_update)
         checkbox_blockCmt_update = findViewById(R.id.checkbox_blockCmt_update)
         img_update_post = findViewById(R.id.img_update_post)
@@ -54,10 +60,32 @@ class UpdatePostActivity : AppCompatActivity() {
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseStorage = FirebaseStorage.getInstance()
 
+        listSpinner = ArrayList()
+        listSpinner.add("Vật dụng thất lạc")
+        listSpinner.add("Thuê vật dụng")
+        listSpinner.add("Tài liệu học tập")
+        listSpinner.add("Khác")
+
+
+
+
+
+
         var postIdIntent = intent.getStringExtra("postId")
         var post : PostsModel? = mPost.find { item -> item.postId == postIdIntent }
 
 //set data
+        var categorySpinner = post!!.category
+        var index = listSpinner.indexOf(post?.category)
+        if (index > 0){
+            var tmp = listSpinner[0]
+            listSpinner.set(0,post!!.category)
+            listSpinner.set(index,tmp)
+        }
+
+
+        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listSpinner)
+        spinner_update.adapter = arrayAdapter
 
         checkbox_complete_update.isChecked = if (post?.isComplete == true){true}else{false}
         checkbox_blockCmt_update.isChecked = if (post?.isDisableCmt == true){true}else{false}
@@ -86,6 +114,15 @@ class UpdatePostActivity : AppCompatActivity() {
         edt_description_update_post.text = convertEditable(post!!.description)
 
 // end set data
+
+        spinner_update.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                categorySpinner = listSpinner[p2]
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
 
         img_update_post.setOnClickListener {
             startActivityForResult(
@@ -127,19 +164,20 @@ class UpdatePostActivity : AppCompatActivity() {
 
             var checkChangeComplete = if(complete != post.isComplete){true}else{false}
             var checkDisableCmt = if(blockCmt != post.isDisableCmt){true}else{false}
+            var checkCategory = if(categorySpinner != post.category){true}else{false}
 
             //kiểm tra có sự thay đổi
-            if (!post.title.equals(title) || !post.description.equals(description) || URI_IMAGE != null || checkChangeComplete  || checkDisableCmt == true){
+            if (!post.title.equals(title) || !post.description.equals(description) || URI_IMAGE != null || checkChangeComplete  || checkDisableCmt == true || checkCategory){
 
                 progressBar_update_post.visibility = View.VISIBLE
                 btn_cancel_update_post.visibility = View.INVISIBLE
                 btn_submit_update_post.visibility = View.INVISIBLE
 
                 if (URI_IMAGE != null){
-                    updateImage(title,description,post,complete,blockCmt)
+                    updateImage(title,description,post,complete,blockCmt,categorySpinner)
                 }
                 else{
-                    updateContent(title,description,post,complete,blockCmt)
+                    updateContent(title,description,post,complete,blockCmt,categorySpinner)
                 }
 
             }
@@ -160,12 +198,13 @@ class UpdatePostActivity : AppCompatActivity() {
 
     }
 
-    fun updateContent(titleUpdate : String, desciptionUpdate : String, prePost : PostsModel,complete:Boolean,blockCmt:Boolean){
+    fun updateContent(titleUpdate : String, desciptionUpdate : String, prePost : PostsModel,complete:Boolean,blockCmt:Boolean,categorySpinner:String){
         var postUpdate = prePost
         postUpdate.title = titleUpdate
         postUpdate.description = desciptionUpdate
         postUpdate.isComplete = complete
         postUpdate.isDisableCmt = blockCmt
+        postUpdate.category = categorySpinner
 
         firebaseFirestore.collection(C_POSTS).document(postUpdate.postId).set(postUpdate)
             .addOnSuccessListener {
@@ -173,7 +212,7 @@ class UpdatePostActivity : AppCompatActivity() {
             }
     }
 
-    fun updateImage(titleUpdate : String, desciptionUpdate : String, prePost : PostsModel,complete:Boolean,blockCmt:Boolean){
+    fun updateImage(titleUpdate : String, desciptionUpdate : String, prePost : PostsModel,complete:Boolean,blockCmt:Boolean,categorySpinner : String){
 
         var imageName = if(!prePost?.image.equals("image")){prePost.image}else{prePost.postId + ".png"}
 
@@ -185,11 +224,11 @@ class UpdatePostActivity : AppCompatActivity() {
                 if(prePost?.image.equals("image")){
                     var postUpdate = prePost
                     postUpdate.image = imageName
-                    updateContent(titleUpdate,desciptionUpdate,postUpdate,complete,blockCmt)
+                    updateContent(titleUpdate,desciptionUpdate,postUpdate,complete,blockCmt,categorySpinner)
                 }
                 else{
                     if (!prePost.title.equals(titleUpdate) || !prePost.description.equals(desciptionUpdate)){
-                        updateContent(titleUpdate,desciptionUpdate,prePost,complete,blockCmt)
+                        updateContent(titleUpdate,desciptionUpdate,prePost,complete,blockCmt,categorySpinner)
                     }
                     else{
                         resultOk()

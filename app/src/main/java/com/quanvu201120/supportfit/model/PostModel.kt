@@ -21,6 +21,7 @@ class PostsModel(
     var image: String = "",
     var isComplete : Boolean = false,
     var isDisableCmt : Boolean = false,
+    var category: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),
@@ -39,11 +40,8 @@ class PostsModel(
         TODO("listTokenFollow"),
         parcel.readString().toString(),
         parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte()) {
-    }
-
-    override fun toString(): String {
-        return "PostModel(postId='$postId', userId='$userId', nameUser='$nameUser', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, listTokenFollow=$listTokenFollow, image='$image', isComplete=$isComplete, isDisableCmt=$isDisableCmt)"
+        parcel.readByte() != 0.toByte(),
+        parcel.readString().toString()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -61,10 +59,15 @@ class PostsModel(
         parcel.writeString(image)
         parcel.writeByte(if (isComplete) 1 else 0)
         parcel.writeByte(if (isDisableCmt) 1 else 0)
+        parcel.writeString(category)
     }
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return "PostsModel(postId='$postId', userId='$userId', nameUser='$nameUser', yearCreate=$yearCreate, monthCreate=$monthCreate, dayCreate=$dayCreate, hourCreate=$hourCreate, minuteCreate=$minuteCreate, secondsCreate=$secondsCreate, title='$title', description='$description', listCmt=$listCmt, listUserFollow=$listUserFollow, listTokenFollow=$listTokenFollow, image='$image', isComplete=$isComplete, isDisableCmt=$isDisableCmt, category='$category')"
     }
 
     companion object CREATOR : Parcelable.Creator<PostsModel> {

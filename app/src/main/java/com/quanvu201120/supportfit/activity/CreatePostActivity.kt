@@ -26,6 +26,10 @@ class CreatePostActivity : AppCompatActivity() {
     lateinit var edt_title_create_post : EditText
     lateinit var edt_description_create_post : EditText
     lateinit var progressBar_create_post : ProgressBar
+    lateinit var spinner_create : Spinner
+
+    lateinit var listSpinner: ArrayList<String>
+    lateinit var arrayAdapterSpinner: ArrayAdapter<String>
 
     val GET_FROM_GALLERY = 3;
     var URI_IMAGE : Uri? = null
@@ -38,6 +42,7 @@ class CreatePostActivity : AppCompatActivity() {
         setContentView( R.layout.activity_create_post)
 
         img_create_post = findViewById(R.id.img_create_post)
+        spinner_create = findViewById(R.id.spinner_create)
         btn_submit_create_post = findViewById(R.id.btn_submit_create_post)
         btn_cancel_create_post = findViewById(R.id.btn_cancel_create_post)
         edt_title_create_post = findViewById(R.id.edt_title_create_post)
@@ -46,6 +51,26 @@ class CreatePostActivity : AppCompatActivity() {
 
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseStorage = FirebaseStorage.getInstance()
+
+
+        listSpinner = ArrayList()
+        listSpinner.add("Vật dụng thất lạc")
+        listSpinner.add("Thuê vật dụng")
+        listSpinner.add("Tài liệu học tập")
+        listSpinner.add("Khác")
+
+        var categorySpinner = listSpinner[0]
+        arrayAdapterSpinner = ArrayAdapter(this, android.R.layout.simple_list_item_1, listSpinner)
+        spinner_create.adapter = arrayAdapterSpinner
+
+        spinner_create.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                categorySpinner = listSpinner[p2]
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
 
         img_create_post.setOnClickListener {
             startActivityForResult(
@@ -102,7 +127,8 @@ class CreatePostActivity : AppCompatActivity() {
                 image = if(URI_IMAGE == null){"image"}else{idPost_imageName+".png"},
                 nameUser = mUser.name,
                 isComplete = false,
-                isDisableCmt = false
+                isDisableCmt = false,
+                category = categorySpinner
             )
 
             if (URI_IMAGE == null){
