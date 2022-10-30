@@ -7,16 +7,36 @@
     tools:context=".activity.NotifyActivity"
     android:background="@color/white">
 
+    <ImageView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:src="@drawable/logo2"
+        />
+
+    <ImageView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="#D7FFFFFF"
+        />
+
 
     <TextView
+        android:padding="7dp"
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="1dp"
+        android:background="@color/red"
         android:gravity="center"
         android:text="Thông báo của tôi"
-        android:textColor="@color/red"
+        android:textColor="#FFFFFF"
         android:textSize="@dimen/size18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

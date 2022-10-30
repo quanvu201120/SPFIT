@@ -1,54 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layout_item_post">
+    android:background="#FFFFFF"
+    >
 
-    <TextView
-        android:text="S"
-        android:gravity="center"
-        android:textSize="50sp"
-        android:textColor="@color/red"
-        android:id="@+id/image_item_post"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_item_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/blue50"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tv_title_item_post"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:text="ScaleType là thuộc tính xác định cách thức mà hình ảnh được scale như thế nào để phù hợp với ScaleType là thuộc tính xác định cách thức mà hình ảnh được scale như thế nào để phù hợp với"
-        android:textSize="@dimen/size18sp"
-        android:textColor="@color/black50"
-        app:layout_constraintBottom_toTopOf="@+id/tv_dateCreate_item_post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/image_item_post"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/image_item_post"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:text="S"
+            android:textColor="@color/red"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_dateCreate_item_post"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:text="19/09/2022  20:30:04"
-        android:textSize="@dimen/size14sp"
-        android:textColor="@color/black50"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/image_item_post"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_item_post" />
+        <TextView
+            android:id="@+id/tv_title_item_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="ScaleType là thuộc tính xác định cách thức mà hình ảnh được scale như thế nào để phù hợp với ScaleType là thuộc tính xác định cách thức mà hình ảnh được scale như thế nào để phù hợp với"
+            android:textColor="@color/black50"
+            android:textSize="@dimen/size18sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_dateCreate_item_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/image_item_post"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_dateCreate_item_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:text="19/09/2022  20:30:04"
+            android:textColor="@color/black50"
+            android:textSize="@dimen/size14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/image_item_post"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_item_post" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,7 +91,7 @@ class UpdatePostActivity : AppCompatActivity() {
         checkbox_blockCmt_update.isChecked = if (post?.isDisableCmt == true){true}else{false}
 
         if (post?.image.equals("image")){
-            img_update_post.setImageResource(R.drawable.icon_add)
+            img_update_post.setImageResource(R.drawable.icon_add_blue)
         }
         else{
             var image_file : File = File.createTempFile("get_image",".png")

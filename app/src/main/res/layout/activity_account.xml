@@ -91,7 +91,7 @@
         android:layout_marginTop="16dp"
         android:text="Quản lí tài khoản"
         android:textSize="@dimen/size22sp"
-        android:textColor="@color/black"
+        android:textColor="@color/red"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,14 +126,15 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_email_account" />
 
     <TextView
+
         android:id="@+id/tv_title_list_account"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:background="#EDEDED"
+        android:background="@color/red"
         android:gravity="center"
         android:text="Bài viết đang theo dõi"
-        android:textColor="@color/black"
+        android:textColor="#FFFFFF"
         android:textSize="@dimen/size20sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"

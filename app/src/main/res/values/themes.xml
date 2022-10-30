@@ -17,9 +17,9 @@
 
     <style name="ThemeOverlay.SearchView" parent="">
         <!-- Text color -->
-        <item name="android:editTextColor">@color/black</item>
+        <item name="android:editTextColor">#FFFFFF</item>
         <!-- Hint text color -->
-        <item name="android:textColorHint">#BFBFBF</item>
+        <item name="android:textColorHint">#D8D8D8</item>
     </style>
 
 </resources>
