@@ -8,13 +8,13 @@
     android:background="@color/red">
 
     <TextView
-        android:background="#CACACA"
         android:id="@+id/textView10"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#CACACA"
         android:gravity="center"
         android:text="Cấp quyền quản trị"
-        android:textColor="#FFFFFF"
+        android:textColor="#D81B60"
         android:textSize="@dimen/size20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:closeIcon="@drawable/ic_baseline_close_24"
-        android:queryHint="Tiêu đề bài viết"
+        android:queryHint="Tên người dùng"
         android:searchHintIcon="@drawable/ic_baseline_search_hint"
         android:searchIcon="@drawable/ic_baseline_search_24"
         android:theme="@style/ThemeOverlay.SearchView"
