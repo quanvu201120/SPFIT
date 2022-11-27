@@ -154,15 +154,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_title_list_account" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/tv_no_item_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="Không có bài viết nào"
-        android:textSize="@dimen/size18sp"
         android:textColor="@color/gray2"
+        android:textSize="@dimen/size18sp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_title_list_account" />
+        app:layout_constraintTop_toTopOf="@+id/listview_follow_account" />
 </androidx.constraintlayout.widget.ConstraintLayout>
