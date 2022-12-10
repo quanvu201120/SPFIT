@@ -1,11 +1,13 @@
 package com.quanvu201120.supportfit.activity
 
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -19,6 +21,8 @@ class AdminActivity : AppCompatActivity() {
     lateinit var searchViewAdmin : SearchView
     lateinit var checkBoxAdmin : CheckBox
     lateinit var listViewAdmin : ListView
+    lateinit var img_three_dot_admin : ImageView
+    lateinit var img_reload_admin : ImageView
 
     lateinit var listTmpSearch : ArrayList<UserModel>
     lateinit var adapter : ListViewAdminAdapter
@@ -32,6 +36,8 @@ class AdminActivity : AppCompatActivity() {
         searchViewAdmin = findViewById(R.id.searchViewAdmin)
         checkBoxAdmin = findViewById(R.id.checkBoxAdmin)
         listViewAdmin = findViewById(R.id.listViewAdmin)
+        img_reload_admin = findViewById(R.id.img_reload_admin)
+        img_three_dot_admin = findViewById(R.id.img_three_dot_admin)
 
         firestore = Firebase.firestore
 
@@ -53,6 +59,13 @@ class AdminActivity : AppCompatActivity() {
                 listTmpSearch.addAll(mListUser)
                 adapter.notifyDataSetChanged()
             }
+        }
+
+        img_reload_admin.setOnClickListener {
+            listTmpSearch.clear()
+            listTmpSearch.addAll(mListUser)
+            adapter.notifyDataSetChanged()
+            Toast.makeText(this, "Đã cập nhật", Toast.LENGTH_SHORT).show()
         }
 
         searchViewAdmin.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -79,6 +92,23 @@ class AdminActivity : AppCompatActivity() {
                 return false
             }
         })
+
+        img_three_dot_admin.setOnClickListener {
+            var popup = PopupMenu(this,img_three_dot_admin)
+            popup.inflate(R.menu.popup_menu_add_admin)
+            popup.setOnMenuItemClickListener {
+
+                if(it.itemId == R.id.addAccountSingleAdmin){
+                    startActivity(Intent(this,CreateSingleAccountActivity::class.java))
+                }
+                else if(it.itemId == R.id.addAccountFileAdmin){
+                    startActivity(Intent(this,FileCSVActivity::class.java))
+                }
+
+                true
+            }
+            popup.show()
+        }
 
         listViewAdmin.setOnItemClickListener { adapterView, view, i, l ->
             var user = listTmpSearch.get(i)
@@ -142,4 +172,5 @@ class AdminActivity : AppCompatActivity() {
 
 
     }
+
 }

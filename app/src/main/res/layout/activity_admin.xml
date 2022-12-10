@@ -26,7 +26,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:closeIcon="@drawable/ic_baseline_close_24"
         android:queryHint="Tên người dùng"
         android:searchHintIcon="@drawable/ic_baseline_search_hint"
@@ -34,7 +33,6 @@
         android:theme="@style/ThemeOverlay.SearchView"
         app:layout_constraintEnd_toStartOf="@+id/checkBoxAdmin"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
@@ -42,13 +40,34 @@
         android:id="@+id/checkBoxAdmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Quản trị viên"
+        android:layout_marginEnd="8dp"
+        android:text="Admin"
         android:textColor="@color/white"
         android:textSize="@dimen/size18sp"
         app:layout_constraintBottom_toBottomOf="@+id/searchViewAdmin"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_reload_admin"
         app:layout_constraintTop_toTopOf="@+id/searchViewAdmin" />
+
+
+    <ImageView
+        android:id="@+id/img_three_dot_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/three_dot_admin_icon"
+        app:layout_constraintBottom_toBottomOf="@id/checkBoxAdmin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/checkBoxAdmin" />
+
+    <ImageView
+        android:id="@+id/img_reload_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/icon_reload"
+        app:layout_constraintBottom_toBottomOf="@id/checkBoxAdmin"
+        app:layout_constraintEnd_toStartOf="@id/img_three_dot_admin"
+        app:layout_constraintTop_toTopOf="@id/checkBoxAdmin" />
 
     <ListView
         android:background="@color/white"

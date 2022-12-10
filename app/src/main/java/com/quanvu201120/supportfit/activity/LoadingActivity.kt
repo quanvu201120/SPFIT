@@ -244,6 +244,7 @@ class LoadingActivity : AppCompatActivity() {
 
                 if (it.type == DocumentChange.Type.ADDED){
                     mListUser.add(tmp)
+                    Log.e("ABC","REALTIME ADMIN USER" + tmp.toString())
                 }
                 else if(it.type == DocumentChange.Type.MODIFIED){
                     var preUser = mListUser.find { it.userId == tmp.userId }

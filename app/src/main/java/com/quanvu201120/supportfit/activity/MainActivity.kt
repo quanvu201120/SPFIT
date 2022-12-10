@@ -1,14 +1,23 @@
 package com.quanvu201120.supportfit.activity
 
+import android.app.Activity
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.ActionCodeSettings
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.fragment.HomeFragment
@@ -32,11 +41,13 @@ var ON_SCREEN = false
 class MainActivity : AppCompatActivity() {
 
     lateinit var bottomNav : BottomNavigationView
+    lateinit var fireStore : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        fireStore = FirebaseFirestore.getInstance()
         bottomNav = findViewById(R.id.bottomNavigationView)
 
         showFragment(R.id.home_item_bottom_nav)
@@ -47,10 +58,27 @@ class MainActivity : AppCompatActivity() {
 
         getTokenDevice()
 
+//        val auth = Firebase.auth
+//        val user = auth.currentUser!!
+//        Log.e("ABC", "veri " + user.isEmailVerified)
+//
+//        var list : ArrayList<ItemUserCSV> = ArrayList()
+//        list.add(ItemUserCSV("user1","gojek201120@gmail.com"))
+//        list.add(ItemUserCSV("user2","quavu201120@gmail.com"))
+//
+//        var sharedPreferences : SharedPreferences = getSharedPreferences("ACCOUNT", Activity.MODE_PRIVATE)
+//        val getEmail : String? = sharedPreferences.getString(STR_EMAIL,null)
+//        val getPass : String? = sharedPreferences.getString(STR_PASS,null)
+//
+//        createMultiple(0,list.size,list,getEmail!!,getPass!!)
 
     }
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
+
+
+
+
     fun showFragment(itemId : Int){
 
         var fragment  = Fragment()

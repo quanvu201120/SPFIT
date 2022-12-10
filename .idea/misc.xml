@@ -28,8 +28,10 @@
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/progressbar_loading.xml" value="0.2595" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/drawable/select_item_nvbottom.xml" value="0.1785" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_account.xml" value="0.264" />
-        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_admin.xml" value="0.264" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_admin.xml" value="0.5207612456747405" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_create_post.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_create_single_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_file_csvactivity.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_loading.xml" value="0.20863616930312098" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_main.xml" value="0.264" />
@@ -39,6 +41,7 @@
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_register.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/activity_update_post.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/dialog_account.xml" value="0.253125" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/dialog_create_account_single_admin.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/dialog_email.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/dialog_name.xml" value="0.253125" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/dialog_password.xml" value="0.25416666666666665" />
@@ -52,6 +55,7 @@
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/item_list_post.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/item_listview_admin.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/item_listview_notify.xml" value="0.264" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/item_listview_user_csv.xml" value="0.2" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/reset_pass_dialog.xml" value="0.264" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/layout/spinner_item.xml" value="0.253125" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.13852073535699017" />
@@ -59,6 +63,7 @@
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/menu/context_menu_delete_post_home.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/menu/context_menu_my_post.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/menu/context_menu_notify.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/menu/popup_menu_add_admin.xml" value="0.25416666666666665" />
         <entry key="..\:/Android Studio/SupportFIT/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.231" />
       </map>
     </option>

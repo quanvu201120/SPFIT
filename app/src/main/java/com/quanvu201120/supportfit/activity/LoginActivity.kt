@@ -26,6 +26,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.math.log
 
+
+
+val STR_EMAIL = "Email"
+val STR_PASS = "Pass"
+val BL_SAVE = "Save"
+
 class LoginActivity : AppCompatActivity() {
 
     lateinit var edt_email : EditText
@@ -41,8 +47,7 @@ class LoginActivity : AppCompatActivity() {
 
     lateinit var auth : FirebaseAuth
 
-    val STR_EMAIL = "Email"
-    val STR_PASS = "Pass"
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +78,9 @@ class LoginActivity : AppCompatActivity() {
 
         val getEmail : String? = sharedPreferences.getString(STR_EMAIL,null)
         val getPass : String? = sharedPreferences.getString(STR_PASS,null)
+        val getSave : Boolean = sharedPreferences.getBoolean(BL_SAVE,false)
 
-        if (getEmail != null && getPass != null){
+        if (getEmail != null && getPass != null && getSave){
             edt_email.text = convertEditable(getEmail)
             edt_pass.text = convertEditable(getPass)
             checkbox.isChecked = true
@@ -87,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
 
             var email = edt_email.text.toString()
             var pass = edt_pass.text.toString()
+            var save = checkbox.isChecked
 
             if (email.isEmpty()){
                 edt_email.setError("Vui lòng nhập email")
@@ -104,15 +111,12 @@ class LoginActivity : AppCompatActivity() {
                 var sharedPreferences2 : SharedPreferences = getSharedPreferences("ACCOUNT", Activity.MODE_PRIVATE)
                 var editer : SharedPreferences.Editor = sharedPreferences2.edit()
 
-                if (checkbox.isChecked){
+                editer.clear()
+                editer.putString(STR_EMAIL,email)
+                editer.putString(STR_PASS,pass)
+                editer.putBoolean(BL_SAVE,save)
+                editer.commit()
 
-                    editer.putString(STR_EMAIL,email)
-                    editer.putString(STR_PASS,pass)
-                    editer.commit()
-                }
-                else{
-                    editer.clear().commit()
-                }
 
                 auth.signInWithEmailAndPassword(email,pass)
                     .addOnSuccessListener {
@@ -200,8 +204,32 @@ class LoginActivity : AppCompatActivity() {
 
 
     fun intentLoading(){
-        startActivity(Intent(this@LoginActivity, LoadingActivity::class.java))
-        finish()
+        var user2 = auth.currentUser
+        if (!user2!!.isEmailVerified){
+
+            user2!!.sendEmailVerification()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Vui lòng vào email kích hoạt tài khoản", Toast.LENGTH_LONG).show()
+                    }
+                    else{
+                        Toast.makeText(this, "Email kích hoạt đã được gửi trước đó, vui lòng thử lại sau", Toast.LENGTH_LONG).show()
+                    }
+                    btn_login.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
+                    auth.signOut()
+                }
+        }
+        else{
+            startActivity(Intent(this@LoginActivity, LoadingActivity::class.java))
+            finish()
+        }
+
+
+    }
+
+    override fun onBackPressed() {
+
     }
 
 }

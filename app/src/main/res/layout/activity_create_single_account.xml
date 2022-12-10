@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.RegisterActivity"
+    tools:context=".activity.CreateSingleAccountActivity"
+    android:orientation="vertical"
+    android:gravity="center"
     android:background="@color/white">
 
     <LinearLayout
         android:padding="@dimen/size10dp"
-        android:background="@drawable/bg_register_radius"
         android:layout_margin="@dimen/size20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -25,7 +22,7 @@
             android:textSize="@dimen/size25sp"
             android:textColor="@color/red"
             android:textStyle="bold"
-            android:text="ĐĂNG KÝ"
+            android:text="TẠO TÀI KHOẢN"
             android:background="@color/white"
             android:layout_margin="@dimen/size10dp"
             android:gravity="center"/>
@@ -41,7 +38,7 @@
 
         <EditText
 
-            android:id="@+id/edt_name_dangky"
+            android:id="@+id/edt_name_create_single"
             android:backgroundTint="@color/black"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size50dp"
@@ -73,76 +70,40 @@
             android:paddingRight="@dimen/size10dp"
             android:textColor="@color/black"
             android:textSize="@dimen/size18sp"
-            android:id="@+id/edt_email_dangky" />
-
-
-<!--        <TextView-->
-<!--            android:layout_marginTop="@dimen/size20dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Mật khẩu"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="@dimen/size18sp"-->
-<!--            android:textStyle="bold"/>-->
-
-
-<!--        <EditText-->
-<!--            android:id="@+id/edt_pass_dangky"-->
-<!--            android:backgroundTint="@color/black"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/size50dp"-->
-<!--            android:hint="Mật khẩu"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:paddingLeft="@dimen/size10dp"-->
-<!--            android:paddingRight="@dimen/size10dp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textColorHint="@color/gray2"-->
-<!--            android:textSize="@dimen/size18sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="@dimen/size20dp"-->
-<!--            android:text="Nhập lại mật khẩu"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="@dimen/size18sp"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <EditText-->
-<!--            android:hint="Nhập lại mật khẩu"-->
-<!--            android:backgroundTint="@color/black"-->
-<!--            android:textColorHint="@color/gray2"-->
-<!--            android:inputType="textPassword"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/size50dp"-->
-<!--            android:paddingLeft="@dimen/size10dp"-->
-<!--            android:paddingRight="@dimen/size10dp"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="@dimen/size18sp"-->
-<!--            android:id="@+id/edt_nhaplaipass_dangky" />-->
-
-
+            android:id="@+id/edt_email_create_single" />
 
         <LinearLayout
             android:layout_marginTop="@dimen/size20dp"
             android:layout_gravity="center"
-            android:layout_width="@dimen/size150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:gravity="center"
             android:background="@color/white">
 
             <Button
-                android:id="@+id/btn_dangky_dangky"
+                android:id="@+id/btn_create_create_single"
                 android:layout_width="@dimen/size150dp"
                 android:layout_height="@dimen/size50dp"
                 android:backgroundTint="@color/red"
-                android:text="Đăng ký"
+                android:text="Tạo mới"
                 android:textColor="@color/white"
                 android:textSize="@dimen/size14sp"
-                tools:ignore="TouchTargetSizeCheck" />
+                />
+
+            <Button
+                android:layout_marginLeft="@dimen/size10dp"
+                android:id="@+id/btn_cancel_create_single"
+                android:layout_width="@dimen/size150dp"
+                android:layout_height="@dimen/size50dp"
+                android:backgroundTint="@color/gray2"
+                android:text="Hủy bỏ"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size14sp"
+                />
 
             <ProgressBar
-                android:id="@+id/progress_dangky"
+                android:id="@+id/progress_create_single"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/size40dp"
                 android:layout_gravity="center"
@@ -155,4 +116,4 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
