@@ -75,6 +75,42 @@
             android:textSize="@dimen/size18sp"
             android:id="@+id/edt_email_dangky" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <EditText
+                android:id="@+id/edt_code_dangky"
+                android:hint="Mã xác thực"
+                android:backgroundTint="@color/black"
+                android:textColorHint="@color/gray2"
+                android:inputType="text"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/size50dp"
+                android:paddingLeft="@dimen/size10dp"
+                android:paddingRight="@dimen/size10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size18sp"
+                />
+            <TextView
+                android:id="@+id/tv_getCode_dangky"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:textSize="@dimen/size20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic"
+                android:text="09jsjí"
+                android:layout_marginLeft="@dimen/size20dp"
+                android:layout_marginRight="@dimen/size20dp"
+                />
+
+        </LinearLayout>
+
 
 <!--        <TextView-->
 <!--            android:layout_marginTop="@dimen/size20dp"-->

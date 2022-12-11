@@ -2,15 +2,14 @@ package com.quanvu201120.supportfit.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.quanvu201120.supportfit.R
 import com.quanvu201120.supportfit.model.UserModel
+import kotlin.random.Random
 
 val C_USER = "USER"
 val C_POSTS = "POSTS"
@@ -22,6 +21,8 @@ val PASS_DEFAULT = "verification"
 class RegisterActivity : AppCompatActivity() {
 
 
+    lateinit var edt_code_dangky : EditText
+    lateinit var tv_getCode_dangky : TextView
     lateinit var edt_email_dangky : EditText
     lateinit var edt_name_dangky : EditText
     lateinit var btn_dangky_dangky : Button
@@ -30,10 +31,15 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var auth : FirebaseAuth
     lateinit var fireStore : FirebaseFirestore
 
+    var str_Ma = "qwerEFtyuioRTYUISDpasdxZXCVBcvbnmQWGHJKfg12345OPA67890hjklzLNM"
+    var maXacThuc = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        edt_code_dangky = findViewById(R.id.edt_code_dangky)
+        tv_getCode_dangky = findViewById(R.id.tv_getCode_dangky)
         edt_email_dangky = findViewById(R.id.edt_email_dangky)
         edt_name_dangky = findViewById(R.id.edt_name_dangky)
         btn_dangky_dangky = findViewById(R.id.btn_dangky_dangky)
@@ -47,8 +53,11 @@ class RegisterActivity : AppCompatActivity() {
 
             var email = edt_email_dangky.text.toString().trim()
             var name = edt_name_dangky.text.toString().trim()
+            var code = edt_code_dangky.text.toString().trim()
 //            var pass1 = edt_pass_dangky.text.toString().trim()
 //            var pass2 = edt_nhaplaipass_dangky.text.toString().trim()
+
+            var check = false
 
             if (email.isEmpty()) {
                 edt_email_dangky.setError("Vui lòng nhập email")
@@ -56,10 +65,22 @@ class RegisterActivity : AppCompatActivity() {
             if (name.isEmpty()) {
                 edt_name_dangky.setError("Vui lòng nhập email")
             }
+            if (code.isEmpty()) {
+                edt_code_dangky.setError("Vui lòng nhập")
+            }
+            else{
+                if(code.equals(maXacThuc)){
+                    check = true
+                }
+                else{
+                    edt_code_dangky.setError("Mã sai")
+                }
+            }
 
 
 
-            if (!email.isEmpty() && !name.isEmpty()) {
+
+            if (!email.isEmpty() && !name.isEmpty() && check == true) {
 
 
 
@@ -112,6 +133,21 @@ class RegisterActivity : AppCompatActivity() {
 
 
         }
+        GetMaXacThuc()
+    }
+
+    fun GetMaXacThuc(){
+
+        var length = str_Ma.length
+        var textCode = ""
+        for ( i in 1..6){
+            var index = Random.nextInt(0, length)
+            maXacThuc += str_Ma[index]
+            textCode += "${str_Ma[index]} "
+        }
+
+        tv_getCode_dangky.text = textCode
 
     }
+
 }
